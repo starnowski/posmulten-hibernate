@@ -12,4 +12,19 @@
     </modules>
     <packaging>pom</packaging>
 
+    <properties>
+        <org.hibernate.hibernate.core.version>5.6.3.Final</org.hibernate.hibernate.core.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${org.hibernate.hibernate.core.version}</version>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>

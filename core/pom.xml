@@ -12,5 +12,10 @@
     <groupId>com.github.starnowski.posmulten.hibernate</groupId>
     <artifactId>core</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+    </dependencies>
 </project>
