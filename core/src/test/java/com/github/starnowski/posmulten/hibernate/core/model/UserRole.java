@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.model;
 
+import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import com.github.starnowski.posmulten.hibernate.core.util.RoleEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 @Table(name = "user_role")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@TenantTable
 public class UserRole {
     @Id
     @GeneratedValue

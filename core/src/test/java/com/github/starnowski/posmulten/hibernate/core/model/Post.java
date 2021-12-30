@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.model;
 
+import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "posts")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@TenantTable
 public class Post {
 
     @Id

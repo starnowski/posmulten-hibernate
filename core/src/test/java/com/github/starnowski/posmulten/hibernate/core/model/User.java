@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.model;
 
+import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Table(name = "user_info")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "userId")
+@TenantTable
 public class User {
 
     @Id
