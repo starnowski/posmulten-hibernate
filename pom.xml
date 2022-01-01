@@ -9,6 +9,7 @@
     <version>0.1-SNAPSHOT</version>
     <modules>
         <module>core</module>
+        <module>test-utils</module>
     </modules>
     <packaging>pom</packaging>
 
