@@ -18,4 +18,8 @@ public class SchemaCreatorWrapper implements SchemaCreator {
         this.wrappedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor);
         //TODO
     }
+
+    SchemaCreator getWrappedSchemaCreator() {
+        return wrappedSchemaCreator;
+    }
 }
