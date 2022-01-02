@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Integration tests" verbose="1">
+<!--    <test name="Foreign key constraint for single column">-->
+<!--        <classes>-->
+<!--            <class name="com.github.starnowski.posmulten.postgresql.core.functional.tests.constraint.CreateCurrentTenantForeignKeyConstraintForPostsTableFromPublicSchemaTest" />-->
+<!--            <class name="com.github.starnowski.posmulten.postgresql.core.functional.tests.constraint.CreateCurrentTenantForeignKeyConstraintForPostsTableFromNonPublicSchemaTest" />-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>
