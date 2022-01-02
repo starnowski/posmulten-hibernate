@@ -8,6 +8,7 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
     }
 
     public boolean validateExistingCurrentSessions() {
+        //TODO Check usage
         return true;
     }
 }
