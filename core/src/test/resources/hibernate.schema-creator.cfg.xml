@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/posmulten_hibernate</property>
+        <property name="connection.username">posmhib4-owner</property>
+        <property name="connection.password">posmhib4-owner</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.multiTenancy">NONE</property>
+        <property name="hibernate.schema_management_tool">com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool</property>
+
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.*" />
+
+    </session-factory>
+</hibernate-configuration>
