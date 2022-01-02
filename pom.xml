@@ -15,9 +15,12 @@
 
     <properties>
         <org.hibernate.hibernate.core.version>5.6.3.Final</org.hibernate.hibernate.core.version>
+        <com.github.starnowski.posmulten.postgresql.core.version>0.4.1</com.github.starnowski.posmulten.postgresql.core.version>
         <org.projectlombok.lombok.version>1.16.20</org.projectlombok.lombok.version>
         <org.codehaus.groovy.groovy-all.version>2.4.12</org.codehaus.groovy.groovy-all.version>
         <spock.core.version>1.1-groovy-2.4</spock.core.version>
+        <org.postgresql.postgresql.version>42.2.5</org.postgresql.postgresql.version>
+        <org.testng.testng.version>7.1.0</org.testng.testng.version>
     </properties>
 
     <dependencyManagement>
@@ -27,6 +30,11 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${org.hibernate.hibernate.core.version}</version>
                 <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>com.github.starnowski.posmulten</groupId>
+                <artifactId>postgresql-core</artifactId>
+                <version>${com.github.starnowski.posmulten.postgresql.core.version}</version>
             </dependency>
             <!-- tests dependencies -->
             <dependency>
@@ -47,6 +55,18 @@
                 <artifactId>spock-core</artifactId>
                 <version>${spock.core.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${org.testng.testng.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <optional>true</optional>
+                <version>${org.postgresql.postgresql.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
