@@ -11,17 +11,17 @@ class SchemaCreatorWrapperTest extends Specification {
     
     def "should run wrapped schemaCreator component"() {
         given:
-        SchemaCreator mockedSchemaCreator = Mock(SchemaCreator)
-        def tested = new SchemaCreatorWrapper(mockedSchemaCreator)
-        Metadata metadata = Mock(Metadata)
-        ExecutionOptions executionOptions = Mock(ExecutionOptions)
-        SourceDescriptor sourceDescriptor = Mock(SourceDescriptor)
-        TargetDescriptor targetDescriptor = Mock(TargetDescriptor)
+            SchemaCreator mockedSchemaCreator = Mock(SchemaCreator)
+            def tested = new SchemaCreatorWrapper(mockedSchemaCreator)
+            Metadata metadata = Mock(Metadata)
+            ExecutionOptions executionOptions = Mock(ExecutionOptions)
+            SourceDescriptor sourceDescriptor = Mock(SourceDescriptor)
+            TargetDescriptor targetDescriptor = Mock(TargetDescriptor)
 
         when:
-        tested.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
+            tested.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
 
         then:
-        1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
+            1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
     }
 }
