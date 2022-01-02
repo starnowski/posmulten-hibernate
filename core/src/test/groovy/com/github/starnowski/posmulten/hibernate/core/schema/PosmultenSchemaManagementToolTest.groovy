@@ -23,8 +23,8 @@ class PosmultenSchemaManagementToolTest extends Specification {
             def result = tested.getSchemaCreator(null)
 
         then:
-            result.is(SchemaCreatorWrapper)
+            result instanceof SchemaCreatorWrapper
             SchemaCreatorWrapper schemaCreatorWrapper = (SchemaCreatorWrapper)result
-            schemaCreatorWrapper.getWrappedSchemaCreator().is(SchemaCreatorImpl)
+            schemaCreatorWrapper.getWrappedSchemaCreator() instanceof SchemaCreatorImpl
     }
 }
