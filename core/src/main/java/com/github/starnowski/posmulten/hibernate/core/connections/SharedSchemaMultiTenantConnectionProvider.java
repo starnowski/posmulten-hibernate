@@ -5,7 +5,7 @@ import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class PosmultenMultiTenantConnectionProvider implements MultiTenantConnectionProvider {
+public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantConnectionProvider {
     public Connection getAnyConnection() throws SQLException {
         return null;
     }
