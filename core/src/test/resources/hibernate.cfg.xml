@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://localhost:3306/testdb</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">password</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">none</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.multiTenancy">SCHEMA</property>
+
+        <mapping class="net.codejava.Product" />
+
+    </session-factory>
+</hibernate-configuration>
