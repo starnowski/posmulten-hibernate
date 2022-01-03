@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.test.utils;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -46,5 +47,13 @@ public class TestUtils {
         sb.append(column);
         sb.append("'");
         return sb.toString();
+    }
+
+    public static String selectAndReturnFirstRecordAsString(Statement statement, final String sql) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(sql);
+        ResultSet rs = statement.executeQuery(sb.toString());
+        rs.next();
+        return rs.getString(1);
     }
 }

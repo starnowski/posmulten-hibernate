@@ -1,15 +1,20 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 
 public class AbstractBaseIt {
 
-    protected SessionFactory primarySessionFactory;
-    protected SessionFactory schemaCreatorSessionFactory;
+    protected Session schemaCreatorSession;
+    protected Session primarySession;
+    private SessionFactory primarySessionFactory;
+    private SessionFactory schemaCreatorSessionFactory;
 
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -32,9 +37,32 @@ public class AbstractBaseIt {
     }
 
     @BeforeSuite(groups = "Integration tests")
-    public void prepareDatabase()
-    {
+    public void prepareDatabase() {
         this.schemaCreatorSessionFactory = getSchemaCreatorSessionFactory();
         this.primarySessionFactory = getPrimarySessionFactory();
+    }
+
+    @BeforeTest
+    public void openSession() {
+        schemaCreatorSession = schemaCreatorSessionFactory.openSession();
+        primarySession = primarySessionFactory.openSession();
+    }
+
+    @AfterTest
+    public void closeSession() {
+        try {
+            if (schemaCreatorSession != null) {
+                schemaCreatorSession.close();
+            }
+        } catch (Exception ex) {
+            // do nothing
+        }
+        try {
+            if (primarySession != null) {
+                primarySession.close();
+            }
+        } catch (Exception ex) {
+            // do nothing
+        }
     }
 }

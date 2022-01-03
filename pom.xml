@@ -68,6 +68,13 @@
                 <optional>true</optional>
                 <version>${org.postgresql.postgresql.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+<!--                TODO Add property-->
+                <version>3.16.1</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
