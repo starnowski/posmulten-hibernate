@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
+import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -18,6 +19,7 @@ public class AbstractBaseIt {
 
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .addInitiator(new SharedSchemaConnectionProviderInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
 
@@ -45,7 +47,8 @@ public class AbstractBaseIt {
     @BeforeTest
     public void openSession() {
         schemaCreatorSession = schemaCreatorSessionFactory.openSession();
-        primarySession = primarySessionFactory.openSession();
+        //TODO Set current tenant in tenant provider
+//        primarySession = primarySessionFactory.openSession();
     }
 
     @AfterTest
