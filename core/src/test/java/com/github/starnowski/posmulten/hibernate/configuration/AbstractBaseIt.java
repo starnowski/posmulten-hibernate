@@ -8,9 +8,22 @@ import org.testng.annotations.BeforeSuite;
 
 public class AbstractBaseIt {
 
-    public static SessionFactory getSessionFactory() {
+    protected SessionFactory primarySessionFactory;
+    protected SessionFactory schemaCreatorSessionFactory;
+
+    protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure() // configures settings from hibernate.cfg.xml
+                .build();
+
+        SessionFactory factory = new MetadataSources(registry)
+                .buildMetadata().buildSessionFactory();
+        return factory;
+    }
+
+    protected SessionFactory getSchemaCreatorSessionFactory() {
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure("hibernate.schema-creator.cfg.xml")
                 .build();
 
         SessionFactory factory = new MetadataSources(registry)
@@ -21,5 +34,7 @@ public class AbstractBaseIt {
     @BeforeSuite(groups = "Integration tests")
     public void prepareDatabase()
     {
+        this.schemaCreatorSessionFactory = getSchemaCreatorSessionFactory();
+        this.primarySessionFactory = getPrimarySessionFactory();
     }
 }
