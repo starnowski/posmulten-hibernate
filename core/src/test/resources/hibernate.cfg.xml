@@ -12,7 +12,7 @@
         <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider</property>
         <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl</property>
 
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.*" />
+        <mapping package="com.github.starnowski.posmulten.hibernate.core.model" />
 
     </session-factory>
 </hibernate-configuration>

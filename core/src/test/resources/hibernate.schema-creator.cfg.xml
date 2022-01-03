@@ -11,7 +11,7 @@
         <property name="hibernate.multiTenancy">NONE</property>
         <property name="hibernate.schema_management_tool">com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool</property>
 
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.*" />
+        <mapping package="com.github.starnowski.posmulten.hibernate.core.model" />
 
     </session-factory>
 </hibernate-configuration>
