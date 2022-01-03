@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.configuration;
+package com.github.starnowski.posmulten.hibernate.integration;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
