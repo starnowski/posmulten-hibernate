@@ -12,7 +12,11 @@
         <property name="schema_management_tool">com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool</property>
         <property name="archive.autodetection">class</property>
 
-        <mapping package="com.github.starnowski.posmulten.hibernate.core.model" />
-
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.UserRole" />
     </session-factory>
 </hibernate-configuration>

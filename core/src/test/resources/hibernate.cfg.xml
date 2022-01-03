@@ -11,8 +11,13 @@
         <property name="hibernate.multiTenancy">SCHEMA</property>
         <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider</property>
         <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl</property>
+        <property name="archive.autodetection">class</property>
 
-        <mapping package="com.github.starnowski.posmulten.hibernate.core.model" />
-
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.UserRole" />
     </session-factory>
 </hibernate-configuration>
