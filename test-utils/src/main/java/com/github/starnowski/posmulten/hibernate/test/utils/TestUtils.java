@@ -26,4 +26,25 @@ public class TestUtils {
     public static boolean isAnyRecordExists(Statement statement, final String sql) throws SQLException {
         return statement.executeQuery(sql).isBeforeFirst();
     }
+
+    public static String statementThatReturnsColumnNameAndType(String table, String column, String schema) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT CONCAT(column_name || ' ' || data_type , CASE character_maximum_length WHEN NULL THEN '' ELSE '(' || character_maximum_length || ')' END ) FROM information_schema.columns WHERE ");
+        sb.append("table_catalog = 'postgresql_core' AND ");
+        if (schema == null) {
+            sb.append("table_schema = 'public'");
+        } else {
+            sb.append("table_schema = '");
+            sb.append(schema);
+            sb.append("'");
+        }
+        sb.append(" AND ");
+        sb.append("table_name = '");
+        sb.append(table);
+        sb.append("' AND ");
+        sb.append("column_name = '");
+        sb.append(column);
+        sb.append("'");
+        return sb.toString();
+    }
 }
