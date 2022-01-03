@@ -21,6 +21,6 @@ public class SharedSchemaConnectionProviderInitiator extends ConnectionProviderI
         //TODO
         Map copiedMap = new HashMap(configurationValues);
         copiedMap.remove(Environment.MULTI_TENANT);
-        return super.initiateService(configurationValues, registry);
+        return super.initiateService(copiedMap, registry);
     }
 }
