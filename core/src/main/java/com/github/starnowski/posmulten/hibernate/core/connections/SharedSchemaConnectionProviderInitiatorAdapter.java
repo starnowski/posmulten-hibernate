@@ -8,7 +8,7 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SharedSchemaConnectionProviderInitiator extends ConnectionProviderInitiator {
+public class SharedSchemaConnectionProviderInitiatorAdapter extends ConnectionProviderInitiator {
 
 
     @Override
