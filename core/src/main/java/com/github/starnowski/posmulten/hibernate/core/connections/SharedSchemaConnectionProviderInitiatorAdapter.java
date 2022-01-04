@@ -18,7 +18,7 @@ public class SharedSchemaConnectionProviderInitiatorAdapter extends ConnectionPr
 
     @Override
     public ConnectionProvider initiateService(Map configurationValues, ServiceRegistryImplementor registry) {
-        //TODO
+        //TODO add property
         Map copiedMap = new HashMap(configurationValues);
         copiedMap.remove(Environment.MULTI_TENANT);
         return super.initiateService(copiedMap, registry);
