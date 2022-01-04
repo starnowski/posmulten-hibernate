@@ -10,7 +10,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
-public class AbstractBaseIt {
+public class AbstractBaseItTest {
 
     protected Session schemaCreatorSession;
     protected Session primarySession;

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class SchemaTenantColumnCheckItTest extends AbstractBaseIt{
+public class SchemaTenantColumnCheckItTest extends AbstractBaseItTest {
 
     @Test
     public void shouldCreateDefaultTenantColumn()
