@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
 import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -20,6 +21,7 @@ public class AbstractBaseItTest {
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
 
