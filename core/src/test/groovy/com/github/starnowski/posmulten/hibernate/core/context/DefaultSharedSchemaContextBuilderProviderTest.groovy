@@ -32,10 +32,27 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
             mapBuilder().put("hibernate.default_schema", "sch1").put("hibernate.posmulten.grantee", "owner").put("hibernate.posmulten.tenant.id.property", "p.ten").build()        ||  "sch1"   |   "owner"    |   "p.ten"
     }
 
-//    DefaultSharedSchemaContextBuilder defaultSharedSchemaContextBuilder = new DefaultSharedSchemaContextBuilder(null); // null schema --> public schema
-//    defaultSharedSchemaContextBuilder.setGrantee("posmhib4sb-user"); // TODO move to configuration file
-//    defaultSharedSchemaContextBuilder.setCurrentTenantIdProperty("posdemo.tenant"); // TODO move to configuration file
-//    defaultSharedSchemaContextBuilder.setSetCurrentTenantIdFunctionName("set_pos_demo_tenant"); // TODO move to configuration file
-//    defaultSharedSchemaContextBuilder.setCurrentTenantIdentifierAsDefaultValueForTenantColumnInAllTables(true); // TODO move to configuration file
-//    defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(Arrays.asList(INVALID_TENANT_ID, "tenants"), null, null); // TODO move to configuration file
+    @Unroll
+    def "should provide correct DefaultSharedSchemaContextBuilder based on configuration map #map, expected currentTenantIdentifierAsDefaultValueForTenantColumnInAllTables #currentTenantIdentifierAsDefaultValueForTenantColumnInAllTables, invalid tenants #invalidTenants"()
+    {
+        given:
+            def tested = new DefaultSharedSchemaContextBuilderProvider(map)
+
+        when:
+            def result = tested.get()
+
+        then:
+            def request = result.getSharedSchemaContextRequestCopy()
+            request.currentTenantIdentifierAsDefaultValueForTenantColumnInAllTables == currentTenantIdentifierAsDefaultValueForTenantColumnInAllTables
+            request.tenantValuesBlacklist == invalidTenants
+
+        where:
+            map             ||  currentTenantIdentifierAsDefaultValueForTenantColumnInAllTables |    invalidTenants
+            new HashMap<>() ||  true   |   null
+            mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", false).build() ||  false   |   null
+            mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", true).build() ||  true   |   null
+            mapBuilder().put("hibernate.posmulten.tenant.valid.values", "ten-1").build()        ||  true    |   ["ten-1"]
+            mapBuilder().put("hibernate.posmulten.tenant.valid.values", "invalid,xxx").build()        ||  true    |   ["invalid", "xxx"]
+            mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", false).put("hibernate.posmulten.tenant.valid.values", "invalid,xxx").build()        ||  false    |   ["invalid", "xxx"]
+    }
 }
