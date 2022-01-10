@@ -21,6 +21,9 @@
         <spock.core.version>1.1-groovy-2.4</spock.core.version>
         <org.postgresql.postgresql.version>42.2.5</org.postgresql.postgresql.version>
         <org.testng.testng.version>7.1.0</org.testng.testng.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
