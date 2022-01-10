@@ -4,6 +4,8 @@ package com.github.starnowski.posmulten.hibernate.core.context
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder.mapBuilder
+
 class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
 
     @Unroll
@@ -22,8 +24,12 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
             request.currentTenantIdProperty == currentTenantIdProperty
 
         where:
-            map ||  schema  |   grantee |   currentTenantIdProperty
-            new HashMap<>() ||  ""  |   ""  |   ""
+            map             ||  schema |   grantee |   currentTenantIdProperty
+            new HashMap<>() ||  null   |   null    |   null
+            mapBuilder().put("hibernate.default_schema", "public").build()        ||  "public"   |   null    |   null
+            mapBuilder().put("hibernate.posmulten.grantee", "some_user").build()        ||  null   |   "some_user"    |   null
+            mapBuilder().put("hibernate.posmulten.tenant.id.property", "pos.tenant").build()        ||  null   |   null    |   "pos.tenant"
+            mapBuilder().put("hibernate.default_schema", "sch1").put("hibernate.posmulten.grantee", "owner").put("hibernate.posmulten.tenant.id.property", "p.ten").build()        ||  "sch1"   |   "owner"    |   "p.ten"
     }
 
 //    DefaultSharedSchemaContextBuilder defaultSharedSchemaContextBuilder = new DefaultSharedSchemaContextBuilder(null); // null schema --> public schema
