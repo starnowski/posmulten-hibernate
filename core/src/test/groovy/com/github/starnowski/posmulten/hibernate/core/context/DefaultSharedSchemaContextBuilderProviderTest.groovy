@@ -25,9 +25,9 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
 
         where:
             map             ||  schema |   grantee |   currentTenantIdProperty
-            new HashMap<>() ||  null   |   null    |   null
-            mapBuilder().put("hibernate.default_schema", "public").build()        ||  "public"   |   null    |   null
-            mapBuilder().put("hibernate.posmulten.grantee", "some_user").build()        ||  null   |   "some_user"    |   null
+            new HashMap<>() ||  null   |   null    |   "posmulten.tenant_id"
+            mapBuilder().put("hibernate.default_schema", "public").build()        ||  "public"   |   null    |   "posmulten.tenant_id"
+            mapBuilder().put("hibernate.posmulten.grantee", "some_user").build()        ||  null   |   "some_user"    |   "posmulten.tenant_id"
             mapBuilder().put("hibernate.posmulten.tenant.id.property", "pos.tenant").build()        ||  null   |   null    |   "pos.tenant"
             mapBuilder().put("hibernate.default_schema", "sch1").put("hibernate.posmulten.grantee", "owner").put("hibernate.posmulten.tenant.id.property", "p.ten").build()        ||  "sch1"   |   "owner"    |   "p.ten"
     }
