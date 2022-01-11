@@ -19,8 +19,8 @@ public class SchemaCreatorWrapper implements SchemaCreator {
     }
 
     public void doCreation(Metadata metadata, ExecutionOptions executionOptions, SourceDescriptor sourceDescriptor, TargetDescriptor targetDescriptor) {
-        IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class);
         this.wrappedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor);
+        IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class);
         //TODO
     }
 
