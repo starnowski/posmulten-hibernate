@@ -26,9 +26,9 @@ class SchemaCreatorWrapperTest extends Specification {
             tested.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
 
         then:
-            1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class) >> defaultSharedSchemaContextBuilderProvider
+        1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
 
         then:
-            1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
+            1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class) >> defaultSharedSchemaContextBuilderProvider
     }
 }
