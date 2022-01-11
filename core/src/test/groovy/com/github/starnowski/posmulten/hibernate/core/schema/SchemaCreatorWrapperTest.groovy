@@ -1,6 +1,8 @@
 package com.github.starnowski.posmulten.hibernate.core.schema
 
+import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider
 import org.hibernate.boot.Metadata
+import org.hibernate.service.ServiceRegistry
 import org.hibernate.tool.schema.spi.ExecutionOptions
 import org.hibernate.tool.schema.spi.SchemaCreator
 import org.hibernate.tool.schema.spi.SourceDescriptor
@@ -12,14 +14,19 @@ class SchemaCreatorWrapperTest extends Specification {
     def "should run wrapped schemaCreator component"() {
         given:
             SchemaCreator mockedSchemaCreator = Mock(SchemaCreator)
-            def tested = new SchemaCreatorWrapper(mockedSchemaCreator)
+            ServiceRegistry mockedServiceRegistry = Mock(ServiceRegistry)
+            def tested = new SchemaCreatorWrapper(mockedSchemaCreator, mockedServiceRegistry)
             Metadata metadata = Mock(Metadata)
             ExecutionOptions executionOptions = Mock(ExecutionOptions)
             SourceDescriptor sourceDescriptor = Mock(SourceDescriptor)
             TargetDescriptor targetDescriptor = Mock(TargetDescriptor)
+            IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
 
         when:
             tested.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
+
+        then:
+            1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class) >> defaultSharedSchemaContextBuilderProvider
 
         then:
             1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
