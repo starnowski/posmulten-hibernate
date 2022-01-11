@@ -9,6 +9,6 @@ public class PosmultenSchemaManagementTool extends HibernateSchemaManagementTool
 
     @Override
     public SchemaCreator getSchemaCreator(Map options) {
-        return new SchemaCreatorWrapper(super.getSchemaCreator(options));
+        return new SchemaCreatorWrapper(super.getSchemaCreator(options), getServiceRegistry());
     }
 }
