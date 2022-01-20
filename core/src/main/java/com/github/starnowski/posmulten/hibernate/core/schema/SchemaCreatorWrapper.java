@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.schema;
 
+import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProvider;
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider;
 import org.hibernate.boot.Metadata;
 import org.hibernate.service.ServiceRegistry;
@@ -19,9 +20,12 @@ public class SchemaCreatorWrapper implements SchemaCreator {
     }
 
     public void doCreation(Metadata metadata, ExecutionOptions executionOptions, SourceDescriptor sourceDescriptor, TargetDescriptor targetDescriptor) {
-        this.wrappedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor);
         IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class);
+        DefaultSharedSchemaContextBuilderMetadataEnricherProvider metadataEnricherProvider = serviceRegistry.getService(DefaultSharedSchemaContextBuilderMetadataEnricherProvider.class);
+        metadataEnricherProvider.getEnrichers();
+        this.wrappedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor);
         //TODO
+
     }
 
     SchemaCreator getWrappedSchemaCreator() {
