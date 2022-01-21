@@ -4,6 +4,8 @@ import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchem
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
+import com.github.starnowski.posmulten.postgresql.core.context.exceptions.SharedSchemaContextBuilderException;
 import org.hibernate.boot.Metadata;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.schema.spi.ExecutionOptions;
@@ -27,11 +29,20 @@ public class SchemaCreatorWrapper implements SchemaCreator {
         IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class);
         DefaultSharedSchemaContextBuilderMetadataEnricherProvider metadataEnricherProvider = serviceRegistry.getService(DefaultSharedSchemaContextBuilderMetadataEnricherProvider.class);
         List<IDefaultSharedSchemaContextBuilderMetadataEnricher> metadataEnrichers = metadataEnricherProvider.getEnrichers();
+        SourceDescriptorFactory scriptSourceInputFactory = serviceRegistry.getService(SourceDescriptorFactory.class);
         DefaultSharedSchemaContextBuilder builder = defaultSharedSchemaContextBuilderProvider.get();
         for (IDefaultSharedSchemaContextBuilderMetadataEnricher enricher: metadataEnrichers) {
             builder = enricher.enrich(builder, metadata);
         }
-        this.wrappedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor);
+        ISharedSchemaContext context = null;
+        try {
+            context = builder.build();
+        } catch (SharedSchemaContextBuilderException e) {
+            //TODO
+            e.printStackTrace();
+        }
+        SourceDescriptor wrappedSourceDescriptor = scriptSourceInputFactory.build(context, sourceDescriptor, executionOptions.getConfigurationValues());
+        this.wrappedSchemaCreator.doCreation(metadata, executionOptions, wrappedSourceDescriptor, targetDescriptor);
         //TODO
 
     }
