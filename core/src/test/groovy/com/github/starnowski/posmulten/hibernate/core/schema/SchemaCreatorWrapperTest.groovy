@@ -1,6 +1,5 @@
 package com.github.starnowski.posmulten.hibernate.core.schema
 
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProvider
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricherProvider
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider
 import org.hibernate.boot.Metadata
@@ -31,7 +30,11 @@ class SchemaCreatorWrapperTest extends Specification {
 
         then:
             1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+
+        then:
             1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderMetadataEnricherProvider) >> defaultSharedSchemaContextBuilderMetadataEnricherProvider
+
+        then:
             1 * mockedServiceRegistry.getService(SourceDescriptorFactory) >> sourceDescriptorFactory
 
         then:
