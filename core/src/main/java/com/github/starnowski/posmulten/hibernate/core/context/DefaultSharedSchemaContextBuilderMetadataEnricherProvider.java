@@ -4,7 +4,7 @@ import org.hibernate.service.Service;
 
 import java.util.List;
 
-public class DefaultSharedSchemaContextBuilderMetadataEnricherProvider implements Service {
+public class DefaultSharedSchemaContextBuilderMetadataEnricherProvider implements IDefaultSharedSchemaContextBuilderMetadataEnricherProvider {
 
     private final List<IDefaultSharedSchemaContextBuilderMetadataEnricher> enrichers;
 

@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.schema
 
+import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricherProvider
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider
 import org.hibernate.boot.Metadata
 import org.hibernate.service.ServiceRegistry
@@ -21,12 +22,20 @@ class SchemaCreatorWrapperTest extends Specification {
             SourceDescriptor sourceDescriptor = Mock(SourceDescriptor)
             TargetDescriptor targetDescriptor = Mock(TargetDescriptor)
             IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
+            IDefaultSharedSchemaContextBuilderMetadataEnricherProvider defaultSharedSchemaContextBuilderMetadataEnricherProvider = Mock(IDefaultSharedSchemaContextBuilderMetadataEnricherProvider)
+            SourceDescriptorFactory sourceDescriptorFactory = Mock(SourceDescriptorFactory)
 
         when:
             tested.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
 
         then:
-            1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class) >> defaultSharedSchemaContextBuilderProvider
+            1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+
+        then:
+            1 * mockedServiceRegistry.getService(IDefaultSharedSchemaContextBuilderMetadataEnricherProvider) >> defaultSharedSchemaContextBuilderMetadataEnricherProvider
+
+        then:
+            1 * mockedServiceRegistry.getService(SourceDescriptorFactory) >> sourceDescriptorFactory
 
         then:
             1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
