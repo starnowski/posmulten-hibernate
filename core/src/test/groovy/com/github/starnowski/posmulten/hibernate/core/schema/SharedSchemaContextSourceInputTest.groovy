@@ -20,4 +20,21 @@ class SharedSchemaContextSourceInputTest extends Specification {
             1 * sharedContext.getSqlDefinitions() >> definitions
             tested.definitions == definitions
     }
+
+    def "should release sql definitions" () {
+        given:
+            def sharedContext = Mock(ISharedSchemaContext)
+            def tested = new SharedSchemaContextSourceInput(sharedContext)
+            tested.definitions == null
+            List<SQLDefinition> definitions = Arrays.asList(Mock(SQLDefinition))
+            sharedContext.getSqlDefinitions() >> definitions
+            tested.prepare()
+            tested.definitions == definitions
+
+        when:
+            tested.release()
+
+        then:
+            tested.definitions == null
+    }
 }

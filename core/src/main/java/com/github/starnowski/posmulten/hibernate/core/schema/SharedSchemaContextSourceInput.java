@@ -28,6 +28,6 @@ public class SharedSchemaContextSourceInput implements ScriptSourceInput {
 
     @Override
     public void release() {
-
+        this.definitions = null;
     }
 }
