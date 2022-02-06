@@ -2,7 +2,11 @@ package com.github.starnowski.posmulten.hibernate.core.schema
 
 import com.github.starnowski.posmulten.postgresql.core.common.SQLDefinition
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext
+import org.hibernate.tool.hbm2ddl.ImportSqlCommandExtractor
 import spock.lang.Specification
+import spock.lang.Unroll
+
+import static java.util.stream.Collectors.toList
 
 class SharedSchemaContextSourceInputTest extends Specification {
 
@@ -36,5 +40,41 @@ class SharedSchemaContextSourceInputTest extends Specification {
 
         then:
             tested.definitions == null
+    }
+
+    @Unroll
+    def "should prepare string array with sql definitions #expectedScripts" () {
+        given:
+            def sharedContext = Mock(ISharedSchemaContext)
+            def tested = new SharedSchemaContextSourceInput(sharedContext)
+            List<SQLDefinition> definitions = expectedScripts.stream().map({prepareSD(it)}).collect(toList())
+            tested.prepare()
+            ImportSqlCommandExtractor importSqlCommandExtractor = Mock(ImportSqlCommandExtractor)
+            importSqlCommandExtractor.extractCommands() >>> {
+                if (it instanceof  StringReader)
+                {
+                    StringReader sr = (StringReader)it
+                    char buffer = new char[1024]
+                    sr.read(buffer, 0, 1024)
+                    return new String[new String(buffer)]
+                }
+                return null
+            }
+
+        when:
+            def results = tested.read(importSqlCommandExtractor)
+
+        then:
+            results == [expectedScripts]
+
+        where:
+            expectedScripts << [["SELECT * FROM schema_info;", "SELECT 1"], ["SELECT * FROM dual;", "SELECT * from users", "select 1 from posts"]]
+    }
+
+    private SQLDefinition prepareSD(String creationScript)
+    {
+        SQLDefinition sqlDefinition = Mock(SQLDefinition)
+        sqlDefinition.getCreateScript() >> creationScript
+        return sqlDefinition;
     }
 }
