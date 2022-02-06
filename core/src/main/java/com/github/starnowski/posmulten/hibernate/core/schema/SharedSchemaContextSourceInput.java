@@ -5,7 +5,11 @@ import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaCont
 import org.hibernate.tool.hbm2ddl.ImportSqlCommandExtractor;
 import org.hibernate.tool.schema.spi.ScriptSourceInput;
 
+import java.io.StringReader;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 public class SharedSchemaContextSourceInput implements ScriptSourceInput {
 
@@ -23,7 +27,7 @@ public class SharedSchemaContextSourceInput implements ScriptSourceInput {
 
     @Override
     public List<String> read(ImportSqlCommandExtractor importSqlCommandExtractor) {
-        return null;
+        return this.definitions.stream().flatMap(definition -> Stream.of(importSqlCommandExtractor.extractCommands(new StringReader(definition.getCreateScript())))).collect(toList());
     }
 
     @Override

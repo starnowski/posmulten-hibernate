@@ -48,15 +48,17 @@ class SharedSchemaContextSourceInputTest extends Specification {
             def sharedContext = Mock(ISharedSchemaContext)
             def tested = new SharedSchemaContextSourceInput(sharedContext)
             List<SQLDefinition> definitions = expectedScripts.stream().map({prepareSD(it)}).collect(toList())
+            sharedContext.getSqlDefinitions() >> definitions
             tested.prepare()
             ImportSqlCommandExtractor importSqlCommandExtractor = Mock(ImportSqlCommandExtractor)
-            importSqlCommandExtractor.extractCommands() >>> {
-                if (it instanceof  StringReader)
+            importSqlCommandExtractor.extractCommands(_) >> { Reader r ->
+                if (r instanceof  StringReader)
                 {
-                    StringReader sr = (StringReader)it
-                    char buffer = new char[1024]
-                    sr.read(buffer, 0, 1024)
-                    return new String[new String(buffer)]
+                    char[] buffer = new char[1024]
+                    int length = r.read(buffer, 0, 1024)
+                    String[] array = new String[1]
+                    array[0] = new String(buffer).substring(0, length)
+                    return array
                 }
                 return null
             }
@@ -65,7 +67,7 @@ class SharedSchemaContextSourceInputTest extends Specification {
             def results = tested.read(importSqlCommandExtractor)
 
         then:
-            results == [expectedScripts]
+            results == expectedScripts
 
         where:
             expectedScripts << [["SELECT * FROM schema_info;", "SELECT 1"], ["SELECT * FROM dual;", "SELECT * from users", "select 1 from posts"]]
