@@ -4,6 +4,7 @@ import com.github.starnowski.posmulten.hibernate.core.schema.strategy.ISchemaCre
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext
 import org.hibernate.boot.Metadata
 import org.hibernate.tool.schema.spi.ExecutionOptions
+import org.hibernate.tool.schema.spi.SchemaCreator
 import org.hibernate.tool.schema.spi.SourceDescriptor
 import org.hibernate.tool.schema.spi.TargetDescriptor
 import spock.lang.Specification
@@ -16,19 +17,23 @@ class SchemaCreatorStrategyContextTest extends Specification {
         given:
             ISchemaCreatorStrategy metadataStrategy = Mock(ISchemaCreatorStrategy)
             ISharedSchemaContext context = Mock(ISharedSchemaContext)
+            SchemaCreator schemaCreator = Mock(SchemaCreator)
             Metadata metadata = Mock(Metadata)
             ExecutionOptions executionOptions = Mock(ExecutionOptions)
             SourceDescriptor sourceDescriptor = Mock(SourceDescriptor)
             TargetDescriptor targetDescriptor = Mock(TargetDescriptor)
             def tested = new SchemaCreatorStrategyContext()
             tested.setMetadataStrategy(metadataStrategy)
+        sourceDescriptor.getSourceType() >> METADATA
 
         when:
-            tested.doCreation(context, metadata, executionOptions, sourceDescriptor, targetDescriptor)
+            tested.doCreation(context, schemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor)
 
         then:
             1 * sourceDescriptor.getSourceType() >> METADATA
-            1 * metadataStrategy.doCreation(context, metadata, executionOptions, sourceDescriptor, targetDescriptor)
+            1 * metadataStrategy.doCreation(context, schemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor)
+
+        then:
             0 * _._
     }
 }
