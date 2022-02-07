@@ -4,23 +4,28 @@ import com.github.starnowski.posmulten.hibernate.core.schema.strategy.ISchemaCre
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
 import org.hibernate.boot.Metadata;
 import org.hibernate.tool.schema.spi.ExecutionOptions;
+import org.hibernate.tool.schema.spi.SchemaCreator;
 import org.hibernate.tool.schema.spi.SourceDescriptor;
 import org.hibernate.tool.schema.spi.TargetDescriptor;
 
+
 public class SchemaCreatorStrategyContext {
 
-    public void setMetadataStrategy(ISchemaCreatorStrategy strategy)
-    {
-        //TODO
+    private ISchemaCreatorStrategy metadataStrategy;
+
+    public ISchemaCreatorStrategy getMetadataStrategy() {
+        return this.metadataStrategy;
     }
 
-    public ISchemaCreatorStrategy getMetadataStrategy()
-    {
-        //TODO
-        return null;
+    public void setMetadataStrategy(ISchemaCreatorStrategy strategy) {
+        this.metadataStrategy = strategy;
     }
 
-    public void doCreation(ISharedSchemaContext context, Metadata metadata, ExecutionOptions executionOptions, SourceDescriptor sourceDescriptor, TargetDescriptor targetDescriptor) {
-
+    public void doCreation(ISharedSchemaContext context, SchemaCreator schemaCreator, Metadata metadata, ExecutionOptions executionOptions, SourceDescriptor sourceDescriptor, TargetDescriptor targetDescriptor) {
+        switch (sourceDescriptor.getSourceType()) {
+            case METADATA:
+                getMetadataStrategy().doCreation(context, schemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor);
+                break;
+        }
     }
 }
