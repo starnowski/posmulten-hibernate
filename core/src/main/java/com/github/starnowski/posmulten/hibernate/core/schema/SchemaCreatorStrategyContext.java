@@ -4,13 +4,14 @@ import com.github.starnowski.posmulten.hibernate.core.schema.strategy.ISchemaCre
 import com.github.starnowski.posmulten.hibernate.core.schema.strategy.MetadataSchemaCreatorStrategy;
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
 import org.hibernate.boot.Metadata;
+import org.hibernate.service.Service;
 import org.hibernate.tool.schema.spi.ExecutionOptions;
 import org.hibernate.tool.schema.spi.SchemaCreator;
 import org.hibernate.tool.schema.spi.SourceDescriptor;
 import org.hibernate.tool.schema.spi.TargetDescriptor;
 
 
-public class SchemaCreatorStrategyContext {
+public class SchemaCreatorStrategyContext implements Service {
 
     private ISchemaCreatorStrategy metadataStrategy = new MetadataSchemaCreatorStrategy();
 
