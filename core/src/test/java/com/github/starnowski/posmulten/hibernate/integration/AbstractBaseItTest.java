@@ -23,9 +23,6 @@ public class AbstractBaseItTest {
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
-                .addInitiator(new SchemaCreatorStrategyContextInitiator())
-                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
-                .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
 
@@ -36,7 +33,9 @@ public class AbstractBaseItTest {
 
     protected SessionFactory getSchemaCreatorSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .addInitiator(new SchemaCreatorStrategyContextInitiator())
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
+                .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
                 .configure("hibernate.schema-creator.cfg.xml")
                 .build();
 

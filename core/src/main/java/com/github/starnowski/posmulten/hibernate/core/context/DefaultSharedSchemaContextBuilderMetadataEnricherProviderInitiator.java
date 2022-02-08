@@ -3,16 +3,17 @@ package com.github.starnowski.posmulten.hibernate.core.context;
 import org.hibernate.boot.registry.StandardServiceInitiator;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
+import java.util.ArrayList;
 import java.util.Map;
 
-public class DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator implements StandardServiceInitiator<DefaultSharedSchemaContextBuilderMetadataEnricherProvider> {
+public class DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator implements StandardServiceInitiator<IDefaultSharedSchemaContextBuilderMetadataEnricherProvider> {
     @Override
-    public DefaultSharedSchemaContextBuilderMetadataEnricherProvider initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
-        return null;
+    public IDefaultSharedSchemaContextBuilderMetadataEnricherProvider initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+        return new DefaultSharedSchemaContextBuilderMetadataEnricherProvider(new ArrayList<>());
     }
 
     @Override
-    public Class<DefaultSharedSchemaContextBuilderMetadataEnricherProvider> getServiceInitiated() {
-        return DefaultSharedSchemaContextBuilderMetadataEnricherProvider.class;
+    public Class<IDefaultSharedSchemaContextBuilderMetadataEnricherProvider> getServiceInitiated() {
+        return IDefaultSharedSchemaContextBuilderMetadataEnricherProvider.class;
     }
 }
