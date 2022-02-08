@@ -43,7 +43,6 @@ class SchemaCreatorWrapperTest extends Specification {
             1 * defaultSharedSchemaContextBuilderProvider.get() >> builder
             1 * enricher.enrich(builder, metadata) >> builder
             1 * defaultSharedSchemaContextBuilderMetadataEnricherProvider.getEnrichers() >> [enricher]
-            1 * mockedSchemaCreator.doCreation(metadata, executionOptions, sourceDescriptor, targetDescriptor)
             1 * builder.build() >> sharedSchemaContext
 
         then:

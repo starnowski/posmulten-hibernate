@@ -1,6 +1,5 @@
 package com.github.starnowski.posmulten.hibernate.core.schema;
 
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProvider;
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricherProvider;
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider;
@@ -29,7 +28,7 @@ public class SchemaCreatorWrapper implements SchemaCreator {
     public void doCreation(Metadata metadata, ExecutionOptions executionOptions, SourceDescriptor sourceDescriptor, TargetDescriptor targetDescriptor) {
         IDefaultSharedSchemaContextBuilderProvider defaultSharedSchemaContextBuilderProvider = serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider.class);
         IDefaultSharedSchemaContextBuilderMetadataEnricherProvider metadataEnricherProvider = serviceRegistry.getService(IDefaultSharedSchemaContextBuilderMetadataEnricherProvider.class);
-        SourceDescriptorFactory sourceDescriptorFactory = serviceRegistry.getService(SourceDescriptorFactory.class);
+        SchemaCreatorStrategyContext schemaCreatorStrategyContext = serviceRegistry.getService(SchemaCreatorStrategyContext.class);
         List<IDefaultSharedSchemaContextBuilderMetadataEnricher> metadataEnrichers = metadataEnricherProvider.getEnrichers();
         DefaultSharedSchemaContextBuilder builder = defaultSharedSchemaContextBuilderProvider.get();
         for (IDefaultSharedSchemaContextBuilderMetadataEnricher enricher: metadataEnrichers) {
@@ -42,10 +41,7 @@ public class SchemaCreatorWrapper implements SchemaCreator {
             //TODO
             e.printStackTrace();
         }
-        SourceDescriptor wrappedSourceDescriptor = sourceDescriptorFactory.build(context, sourceDescriptor, executionOptions.getConfigurationValues());
-        this.wrappedSchemaCreator.doCreation(metadata, executionOptions, wrappedSourceDescriptor, targetDescriptor);
-        //TODO
-
+        schemaCreatorStrategyContext.doCreation(context, wrappedSchemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor);
     }
 
     SchemaCreator getWrappedSchemaCreator() {
