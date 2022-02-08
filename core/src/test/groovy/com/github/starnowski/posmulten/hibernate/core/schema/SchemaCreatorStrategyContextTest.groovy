@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.schema
 
 import com.github.starnowski.posmulten.hibernate.core.schema.strategy.ISchemaCreatorStrategy
+import com.github.starnowski.posmulten.hibernate.core.schema.strategy.MetadataSchemaCreatorStrategy
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext
 import org.hibernate.boot.Metadata
 import org.hibernate.tool.schema.spi.ExecutionOptions
@@ -24,7 +25,7 @@ class SchemaCreatorStrategyContextTest extends Specification {
             TargetDescriptor targetDescriptor = Mock(TargetDescriptor)
             def tested = new SchemaCreatorStrategyContext()
             tested.setMetadataStrategy(metadataStrategy)
-        sourceDescriptor.getSourceType() >> METADATA
+            sourceDescriptor.getSourceType() >> METADATA
 
         when:
             tested.doCreation(context, schemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor)
@@ -35,5 +36,16 @@ class SchemaCreatorStrategyContextTest extends Specification {
 
         then:
             0 * _._
+    }
+
+    def "should use MetadataSchemaCreatorStrategy by default for METADATA source type"(){
+        given:
+            def tested = new SchemaCreatorStrategyContext()
+
+        when:
+            def result = tested.getMetadataStrategy()
+
+        then:
+            result instanceof MetadataSchemaCreatorStrategy
     }
 }

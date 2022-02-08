@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.schema;
 
 import com.github.starnowski.posmulten.hibernate.core.schema.strategy.ISchemaCreatorStrategy;
+import com.github.starnowski.posmulten.hibernate.core.schema.strategy.MetadataSchemaCreatorStrategy;
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
 import org.hibernate.boot.Metadata;
 import org.hibernate.tool.schema.spi.ExecutionOptions;
@@ -11,7 +12,7 @@ import org.hibernate.tool.schema.spi.TargetDescriptor;
 
 public class SchemaCreatorStrategyContext {
 
-    private ISchemaCreatorStrategy metadataStrategy;
+    private ISchemaCreatorStrategy metadataStrategy = new MetadataSchemaCreatorStrategy();
 
     public ISchemaCreatorStrategy getMetadataStrategy() {
         return this.metadataStrategy;
