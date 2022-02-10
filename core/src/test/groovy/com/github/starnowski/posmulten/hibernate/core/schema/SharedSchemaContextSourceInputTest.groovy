@@ -73,6 +73,10 @@ class SharedSchemaContextSourceInputTest extends Specification {
 //            expectedScripts << [["SELECT * FROM schema_info;", "SELECT 1"], ["SELECT * FROM dual;", "SELECT * from users", "select 1 from posts"]]
 //    }
 
+    /**
+     * https://github.com/starnowski/posmulten/issues/233
+     * https://github.com/starnowski/posmulten/issues/234
+     */
     @Unroll
     def "should prepare string array with sql definitions #expectedScripts" () {
         given:
