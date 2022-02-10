@@ -5,11 +5,8 @@ import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaCont
 import org.hibernate.tool.hbm2ddl.ImportSqlCommandExtractor;
 import org.hibernate.tool.schema.spi.ScriptSourceInput;
 
-import java.io.StringReader;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 public class SharedSchemaContextSourceInput implements ScriptSourceInput {
 
@@ -27,7 +24,14 @@ public class SharedSchemaContextSourceInput implements ScriptSourceInput {
 
     @Override
     public List<String> read(ImportSqlCommandExtractor importSqlCommandExtractor) {
-        return this.definitions.stream().flatMap(definition -> Stream.of(importSqlCommandExtractor.extractCommands(new StringReader(definition.getCreateScript())))).collect(toList());
+        /*
+         * Temporary implementation does not use importSqlCommandExtractor component until the below issues are going to be resolved.
+         */
+//        https://github.com/starnowski/posmulten/issues/233
+//        https://github.com/starnowski/posmulten/issues/234
+//        String script = this.definitions.stream().map(definition -> definition.getCreateScript()).collect(Collectors.joining());
+//        return this.definitions.stream().flatMap(definition -> Stream.of(importSqlCommandExtractor.extractCommands(new StringReader(definition.getCreateScript())))).collect(toList());
+        return this.definitions.stream().map(definition -> definition.getCreateScript()).collect(Collectors.toList());
     }
 
     @Override

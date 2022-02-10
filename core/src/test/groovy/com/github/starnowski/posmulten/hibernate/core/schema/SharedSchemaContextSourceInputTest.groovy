@@ -42,6 +42,37 @@ class SharedSchemaContextSourceInputTest extends Specification {
             tested.definitions == null
     }
 
+//    @Unroll
+//    def "should prepare string array with sql definitions #expectedScripts" () {
+//        given:
+//            def sharedContext = Mock(ISharedSchemaContext)
+//            def tested = new SharedSchemaContextSourceInput(sharedContext)
+//            List<SQLDefinition> definitions = expectedScripts.stream().map({prepareSD(it)}).collect(toList())
+//            sharedContext.getSqlDefinitions() >> definitions
+//            tested.prepare()
+//            ImportSqlCommandExtractor importSqlCommandExtractor = Mock(ImportSqlCommandExtractor)
+//            1 * importSqlCommandExtractor.extractCommands(_) >> { Reader r ->
+//                if (r instanceof  StringReader)
+//                {
+//                    char[] buffer = new char[1024]
+//                    int length = r.read(buffer, 0, 1024)
+//                    String[] array = new String[1]
+//                    array[0] = new String(buffer).substring(0, length)
+//                    return array
+//                }
+//                return null
+//            }
+//
+//        when:
+//            def results = tested.read(importSqlCommandExtractor)
+//
+//        then:
+//            results == expectedScripts
+//
+//        where:
+//            expectedScripts << [["SELECT * FROM schema_info;", "SELECT 1"], ["SELECT * FROM dual;", "SELECT * from users", "select 1 from posts"]]
+//    }
+
     @Unroll
     def "should prepare string array with sql definitions #expectedScripts" () {
         given:
@@ -51,23 +82,13 @@ class SharedSchemaContextSourceInputTest extends Specification {
             sharedContext.getSqlDefinitions() >> definitions
             tested.prepare()
             ImportSqlCommandExtractor importSqlCommandExtractor = Mock(ImportSqlCommandExtractor)
-            importSqlCommandExtractor.extractCommands(_) >> { Reader r ->
-                if (r instanceof  StringReader)
-                {
-                    char[] buffer = new char[1024]
-                    int length = r.read(buffer, 0, 1024)
-                    String[] array = new String[1]
-                    array[0] = new String(buffer).substring(0, length)
-                    return array
-                }
-                return null
-            }
 
         when:
             def results = tested.read(importSqlCommandExtractor)
 
         then:
             results == expectedScripts
+            0 * importSqlCommandExtractor._
 
         where:
             expectedScripts << [["SELECT * FROM schema_info;", "SELECT 1"], ["SELECT * FROM dual;", "SELECT * from users", "select 1 from posts"]]
