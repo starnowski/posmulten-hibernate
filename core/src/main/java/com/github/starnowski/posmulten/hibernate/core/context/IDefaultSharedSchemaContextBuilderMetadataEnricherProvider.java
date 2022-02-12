@@ -7,4 +7,6 @@ import java.util.List;
 public interface IDefaultSharedSchemaContextBuilderMetadataEnricherProvider extends Service {
 
     List<IDefaultSharedSchemaContextBuilderMetadataEnricher> getEnrichers();
+
+    boolean isInitialized();
 }

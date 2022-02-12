@@ -7,24 +7,25 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiatorTest ext
     def "should return default implementation of IDefaultSharedSchemaContextBuilderProvider type"()
     {
         given:
-        def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator()
+            def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator()
 
         when:
-        def result = tested.initiateService(new HashMap(), null)
+            def result = tested.initiateService(new HashMap(), null)
 
         then:
-        result != null
+            result != null
+            result.isInitialized()
     }
 
     def "should return correct class"()
     {
         given:
-        def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator()
+            def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator()
 
         when:
-        def result = tested.getServiceInitiated()
+            def result = tested.getServiceInitiated()
 
         then:
-        result == IDefaultSharedSchemaContextBuilderMetadataEnricherProvider.class
+            result == IDefaultSharedSchemaContextBuilderMetadataEnricherProvider.class
     }
 }
