@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context;
 
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.enrichers.DefaultSharedSchemaContextBuilderMetadataEnricher;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ public class DefaultSharedSchemaContextBuilderMetadataEnricherProvider implement
 
     public void initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
         this.enrichers = new ArrayList<>();
+        DefaultSharedSchemaContextBuilderMetadataEnricher enricher = new DefaultSharedSchemaContextBuilderMetadataEnricher();
+        enricher.initiateService(map, serviceRegistryImplementor);
+        this.enrichers.add(enricher);
         this.initialized = true;
     }
 

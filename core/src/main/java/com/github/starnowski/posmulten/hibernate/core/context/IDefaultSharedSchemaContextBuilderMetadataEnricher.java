@@ -6,4 +6,6 @@ import org.hibernate.boot.Metadata;
 public interface IDefaultSharedSchemaContextBuilderMetadataEnricher {
 
     DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata);
+
+    boolean isInitialized();
 }
