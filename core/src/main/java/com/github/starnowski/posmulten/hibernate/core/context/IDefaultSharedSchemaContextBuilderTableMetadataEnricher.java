@@ -12,4 +12,6 @@ public interface IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
     DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table);
 
     void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor);
+
+    boolean isInitialized();
 }
