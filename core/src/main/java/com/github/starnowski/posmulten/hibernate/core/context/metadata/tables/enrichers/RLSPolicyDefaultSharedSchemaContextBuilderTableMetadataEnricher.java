@@ -9,6 +9,9 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 import java.util.Map;
 
 public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
+
+    private boolean initialized = false;
+
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
         //TODO
@@ -17,11 +20,11 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
 
     @Override
     public void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
-
+        this.initialized = true;
     }
 
     @Override
     public boolean isInitialized() {
-        return false;
+        return initialized;
     }
 }
