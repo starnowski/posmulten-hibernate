@@ -10,6 +10,8 @@ import java.util.Map;
 public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefaultSharedSchemaContextBuilderMetadataEnricher {
 
     private boolean initialized = false;
+    //TODO tableMetadataEnricher lists
+    //TODO getter and setter for tableMetadataEnricher lists (package access)
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata) {
