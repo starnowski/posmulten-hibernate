@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <org.objenesis.objenesis.version>3.2</org.objenesis.objenesis.version>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +77,12 @@
                 <artifactId>assertj-core</artifactId>
 <!--                TODO Add property-->
                 <version>3.16.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>${org.objenesis.objenesis.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
