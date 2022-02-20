@@ -1,9 +1,12 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.enrichers;
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher;
+import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
 import org.hibernate.boot.Metadata;
+import org.hibernate.boot.model.relational.Namespace;
+import org.hibernate.mapping.Table;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.ArrayList;
@@ -14,17 +17,26 @@ public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefau
 
     private boolean initialized = false;
 
-    private List<RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher> enrichers;
+    private List<IDefaultSharedSchemaContextBuilderTableMetadataEnricher> enrichers;
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata) {
-        //TODO
-        return null;
+        DefaultSharedSchemaContextBuilder result = builder;
+        Iterable<Namespace> namespaces = metadata.getDatabase().getNamespaces();
+        for (Namespace namespace : namespaces) {
+            for (IDefaultSharedSchemaContextBuilderTableMetadataEnricher enricher : enrichers) {
+                for (Table table : namespace.getTables()) {
+                    result = enricher.enrich(result, metadata, table);
+                }
+            }
+        }
+        return result;
     }
 
     public void initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
         this.enrichers = new ArrayList<>();
         enrichers.add(new RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher());
+        enrichers.forEach(enricher -> enricher.init(map, serviceRegistryImplementor));
         this.initialized = true;
     }
 
@@ -33,11 +45,11 @@ public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefau
         return this.initialized;
     }
 
-    List<RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher> getEnrichers() {
+    List<IDefaultSharedSchemaContextBuilderTableMetadataEnricher> getEnrichers() {
         return enrichers;
     }
 
-    void setEnrichers(List<RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher> enrichers) {
+    void setEnrichers(List<IDefaultSharedSchemaContextBuilderTableMetadataEnricher> enrichers) {
         this.enrichers = enrichers;
     }
 }
