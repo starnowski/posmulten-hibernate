@@ -21,11 +21,11 @@ public class SchemaTenantColumnCheckItTest extends AbstractBaseItTest {
         // WHEN
         String result = schemaCreatorSession.doReturningWork(new ReturningWork<String>() {
             public String execute(Connection connection) throws SQLException {
-                return TestUtils.selectAndReturnFirstRecordAsString(connection.createStatement(), TestUtils.statementThatReturnsColumnNameAndType("posts", "tenant_id", "public"));
+                return TestUtils.selectAndReturnFirstRecordAsString(connection.createStatement(), TestUtils.statementThatReturnsColumnNameAndType("posts", "tenant_id", "public", "posmulten_hibernate"));
             }
         });
 
         // THEN
-        assertThat(result).isEqualTo("tenant_id VARCHAR(255)");
+        assertThat(result).isEqualTo("tenant_id character varying(255)");
     }
 }

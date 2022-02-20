@@ -28,10 +28,13 @@ public class TestUtils {
         return statement.executeQuery(sql).isBeforeFirst();
     }
 
-    public static String statementThatReturnsColumnNameAndType(String table, String column, String schema) {
+    public static String statementThatReturnsColumnNameAndType(String table, String column, String schema, String database) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT CONCAT(column_name || ' ' || data_type , CASE character_maximum_length WHEN NULL THEN '' ELSE '(' || character_maximum_length || ')' END ) FROM information_schema.columns WHERE ");
-        sb.append("table_catalog = 'postgresql_core' AND ");
+        //TODO Database name
+        sb.append("table_catalog = '");
+        sb.append(database);
+        sb.append("' AND ");
         if (schema == null) {
             sb.append("table_schema = 'public'");
         } else {
