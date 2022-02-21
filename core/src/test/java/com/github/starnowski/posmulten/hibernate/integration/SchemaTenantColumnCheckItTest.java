@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
+import com.github.starnowski.posmulten.hibernate.core.model.Comment;
 import com.github.starnowski.posmulten.hibernate.core.model.Post;
 import com.github.starnowski.posmulten.hibernate.core.model.User;
 import com.github.starnowski.posmulten.hibernate.core.model.UserRole;
@@ -18,12 +19,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SchemaTenantColumnCheckItTest extends AbstractBaseItTest {
 
     @DataProvider(name = "defaultTenantColumn")
-    protected static Object[][] postData()
-    {
+    protected static Object[][] defaultTenantColumn() {
         return new Object[][]{
                 {Post.class, "posts"},
                 {User.class, "user_info"},
                 {UserRole.class, "user_role"}
+        };
+    }
+
+    @DataProvider(name = "customTenantColumn")
+    protected static Object[][] customTenantColumn() {
+        return new Object[][]{
+                {Comment.class, "comments", "comment_tenant_id"}
         };
     }
 
@@ -42,5 +49,21 @@ public class SchemaTenantColumnCheckItTest extends AbstractBaseItTest {
 
         // THEN
         assertThat(result).isEqualTo("tenant_id character varying(255)");
+    }
+
+    @Test(dataProvider = "customTenantColumn", testName = "should create a custom tenant column when the mapped class has TenantTable annotation with specified tenant column name and without a field with the same name as a default column value", description = "should create a custom tenant column when the mapped class has TenantTable annotation with specified tenant column name and without a field with the same name as a default column value")
+    public void shouldCreateCustomTenantColumn(Class clazz, String tableName, String columnName) {
+        // GIVEN
+        assertThat(ReflectionUtils.classContainsProperty(clazz, columnName)).isFalse();
+
+        // WHEN
+        String result = schemaCreatorSession.doReturningWork(new ReturningWork<String>() {
+            public String execute(Connection connection) throws SQLException {
+                return TestUtils.selectAndReturnFirstRecordAsString(connection.createStatement(), TestUtils.statementThatReturnsColumnNameAndType(tableName, columnName, "public", "posmulten_hibernate"));
+            }
+        });
+
+        // THEN
+        assertThat(result).isEqualTo(columnName + " character varying(255)");
     }
 }
