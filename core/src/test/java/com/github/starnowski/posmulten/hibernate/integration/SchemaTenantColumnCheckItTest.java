@@ -1,9 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
-import com.github.starnowski.posmulten.hibernate.core.model.Comment;
-import com.github.starnowski.posmulten.hibernate.core.model.Post;
-import com.github.starnowski.posmulten.hibernate.core.model.User;
-import com.github.starnowski.posmulten.hibernate.core.model.UserRole;
+import com.github.starnowski.posmulten.hibernate.core.model.*;
 import com.github.starnowski.posmulten.hibernate.test.utils.ReflectionUtils;
 import com.github.starnowski.posmulten.hibernate.test.utils.TestUtils;
 import org.hibernate.jdbc.ReturningWork;
@@ -30,7 +27,8 @@ public class SchemaTenantColumnCheckItTest extends AbstractBaseItTest {
     @DataProvider(name = "customTenantColumn")
     protected static Object[][] customTenantColumn() {
         return new Object[][]{
-                {Comment.class, "comments", "comment_tenant_id"}
+                {Comment.class, "comments", "comment_tenant_id"},
+                {Category.class, "categories", "categorytenantid"}
         };
     }
 
