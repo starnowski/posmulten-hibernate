@@ -5,4 +5,9 @@
             <class name="com.github.starnowski.posmulten.hibernate.integration.SchemaTenantColumnCheckItTest" />
         </classes>
     </test>
+    <test name="RLS policy creation">
+        <classes>
+            <class name="com.github.starnowski.posmulten.hibernate.integration.RLSPolicyCheckItTest" />
+        </classes>
+    </test>
 </suite>
