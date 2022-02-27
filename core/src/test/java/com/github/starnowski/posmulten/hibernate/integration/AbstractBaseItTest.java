@@ -10,6 +10,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
@@ -17,8 +18,8 @@ public class AbstractBaseItTest {
 
     protected Session schemaCreatorSession;
     protected Session primarySession;
-    private SessionFactory primarySessionFactory;
-    private SessionFactory schemaCreatorSessionFactory;
+    private static SessionFactory primarySessionFactory;
+    private static SessionFactory schemaCreatorSessionFactory;
 
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -50,7 +51,7 @@ public class AbstractBaseItTest {
         this.primarySessionFactory = getPrimarySessionFactory();
     }
 
-    @BeforeTest
+    @BeforeClass
     public void openSession() {
         schemaCreatorSession = schemaCreatorSessionFactory.openSession();
         //TODO Set current tenant in tenant provider
