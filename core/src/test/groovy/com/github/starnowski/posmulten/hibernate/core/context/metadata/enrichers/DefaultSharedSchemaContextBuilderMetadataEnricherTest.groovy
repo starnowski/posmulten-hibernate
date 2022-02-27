@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.enrichers
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.ForeignKeySharedSchemaContextBuilderTableMetadataEnricher
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder
@@ -52,7 +53,7 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherTest extends Specificatio
             results.stream().allMatch({ it.isInitialized()})
 
         and: "enrichers should have correct type"
-            results.stream().map({ it.getClass() }).collect(Collectors.toList()) == [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class]
+            results.stream().map({ it.getClass() }).collect(Collectors.toList()) == [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, ForeignKeySharedSchemaContextBuilderTableMetadataEnricher.class]
     }
 
     def "should pass schema builder and metadata to table metadata enrichers"()

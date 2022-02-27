@@ -2,6 +2,7 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.enricher
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.ForeignKeySharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
@@ -38,6 +39,7 @@ public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefau
         this.enrichers = new ArrayList<>();
         enrichers.add(new RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher());
         enrichers.add(new JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher());
+        enrichers.add(new ForeignKeySharedSchemaContextBuilderTableMetadataEnricher());
         enrichers.forEach(enricher -> enricher.init(map, serviceRegistryImplementor));
         this.initialized = true;
     }
