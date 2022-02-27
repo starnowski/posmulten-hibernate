@@ -53,10 +53,14 @@ public class TestUtils {
     }
 
     public static String selectAndReturnFirstRecordAsString(Statement statement, final String sql) throws SQLException {
-        StringBuilder sb = new StringBuilder();
-        sb.append(sql);
-        ResultSet rs = statement.executeQuery(sb.toString());
+        ResultSet rs = statement.executeQuery(sql);
         rs.next();
         return rs.getString(1);
+    }
+
+    public static Long selectAndReturnFirstRecordAsLong(Statement statement, final String sql) throws SQLException {
+        ResultSet rs = statement.executeQuery(sql);
+        rs.next();
+        return rs.getLong(1);
     }
 }
