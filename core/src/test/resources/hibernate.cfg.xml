@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/posmulten_hibernate</property>
+        <property name="hibernate.connection.username">posmhib4-user</property>
+        <property name="hibernate.connection.password">posmhib4-user</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.hbm2ddl.auto">none</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.multiTenancy">SCHEMA</property>
+        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider</property>
+        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl</property>
+        <property name="archive.autodetection">class</property>
+
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.UserRole" />
+    </session-factory>
+</hibernate-configuration>
