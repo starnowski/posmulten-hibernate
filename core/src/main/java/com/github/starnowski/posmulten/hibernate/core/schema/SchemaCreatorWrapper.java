@@ -31,15 +31,14 @@ public class SchemaCreatorWrapper implements SchemaCreator {
         SchemaCreatorStrategyContext schemaCreatorStrategyContext = serviceRegistry.getService(SchemaCreatorStrategyContext.class);
         List<IDefaultSharedSchemaContextBuilderMetadataEnricher> metadataEnrichers = metadataEnricherProvider.getEnrichers();
         DefaultSharedSchemaContextBuilder builder = defaultSharedSchemaContextBuilderProvider.get();
-        for (IDefaultSharedSchemaContextBuilderMetadataEnricher enricher: metadataEnrichers) {
+        for (IDefaultSharedSchemaContextBuilderMetadataEnricher enricher : metadataEnrichers) {
             builder = enricher.enrich(builder, metadata);
         }
-        ISharedSchemaContext context = null;
+        ISharedSchemaContext context;
         try {
             context = builder.build();
         } catch (SharedSchemaContextBuilderException e) {
-            //TODO
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         schemaCreatorStrategyContext.doCreation(context, wrappedSchemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor);
     }
