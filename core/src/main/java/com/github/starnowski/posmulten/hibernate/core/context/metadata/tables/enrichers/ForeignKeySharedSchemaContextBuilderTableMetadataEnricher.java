@@ -30,7 +30,7 @@ public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implement
                     enrichBuilder(builder, foreignKey);
                 }
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         return builder;
