@@ -25,7 +25,7 @@ public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implement
         while (fkItr.hasNext()) {
             final ForeignKey foreignKey = (ForeignKey) fkItr.next();
             try {
-                TenantTable tenantTable = (Class.forName(foreignKey.getReferencedEntityName())).getAnnotation(TenantTable.class);
+                TenantTable tenantTable = Class.forName(foreignKey.getReferencedEntityName()).getAnnotation(TenantTable.class);
                 if (foreignKey.getReferencedEntityName() != null && tenantTable != null) {
                     enrichBuilder(builder, foreignKey);
                 }
