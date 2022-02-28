@@ -28,6 +28,8 @@ public class SchemaCreatorStrategyContext implements Service {
             case METADATA:
                 getMetadataStrategy().doCreation(context, schemaCreator, metadata, executionOptions, sourceDescriptor, targetDescriptor);
                 break;
+            default:
+                //TODO
         }
     }
 }
