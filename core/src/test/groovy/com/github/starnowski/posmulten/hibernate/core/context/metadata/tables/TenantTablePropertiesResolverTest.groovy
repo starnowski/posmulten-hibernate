@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables
 
+import com.github.starnowski.posmulten.hibernate.core.TenantTable
 import org.hibernate.mapping.Column
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.PrimaryKey
@@ -29,6 +30,26 @@ class TenantTablePropertiesResolverTest extends Specification {
             table << [null, prepareTable("posts", null), prepareTable("comment", [:]), prepareTable("user", ["id": "numeric"])]
     }
 
+    @Unroll
+    def "should return object with tenant column, class: #clazz, expected column: #expectedTenantColumn" ()
+    {
+        given:
+            def persistentClass = Mock(PersistentClass)
+            persistentClass.getMappedClass() >> clazz
+
+        when:
+            def result = tested.resolve(persistentClass, prepareTable("user", ["id": "numeric"]))
+
+        then:
+            result.getTenantColumnName() == expectedTenantColumn
+
+        where:
+            clazz                                                   ||  expectedTenantColumn
+            TableWithDefaultTenantTableAnnotation                   ||  null
+            TableWithTenantTableAnnotationAndEmptyTenantColumn      ||  null
+            TableWithTenantTableAnnotationAndSpecifiedTenantColumn  ||  "ten_col_id"
+    }
+
     private static Table prepareTable(String name, Map<String, String> primaryColumns)
     {
         def table = Mockito.mock(Table.class)
@@ -48,4 +69,13 @@ class TenantTablePropertiesResolverTest extends Specification {
     }
 
     private static class TableWithoutTenantTableAnnotation {}
+
+    @TenantTable
+    private static class TableWithDefaultTenantTableAnnotation {}
+
+    @TenantTable(tenantIdColumn = "    ")
+    private static class TableWithTenantTableAnnotationAndEmptyTenantColumn {}
+
+    @TenantTable(tenantIdColumn = "ten_col_id")
+    private static class TableWithTenantTableAnnotationAndSpecifiedTenantColumn {}
 }
