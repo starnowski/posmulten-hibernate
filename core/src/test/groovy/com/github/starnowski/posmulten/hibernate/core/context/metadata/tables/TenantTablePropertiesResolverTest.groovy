@@ -52,6 +52,27 @@ class TenantTablePropertiesResolverTest extends Specification {
             TableWithTenantTableAnnotationAndSpecifiedTenantColumn  ||  "ten_col_id"
     }
 
+    @Unroll
+    def "should return object with table: #expectedTable, expected columns for primary keys: #expectedColumns" ()
+    {
+        given:
+            def persistentClass = Mock(PersistentClass)
+            persistentClass.getMappedClass() >> TableWithDefaultTenantTableAnnotation.class
+
+        when:
+            def result = tested.resolve(persistentClass, table)
+
+        then:
+            result.getTable() == expectedTable
+            result.getPrimaryKeysColumnAndTypeMap() == expectedColumns
+
+        where:
+            table                                                                   ||  expectedTable   |  expectedColumns
+            prepareTable("user", ["id": "numeric"])                                 ||  "user"    |   ["id": "numeric"]
+            prepareTable("comments", ["comment_id": "long"])                        ||  "comments"  |   ["comment_id": "long"]
+            prepareTable("posts", ["user_id": "numeric", "post_uuid" : "UUID"])     ||  "posts"   |   ["user_id": "numeric", "post_uuid" : "UUID"]
+    }
+
     private static Table prepareTable(String name, Map<String, String> primaryColumns)
     {
         def table = mock(Table.class)
