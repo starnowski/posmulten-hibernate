@@ -5,9 +5,11 @@ import org.hibernate.mapping.Column
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.PrimaryKey
 import org.hibernate.mapping.Table
-import org.mockito.Mockito
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
 
 class TenantTablePropertiesResolverTest extends Specification {
 
@@ -52,19 +54,20 @@ class TenantTablePropertiesResolverTest extends Specification {
 
     private static Table prepareTable(String name, Map<String, String> primaryColumns)
     {
-        def table = Mockito.mock(Table.class)
-        def primaryKey = Mockito.mock(PrimaryKey.class)
+        def table = mock(Table.class)
+        def primaryKey = mock(PrimaryKey.class)
         List<Column> columns = new ArrayList<>()
         if (primaryColumns != null) {
             primaryColumns.forEach({key, value ->
-                def column = Mockito.mock(Column.class)
-                Mockito.when(column.getName()).thenReturn(key)
-                Mockito.when(column.getSqlType()).thenReturn(value)
+                def column = mock(Column.class)
+                when(column.getName()).thenReturn(key)
+                when(column.getSqlType()).thenReturn(value)
                 columns.add(column)
             })
         }
-        Mockito.when(table.getPrimaryKey()).thenReturn(primaryKey)
-        Mockito.when(primaryKey.getColumnIterator()).thenReturn(columns.iterator())
+        when(table.getPrimaryKey()).thenReturn(primaryKey)
+        when(table.getName()).thenReturn(name)
+        when(primaryKey.getColumnIterator()).thenReturn(columns.iterator())
         return table
     }
 
