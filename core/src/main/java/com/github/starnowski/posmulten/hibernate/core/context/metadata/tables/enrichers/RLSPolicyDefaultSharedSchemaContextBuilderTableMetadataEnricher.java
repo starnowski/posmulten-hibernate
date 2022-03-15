@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers;
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
@@ -18,6 +19,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
     private boolean initialized = false;
 
     private RLSPolicyEnricher rlsPolicyEnricher;
+    private PosmultenUtilContext posmultenUtilContext;
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
@@ -30,7 +32,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
         }
         PersistentClass persistentClass = pClass.get();
         //TODO RLSUtilContext
-        TenantTablePropertiesResolver tenantTablePropertiesResolver = new TenantTablePropertiesResolver();
+        TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
         if (tenantTableProperties != null) {
             String policyName = "rls_policy_" + tenantTableProperties.getTable();
@@ -43,6 +45,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
 
     @Override
     public void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+        this.posmultenUtilContext = serviceRegistryImplementor.getService(PosmultenUtilContext.class);
         this.initialized = true;
     }
 
