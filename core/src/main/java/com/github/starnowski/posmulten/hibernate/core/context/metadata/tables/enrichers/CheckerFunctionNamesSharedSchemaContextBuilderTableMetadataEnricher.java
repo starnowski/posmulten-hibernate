@@ -2,6 +2,7 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
@@ -11,7 +12,6 @@ import org.hibernate.mapping.Table;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.Map;
-import java.util.Optional;
 
 public class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
 
@@ -20,14 +20,11 @@ public class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
-        if (!table.isPhysicalTable()) {
+        PersistentClassResolver persistentClassResolver = this.posmultenUtilContext.getPersistentClassResolver();
+        PersistentClass persistentClass = persistentClassResolver.resolve(metadata, table);
+        if (persistentClass == null) {
             return builder;
         }
-        Optional<PersistentClass> pClass = metadata.getEntityBindings().stream().filter(persistentClass -> table.equals(persistentClass.getTable())).findFirst();
-        if (!pClass.isPresent()) {
-            return builder;
-        }
-        PersistentClass persistentClass = pClass.get();
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
         if (tenantTableProperties != null) {
