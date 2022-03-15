@@ -15,6 +15,7 @@ class PosmultenUtilContextInitiatorTest extends Specification {
         then:
             result != null
             result.getTenantTablePropertiesResolver() != null
+            result.getPersistentClassResolver() != null
     }
 
     def "should return correct class"()

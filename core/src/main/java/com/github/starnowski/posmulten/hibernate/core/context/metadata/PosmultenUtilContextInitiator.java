@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata;
 
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
 import org.hibernate.boot.registry.StandardServiceInitiator;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
@@ -11,6 +12,7 @@ public class PosmultenUtilContextInitiator implements StandardServiceInitiator<P
     public PosmultenUtilContext initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
         PosmultenUtilContext result = new PosmultenUtilContext();
         result.setTenantTablePropertiesResolver(new TenantTablePropertiesResolver());
+        result.setPersistentClassResolver(new PersistentClassResolver());
         return result;
     }
 
