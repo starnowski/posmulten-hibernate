@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class PosmultenUtilContextInitiatorTest extends Specification {
 
-    def "should return default implementation of IDefaultSharedSchemaContextBuilderProvider type"()
+    def "should return default implementation of PosmultenUtilContext type"()
     {
         given:
             def tested = new PosmultenUtilContextInitiator()
@@ -14,6 +14,7 @@ class PosmultenUtilContextInitiatorTest extends Specification {
 
         then:
             result != null
+            result.getTenantTablePropertiesResolver() != null
     }
 
     def "should return correct class"()
