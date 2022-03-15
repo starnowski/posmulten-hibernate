@@ -29,6 +29,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             return builder;
         }
         PersistentClass persistentClass = pClass.get();
+        //TODO RLSUtilContext
         TenantTablePropertiesResolver tenantTablePropertiesResolver = new TenantTablePropertiesResolver();
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
         if (tenantTableProperties != null) {
