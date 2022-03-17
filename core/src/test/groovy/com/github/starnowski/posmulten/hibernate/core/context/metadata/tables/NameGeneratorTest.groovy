@@ -25,6 +25,6 @@ class NameGeneratorTest extends Specification {
 
         where:
         prefix  |   maxLength   |   generatedString ||  expectedString
-        "xxx_"  |   25          |   "some_long_string_longer_then_25_characters"    ||  "some_long_string_longer_"
+        "xxx_"  |   25          |   "some_long_string_longer_then_25_characters"    ||  "some_long_string_longer_t"
     }
 }
