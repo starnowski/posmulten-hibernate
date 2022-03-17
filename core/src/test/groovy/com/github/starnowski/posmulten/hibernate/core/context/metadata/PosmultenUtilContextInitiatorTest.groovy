@@ -44,4 +44,6 @@ class PosmultenUtilContextInitiatorTest extends Specification {
         then:
             result.getNameGenerator().getMaxLength() == MAXIMUM_IDENTIFIER_LENGTH
     }
+
+    //TODO Set with property
 }
