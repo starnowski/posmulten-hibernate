@@ -15,6 +15,7 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
     }
 
     public DefaultSharedSchemaContextBuilder get() {
+        //TODO Move to Properties class
         DefaultSharedSchemaContextBuilder defaultSharedSchemaContextBuilder = configuration.containsKey("hibernate.default_schema") ? new DefaultSharedSchemaContextBuilder((String) configuration.get("hibernate.default_schema")) : new DefaultSharedSchemaContextBuilder(null);
         if (configuration.containsKey("hibernate.posmulten.grantee")) {
             defaultSharedSchemaContextBuilder.setGrantee((String) configuration.get("hibernate.posmulten.grantee"));
