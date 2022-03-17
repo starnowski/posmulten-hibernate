@@ -31,6 +31,7 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
         if (configuration.containsKey("hibernate.posmulten.tenant.valid.values")) {
             defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get("hibernate.posmulten.tenant.valid.values")).split(",")), null, null);
         }
+        //TODO Set maximum length -
         return defaultSharedSchemaContextBuilder;
     }
 }

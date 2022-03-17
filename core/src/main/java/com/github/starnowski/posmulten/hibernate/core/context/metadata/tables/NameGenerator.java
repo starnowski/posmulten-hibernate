@@ -17,4 +17,8 @@ public class NameGenerator {
         String generatedName = generateName(prefix, table, emptyList());
         return generatedName.length() > maxLength ? generatedName.substring(0, maxLength) : generatedName;
     }
+
+    public int getMaxLength() {
+        return maxLength;
+    }
 }
