@@ -32,6 +32,12 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
             //TODO Logs
             System.out.println("RLS Table:" + table.getName() + " columns : " + tenantTableProperties.getPrimaryKeysColumnAndTypeMap());
+            table.getColumnIterator().forEachRemaining(column -> {
+                System.out.println("RLS Table:" + table.getName() + " columns : " + column.getName() + " type: " + column.getSqlType());
+            });
+            table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
+                System.out.println("RLS Table:" + table.getName() + " Primary key columns : " + column.getName() + " type: " + column.getSqlType());
+            });
             builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
             builder.createTenantColumnForTable(tenantTableProperties.getTable());
         }
