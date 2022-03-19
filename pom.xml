@@ -10,6 +10,7 @@
     <modules>
         <module>core</module>
         <module>test-utils</module>
+        <module>core-functional-tests</module>
     </modules>
     <packaging>pom</packaging>
 
