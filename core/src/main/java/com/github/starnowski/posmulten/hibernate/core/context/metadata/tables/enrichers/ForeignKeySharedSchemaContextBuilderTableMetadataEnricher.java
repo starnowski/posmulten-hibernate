@@ -48,8 +48,7 @@ public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implement
             foreignKeyToPrimaryKeyMap.put(columns.get(i).getName(), referenceColumns.get(i).getName());
         }
         //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-        //TODO Columns
-        builder.createSameTenantConstraintForForeignKey(foreignKey.getTable().getName(), foreignKey.getReferencedTable().getName(), foreignKeyToPrimaryKeyMap, nameGenerator.generate("rls_fk_con_", foreignKey.getTable()));
+        builder.createSameTenantConstraintForForeignKey(foreignKey.getTable().getName(), foreignKey.getReferencedTable().getName(), foreignKeyToPrimaryKeyMap, nameGenerator.generate("rls_fk_con_", foreignKey.getTable(), columns));
     }
 
     @Override
