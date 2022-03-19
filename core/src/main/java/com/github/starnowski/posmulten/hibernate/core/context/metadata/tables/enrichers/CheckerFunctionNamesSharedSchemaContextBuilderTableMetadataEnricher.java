@@ -2,6 +2,7 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
@@ -28,8 +29,9 @@ public class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
         if (tenantTableProperties != null) {
-            String functionName = "is_rls_record_exists_in_" + tenantTableProperties.getTable();
-            builder.setNameForFunctionThatChecksIfRecordExistsInTable(tenantTableProperties.getTable(), functionName);
+            NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
+            //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
+            builder.setNameForFunctionThatChecksIfRecordExistsInTable(tenantTableProperties.getTable(), nameGenerator.generate("is_rls_record_exists_in_", table));
         }
         return builder;
     }

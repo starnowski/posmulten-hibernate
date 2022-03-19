@@ -2,10 +2,7 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyEnricher;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.*;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
@@ -31,9 +28,9 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
         if (tenantTableProperties != null) {
-            String policyName = "rls_policy_" + tenantTableProperties.getTable();
+            NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-            builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), policyName);
+            builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
             builder.createTenantColumnForTable(tenantTableProperties.getTable());
         }
         return builder;
