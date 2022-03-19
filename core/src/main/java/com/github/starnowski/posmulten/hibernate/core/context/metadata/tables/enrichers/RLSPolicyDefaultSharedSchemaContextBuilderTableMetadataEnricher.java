@@ -26,19 +26,19 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             return builder;
         }
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
+        //TODO Logs
+        table.getColumnIterator().forEachRemaining(column -> {
+            System.out.println("RLS Table:" + table.getName() + " columns : " + column.getName() + " type: " + column.getSqlType());
+        });
+        table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
+            System.out.println("RLS Table:" + table.getName() + " Primary key columns : " + column.getName() + " type: " + column.getSqlType());
+            System.out.println("RLS Table:" + table.getName() + " Primary key Dialect columns : " + column.getName() + " type: " + column.getSqlType(metadata.getDatabase().getDialect(), metadata));
+        });
+        //TODO Logs end
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
         if (tenantTableProperties != null) {
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-            //TODO Logs
-            System.out.println("RLS Table:" + table.getName() + " columns : " + tenantTableProperties.getPrimaryKeysColumnAndTypeMap());
-            table.getColumnIterator().forEachRemaining(column -> {
-                System.out.println("RLS Table:" + table.getName() + " columns : " + column.getName() + " type: " + column.getSqlType());
-            });
-            table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
-                System.out.println("RLS Table:" + table.getName() + " Primary key columns : " + column.getName() + " type: " + column.getSqlType());
-                System.out.println("RLS Table:" + table.getName() + " Primary key Dialect columns : " + column.getName() + " type: " + column.getSqlType(metadata.getDatabase().getDialect(), metadata));
-            });
             builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
             builder.createTenantColumnForTable(tenantTableProperties.getTable());
         }
