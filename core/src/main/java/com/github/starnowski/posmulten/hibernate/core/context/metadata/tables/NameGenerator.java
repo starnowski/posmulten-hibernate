@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static org.hibernate.mapping.Constraint.generateName;
@@ -21,8 +20,7 @@ public class NameGenerator {
     }
 
     public String generate(String prefix, Table table) {
-        String generatedName = generateName(prefix, table, emptyList());
-        return generatedName.length() > maxLength ? generatedName.substring(0, maxLength) : generatedName;
+        return generate(prefix, table, null);
     }
 
     public String generate(String prefix, Table table, List<Column> columns) {
