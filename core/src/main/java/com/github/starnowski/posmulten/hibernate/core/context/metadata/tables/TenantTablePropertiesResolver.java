@@ -15,8 +15,10 @@ public class TenantTablePropertiesResolver {
         TenantTableProperties result = new TenantTableProperties();
         result.setTable(table.getName());
         result.setTenantColumnName(tenantTable.tenantIdColumn() == null || tenantTable.tenantIdColumn().trim().isEmpty() ? null : tenantTable.tenantIdColumn());
-        table.getPrimaryKey().getColumnIterator().forEachRemaining(column ->
-                result.getPrimaryKeysColumnAndTypeMap().put(column.getName(), column.getSqlType())
+        table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
+                    String sqlType = column.getSqlType();
+                    result.getPrimaryKeysColumnAndTypeMap().put(column.getName(), sqlType == null ? column.getSqlType(metadata.getDatabase().getDialect(), metadata) : sqlType);
+                }
         );
         return result;
     }

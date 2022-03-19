@@ -26,15 +26,6 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             return builder;
         }
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
-        //TODO Logs
-        table.getColumnIterator().forEachRemaining(column -> {
-            System.out.println("RLS Table:" + table.getName() + " columns : " + column.getName() + " type: " + column.getSqlType());
-        });
-        table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
-            System.out.println("RLS Table:" + table.getName() + " Primary key columns : " + column.getName() + " type: " + column.getSqlType());
-            System.out.println("RLS Table:" + table.getName() + " Primary key Dialect columns : " + column.getName() + " type: " + column.getSqlType(metadata.getDatabase().getDialect(), metadata));
-        });
-        //TODO Logs end
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table, metadata);
         if (tenantTableProperties != null) {
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();

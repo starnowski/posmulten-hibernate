@@ -1,6 +1,9 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables
 
 import com.github.starnowski.posmulten.hibernate.core.TenantTable
+import org.hibernate.boot.Metadata
+import org.hibernate.boot.model.relational.Database
+import org.hibernate.dialect.Dialect
 import org.hibernate.mapping.Column
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.PrimaryKey
@@ -73,6 +76,41 @@ class TenantTablePropertiesResolverTest extends Specification {
             prepareTable("posts", ["user_id": "numeric", "post_uuid" : "UUID"])     ||  "posts"   |   ["user_id": "numeric", "post_uuid" : "UUID"]
     }
 
+    @Unroll
+    def "should return object with table: #expectedTable and set correct column types based on metadata #sqlTypesBasedOnMetadata expected columns for primary keys: #expectedColumns" ()
+    {
+        given:
+            def persistentClass = Mock(PersistentClass)
+            persistentClass.getMappedClass() >> TableWithDefaultTenantTableAnnotation.class
+            Metadata metadata = Mock(Metadata)
+            Database database = Mock(Database)
+            Dialect dialect = Mock(Dialect)
+            metadata.getDatabase() >> database
+            database.getDialect() >> dialect
+            sqlTypesBasedOnMetadata.entrySet().forEach({it.getKey()
+                def iterator = table.getPrimaryKey().getColumnIterator()
+                while (iterator.hasNext()) {
+                    def column = iterator.next()
+                    if (it.getKey() == column.getName()) {
+                        when(column.getSqlType(dialect, metadata)).thenReturn(it.getValue())
+                    }
+                }
+            })
+
+        when:
+            def result = tested.resolve(persistentClass, table, metadata)
+
+        then:
+            result.getTable() == expectedTable
+            result.getPrimaryKeysColumnAndTypeMap() == expectedColumns
+
+        where:
+            table                                                               |  sqlTypesBasedOnMetadata      ||  expectedTable   |  expectedColumns
+            prepareTable("user", ["id": null])                                  | ["id": "int7"]                ||  "user"    |   ["id": "int7"]
+            prepareTable("comments", ["comment_id": null])                      | ["comment_id": "bigint"]      ||  "comments"  |   ["comment_id": "bigint"]
+            prepareTable("posts", ["user_id": null, "post_uuid" : "UUID"])      | ["user_id": "int2"]           ||  "posts"   |   ["user_id": "int2", "post_uuid" : "UUID"]
+    }
+
     private static Table prepareTable(String name, Map<String, String> primaryColumns)
     {
         def table = mock(Table.class)
@@ -88,7 +126,7 @@ class TenantTablePropertiesResolverTest extends Specification {
         }
         when(table.getPrimaryKey()).thenReturn(primaryKey)
         when(table.getName()).thenReturn(name)
-        when(primaryKey.getColumnIterator()).thenReturn(columns.iterator())
+        when(primaryKey.getColumnIterator()).thenAnswer({columns.iterator()} )
         return table
     }
 
