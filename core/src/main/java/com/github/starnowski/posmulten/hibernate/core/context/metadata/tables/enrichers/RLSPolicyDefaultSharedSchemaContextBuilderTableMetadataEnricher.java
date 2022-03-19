@@ -30,6 +30,8 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
         if (tenantTableProperties != null) {
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
+            //TODO Logs
+            System.out.println("RLS Table:" + table.getName() + " columns : " + tenantTableProperties.getPrimaryKeysColumnAndTypeMap());
             builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
             builder.createTenantColumnForTable(tenantTableProperties.getTable());
         }
