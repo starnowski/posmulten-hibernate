@@ -9,6 +9,7 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 import java.util.Map;
 
 import static com.github.starnowski.posmulten.hibernate.core.Properties.MAXIMUM_IDENTIFIER_LENGTH;
+import static com.github.starnowski.posmulten.hibernate.core.Properties.POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH;
 
 public class PosmultenUtilContextInitiator implements StandardServiceInitiator<PosmultenUtilContext> {
     @Override
@@ -16,7 +17,7 @@ public class PosmultenUtilContextInitiator implements StandardServiceInitiator<P
         PosmultenUtilContext result = new PosmultenUtilContext();
         result.setTenantTablePropertiesResolver(new TenantTablePropertiesResolver());
         result.setPersistentClassResolver(new PersistentClassResolver());
-        result.setNameGenerator(new NameGenerator(MAXIMUM_IDENTIFIER_LENGTH));
+        result.setNameGenerator(new NameGenerator(map.containsKey(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH) ? Integer.parseInt((String) map.get(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH)) : MAXIMUM_IDENTIFIER_LENGTH));
         return result;
     }
 

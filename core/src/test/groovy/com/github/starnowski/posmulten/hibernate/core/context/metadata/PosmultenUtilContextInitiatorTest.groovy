@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static com.github.starnowski.posmulten.hibernate.core.Properties.MAXIMUM_IDENTIFIER_LENGTH
 
@@ -33,7 +34,7 @@ class PosmultenUtilContextInitiatorTest extends Specification {
             result == PosmultenUtilContext.class
     }
 
-    def "should return by default context with NameGenerator with default maxim length"()
+    def "should return by default context with NameGenerator with default maximum length"()
     {
         given:
             def tested = new PosmultenUtilContextInitiator()
@@ -45,5 +46,21 @@ class PosmultenUtilContextInitiatorTest extends Specification {
             result.getNameGenerator().getMaxLength() == MAXIMUM_IDENTIFIER_LENGTH
     }
 
-    //TODO Set with property
+    @Unroll
+    def "should return context with NameGenerator with maximum length value specified by property hibernate.posmulten.maximum.identifier.length"()
+    {
+        given:
+            def tested = new PosmultenUtilContextInitiator()
+            def map = new HashMap()
+            map.put("hibernate.posmulten.maximum.identifier.length", maximumLength)
+
+        when:
+            def result = tested.initiateService(map, null)
+
+        then:
+            result.getNameGenerator().getMaxLength() == Integer.parseInt(maximumLength)
+
+        where:
+            maximumLength << ["3", "133", "17"]
+    }
 }
