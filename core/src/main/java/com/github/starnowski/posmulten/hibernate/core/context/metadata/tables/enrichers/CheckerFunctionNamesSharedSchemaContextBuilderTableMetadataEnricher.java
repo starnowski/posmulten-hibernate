@@ -27,7 +27,7 @@ public class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher
             return builder;
         }
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
-        TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
+        TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table, metadata);
         if (tenantTableProperties != null) {
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239

@@ -23,7 +23,7 @@ class TenantTablePropertiesResolverTest extends Specification {
             persistentClass.getMappedClass() >> TableWithoutTenantTableAnnotation.class
 
         when:
-            def result = tested.resolve(persistentClass, table)
+            def result = tested.resolve(persistentClass, table, null)
 
         then:
             result == null
@@ -40,7 +40,7 @@ class TenantTablePropertiesResolverTest extends Specification {
             persistentClass.getMappedClass() >> clazz
 
         when:
-            def result = tested.resolve(persistentClass, prepareTable("user", ["id": "numeric"]))
+            def result = tested.resolve(persistentClass, prepareTable("user", ["id": "numeric"]),null)
 
         then:
             result.getTenantColumnName() == expectedTenantColumn
@@ -60,7 +60,7 @@ class TenantTablePropertiesResolverTest extends Specification {
             persistentClass.getMappedClass() >> TableWithDefaultTenantTableAnnotation.class
 
         when:
-            def result = tested.resolve(persistentClass, table)
+            def result = tested.resolve(persistentClass, table, null)
 
         then:
             result.getTable() == expectedTable
