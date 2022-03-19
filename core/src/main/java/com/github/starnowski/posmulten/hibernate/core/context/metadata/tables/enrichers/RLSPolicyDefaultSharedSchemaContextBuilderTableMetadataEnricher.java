@@ -37,6 +37,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             });
             table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
                 System.out.println("RLS Table:" + table.getName() + " Primary key columns : " + column.getName() + " type: " + column.getSqlType());
+                System.out.println("RLS Table:" + table.getName() + " Primary key Dialect columns : " + column.getName() + " type: " + column.getSqlType(metadata.getDatabase().getDialect(), metadata));
             });
             builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
             builder.createTenantColumnForTable(tenantTableProperties.getTable());
