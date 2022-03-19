@@ -4,6 +4,7 @@ import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSche
 
 import java.util.Map;
 
+import static com.github.starnowski.posmulten.hibernate.core.Properties.*;
 import static java.util.Arrays.asList;
 
 public class DefaultSharedSchemaContextBuilderProvider implements IDefaultSharedSchemaContextBuilderProvider {
@@ -15,21 +16,20 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
     }
 
     public DefaultSharedSchemaContextBuilder get() {
-        //TODO Move to Properties class
         DefaultSharedSchemaContextBuilder defaultSharedSchemaContextBuilder = configuration.containsKey("hibernate.default_schema") ? new DefaultSharedSchemaContextBuilder((String) configuration.get("hibernate.default_schema")) : new DefaultSharedSchemaContextBuilder(null);
-        if (configuration.containsKey("hibernate.posmulten.grantee")) {
-            defaultSharedSchemaContextBuilder.setGrantee((String) configuration.get("hibernate.posmulten.grantee"));
+        if (configuration.containsKey(GRANTEE)) {
+            defaultSharedSchemaContextBuilder.setGrantee((String) configuration.get(GRANTEE));
         }
-        if (configuration.containsKey("hibernate.posmulten.tenant.id.property")) {
-            defaultSharedSchemaContextBuilder.setCurrentTenantIdProperty((String) configuration.get("hibernate.posmulten.tenant.id.property"));
+        if (configuration.containsKey(ID_PROPERTY)) {
+            defaultSharedSchemaContextBuilder.setCurrentTenantIdProperty((String) configuration.get(ID_PROPERTY));
         }
-        if (configuration.containsKey("hibernate.posmulten.tenant.id.set.current.as.default")) {
-            defaultSharedSchemaContextBuilder.setCurrentTenantIdentifierAsDefaultValueForTenantColumnInAllTables((Boolean) configuration.get("hibernate.posmulten.tenant.id.set.current.as.default"));
+        if (configuration.containsKey(TENANT_ID_SET_CURRENT_AS_DEFAULT_FLAG)) {
+            defaultSharedSchemaContextBuilder.setCurrentTenantIdentifierAsDefaultValueForTenantColumnInAllTables((Boolean) configuration.get(TENANT_ID_SET_CURRENT_AS_DEFAULT_FLAG));
         } else {
             defaultSharedSchemaContextBuilder.setCurrentTenantIdentifierAsDefaultValueForTenantColumnInAllTables(true);
         }
-        if (configuration.containsKey("hibernate.posmulten.tenant.valid.values")) {
-            defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get("hibernate.posmulten.tenant.valid.values")).split(",")), null, null);
+        if (configuration.containsKey(TENANT_ID_VALID_VALUES)) {
+            defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get(TENANT_ID_VALID_VALUES)).split(",")), null, null);
         }
         //TODO Set maximum length -
         return defaultSharedSchemaContextBuilder;
