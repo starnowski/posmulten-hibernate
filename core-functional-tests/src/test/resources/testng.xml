@@ -10,4 +10,9 @@
             <class name="com.github.starnowski.posmulten.hibernate.integration.RLSPolicyCheckItTest" />
         </classes>
     </test>
+    <test name="should create default function">
+        <classes>
+            <class name="com.github.starnowski.posmulten.hibernate.integration.FunctionsItTest" />
+        </classes>
+    </test>
 </suite>
