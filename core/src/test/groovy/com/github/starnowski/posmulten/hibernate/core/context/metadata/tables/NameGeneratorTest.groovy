@@ -7,8 +7,6 @@ import org.mockito.MockedStatic
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.util.stream.Collectors
-
 import static java.util.Collections.emptyList
 import static java.util.stream.Collectors.toList
 
@@ -39,6 +37,7 @@ class NameGeneratorTest extends Specification {
             "xxx_"              |   25          |   "some_long_string_longer_then_25_characters"            ||  "some_long_string_longer_t"
             "rls_policy"        |   15          |   "generated_string_by_static_method"                     ||  "generated_strin"
             "posmulte_pref"     |   70          |   "normal_string_that_does_not_reach_max_length_limit"    ||  "normal_string_that_does_not_reach_max_length_limit"
+            "some_prefix"       |   37          |   "normal_string_with_exact_limit_length"                 ||  "normal_string_with_exact_limit_length"
     }
 
     @Unroll
