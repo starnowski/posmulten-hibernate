@@ -38,6 +38,8 @@ class NameGeneratorTest extends Specification {
             "rls_policy"        |   15          |   "generated_string_by_static_method"                     ||  "generated_strin"
             "posmulte_pref"     |   70          |   "normal_string_that_does_not_reach_max_length_limit"    ||  "normal_string_that_does_not_reach_max_length_limit"
             "some_prefix"       |   37          |   "normal_string_with_exact_limit_length"                 ||  "normal_string_with_exact_limit_length"
+            "pref"              |   8           |   "1234567890"                                            ||  "12345678"
+            "pref"              |   8           |   "123456"                                                ||  "123456"
     }
 
     @Unroll
