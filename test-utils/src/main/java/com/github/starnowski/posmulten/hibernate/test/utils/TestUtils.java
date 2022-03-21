@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static java.lang.String.format;
+
 public class TestUtils {
 
     public static boolean isFunctionExists(Statement statement, String functionName, String schema) throws SQLException {
@@ -50,6 +52,14 @@ public class TestUtils {
         sb.append(column);
         sb.append("'");
         return sb.toString();
+    }
+
+    public static boolean isConstraintExists(Statement statement, String schema, String table, String constraintName) throws SQLException {
+        String template = "SELECT 1\n" +
+                "\t\tFROM information_schema.table_constraints\n" +
+                "\t\tWHERE table_schema = '%s' AND table_name = '%s' AND constraint_name = '%s'";
+        String selectStatement = format(template, schema == null ? "public" : schema, table, constraintName);
+        return isAnyRecordExists(statement, selectStatement);
     }
 
     public static String selectAndReturnFirstRecordAsString(Statement statement, final String sql) throws SQLException {
