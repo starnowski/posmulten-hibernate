@@ -2,6 +2,7 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
@@ -13,7 +14,6 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
 
@@ -22,10 +22,11 @@ public class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher im
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
-        Optional<Collection> pCollection = metadata.getCollectionBindings().stream().filter(collection -> table.equals(collection.getCollectionTable())).findFirst();
         PersistentClassResolver persistentClassResolver = this.posmultenUtilContext.getPersistentClassResolver();
+        CollectionResolver collectionResolver = this.posmultenUtilContext.getCollectionResolver();
         PersistentClass persistentClass = persistentClassResolver.resolve(metadata, table);
-        if (!pCollection.isPresent() || persistentClass != null) {
+        Collection pCollection = collectionResolver.resolve(metadata, table);
+        if (pCollection == null || persistentClass != null) {
             return builder;
         }
         NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();

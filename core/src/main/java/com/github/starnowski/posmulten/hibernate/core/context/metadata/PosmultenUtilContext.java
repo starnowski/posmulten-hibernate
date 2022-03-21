@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata;
 
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
@@ -13,6 +14,15 @@ public class PosmultenUtilContext implements Service {
     private TenantTablePropertiesResolver tenantTablePropertiesResolver;
     private PersistentClassResolver persistentClassResolver;
     private NameGenerator nameGenerator;
+    private CollectionResolver collectionResolver;
+
+    public CollectionResolver getCollectionResolver() {
+        return collectionResolver;
+    }
+
+    public void setCollectionResolver(CollectionResolver collectionResolver) {
+        this.collectionResolver = collectionResolver;
+    }
 
     public NameGenerator getNameGenerator() {
         return nameGenerator;
