@@ -15,4 +15,9 @@
             <class name="com.github.starnowski.posmulten.hibernate.integration.FunctionsItTest" />
         </classes>
     </test>
+    <test name="should create constraint">
+        <classes>
+            <class name="com.github.starnowski.posmulten.hibernate.integration.ConstraintItTest" />
+        </classes>
+    </test>
 </suite>
