@@ -28,8 +28,9 @@ public class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher im
         if (!pCollection.isPresent() || persistentClass != null) {
             return builder;
         }
-        builder.createTenantColumnForTable(table.getName());
         NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
+        //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
+        builder.createTenantColumnForTable(table.getName());
         //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
         builder.createRLSPolicyForTable(table.getName(), new HashMap<>(), null, nameGenerator.generate("rls_policy_", table));
         return builder;
