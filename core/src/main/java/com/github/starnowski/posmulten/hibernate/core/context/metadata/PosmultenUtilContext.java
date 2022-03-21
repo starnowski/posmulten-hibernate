@@ -1,9 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata;
 
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.*;
 import org.hibernate.service.Service;
 
 /**
@@ -15,6 +12,15 @@ public class PosmultenUtilContext implements Service {
     private PersistentClassResolver persistentClassResolver;
     private NameGenerator nameGenerator;
     private CollectionResolver collectionResolver;
+    private ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper;
+
+    public ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper getForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper() {
+        return foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper;
+    }
+
+    public void setForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper(ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper) {
+        this.foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper = foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper;
+    }
 
     public CollectionResolver getCollectionResolver() {
         return collectionResolver;
