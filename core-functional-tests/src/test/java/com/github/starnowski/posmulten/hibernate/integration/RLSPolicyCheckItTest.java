@@ -11,13 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RLSPolicyCheckItTest extends AbstractBaseItTest {
 
     @DataProvider(name = "tenantTables")
-    protected static Object[][] defaultTenantColumn() {
+    protected static Object[][] tenantTables() {
         return new Object[][]{
                 {"posts"},
                 {"user_info"},
                 {"comments"},
                 {"categories"},
-                {"user_role"}
+                {"user_role"},
+                {"posts_categories"}
         };
     }
 
