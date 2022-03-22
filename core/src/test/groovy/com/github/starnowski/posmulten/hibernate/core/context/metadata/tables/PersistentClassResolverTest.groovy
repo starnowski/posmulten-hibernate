@@ -4,6 +4,7 @@ import org.hibernate.boot.Metadata
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.Table
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class PersistentClassResolverTest extends Specification {
 
@@ -24,6 +25,26 @@ class PersistentClassResolverTest extends Specification {
 
         then:
             result.is(expectedCollection)
+    }
+
+    @Unroll
+    def "should resolve null collection for table when none of collections contains table. table is physical: #isPhysicalTable"(){
+        given:
+            def metadata = Mock(Metadata)
+            def table = prepareTable("tabExpected")
+            table.equals(table) >> true
+            table.isPhysicalTable() >> isPhysicalTable
+            Collection<PersistentClass> bindings = [mapPersistentClassForTable(prepareTable("tab1")), mapPersistentClassForTable(prepareTable("tab2")), mapPersistentClassForTable(prepareTable("tab3"))]
+            metadata.getEntityBindings() >> bindings
+
+        when:
+            def result = tested.resolve(metadata, table)
+
+        then:
+            result == null
+
+        where:
+            isPhysicalTable << [true, false]
     }
 
     private Table prepareTable(String tableName)
