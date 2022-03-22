@@ -12,7 +12,6 @@ import static java.util.stream.Collectors.toList
 
 class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelperTest extends Specification {
 
-    //TODO
     @Unroll
     def "should enrich builder with foreign key for table #tableName and columns #expectedColumnsReference, reference table #referenceTableName, expected constraint name #cn, table columns #tableColumns, reference table columns #referenceTableColumns"() {
         given:
@@ -40,8 +39,9 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelperTest extend
             1 * builder.createSameTenantConstraintForForeignKey(tableName, referenceTableName, expectedColumnsReference, cn)
 
         where:
-            tableName   |   referenceTableName  |   cn  |   tableColumns    |   referenceTableColumns   ||  expectedColumnsReference
-            "posts" |   "users"         |   "some_con"  |   ["user_id"]   |   ["id"]    ||  [user_id: "id"]
+            tableName       |   referenceTableName      |   cn                  |   tableColumns                    |   referenceTableColumns   ||  expectedColumnsReference
+            "posts"         |   "users"                 |   "some_con"          |   ["user_id"]                     |   ["id"]                  ||  [user_id: "id"]
+            "comments"      |   "posts"                 |   "comm_fk_axczv"     |   ["post_id", "post_user_id"]     |   ["id", "user_id"]       ||  [post_id: "id", post_user_id: "user_id"]
     }
 
     private List<Column> mapColumns(List<String> columnsNames){
