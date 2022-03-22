@@ -2,7 +2,10 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.*;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
@@ -14,8 +17,6 @@ import java.util.Map;
 public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
 
     private boolean initialized = false;
-
-    private RLSPolicyEnricher rlsPolicyEnricher;
     private PosmultenUtilContext posmultenUtilContext;
 
     @Override
@@ -45,13 +46,5 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
     @Override
     public boolean isInitialized() {
         return initialized;
-    }
-
-    RLSPolicyEnricher getRlsPolicyEnricher() {
-        return rlsPolicyEnricher;
-    }
-
-    void setRlsPolicyEnricher(RLSPolicyEnricher rlsPolicyEnricher) {
-        this.rlsPolicyEnricher = rlsPolicyEnricher;
     }
 }
