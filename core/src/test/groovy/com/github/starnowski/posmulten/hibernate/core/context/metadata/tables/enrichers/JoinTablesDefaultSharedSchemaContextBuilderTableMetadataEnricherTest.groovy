@@ -103,6 +103,7 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
             def result = tested.enrich(builder, metadata, table)
 
         then:
+            1 * builder.createTenantColumnForTable(tableName)
             1 * builder.createRLSPolicyForTable(tableName, new HashMap<>(), null, rlsPolicyName)
 
         and: "returned the same object of builder"
