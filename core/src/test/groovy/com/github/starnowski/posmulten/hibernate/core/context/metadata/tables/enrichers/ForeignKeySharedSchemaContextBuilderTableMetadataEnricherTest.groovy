@@ -9,11 +9,10 @@ import org.hibernate.boot.Metadata
 import org.hibernate.mapping.ForeignKey
 import org.hibernate.mapping.Table
 import org.hibernate.service.spi.ServiceRegistryImplementor
-import spock.lang.Specification
 
-class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Specification {
+class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends AbstractDefaultSharedSchemaContextBuilderTableMetadataEnricherTest<ForeignKeySharedSchemaContextBuilderTableMetadataEnricher> {
 
-    def tested = new ForeignKeySharedSchemaContextBuilderTableMetadataEnricher()
+    def ForeignKeySharedSchemaContextBuilderTableMetadataEnricher tested = new ForeignKeySharedSchemaContextBuilderTableMetadataEnricher()
 
     def "should enrich builder for foreign keys that has reference to tenant table"()
     {
@@ -55,6 +54,16 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Spec
         def foreignKey = Mock(ForeignKey)
         foreignKey.getReferencedEntityName() >> clazz
         return foreignKey
+    }
+
+    @Override
+    def Map getMap() {
+        return null
+    }
+
+    @Override
+    def ServiceRegistryImplementor getServiceRegistryImplementor() {
+        return Mock(ServiceRegistryImplementor)
     }
 
     private static class TableWithoutTenantTableAnnotation {}
