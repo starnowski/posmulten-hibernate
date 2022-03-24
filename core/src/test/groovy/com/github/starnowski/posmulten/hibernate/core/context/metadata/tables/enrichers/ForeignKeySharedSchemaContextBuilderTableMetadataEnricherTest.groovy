@@ -39,12 +39,15 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Spec
             tested.init(null, serviceRegistryImplementor)
 
         when:
-            tested.enrich(builder, metadata, table)
+            def result = tested.enrich(builder, metadata, table)
 
         then:
             1 * helper.enrichBuilder(builder, foreignKeyWithTenantTable1, nameGenerator)
             1 * helper.enrichBuilder(builder, foreignKeyWithTenantTable2, nameGenerator)
             0 * helper._
+
+        and: "returned the same object of builder"
+            result.is(builder)
     }
 
     private prepareForeignKey(String clazz)
