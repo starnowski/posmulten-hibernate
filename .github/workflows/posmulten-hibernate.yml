@@ -58,4 +58,4 @@ jobs:
         run: export PGPASSWORD=postgres && psql -f 'test-utils/src/main/resources/create-database.sql' -U postgres -h 127.0.0.1
 
       - name: Run tests
-        run: ./mvnw -DskipTests --quiet clean install && ./mvnw -pl :core -P !unit-tests,integration-tests test
+        run: ./mvnw -DskipTests --quiet clean install && ./mvnw -pl :core-functional-tests -P !unit-tests,integration-tests test

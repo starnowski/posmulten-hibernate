@@ -3,6 +3,7 @@ package com.github.starnowski.posmulten.hibernate.integration;
 import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
 import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
 import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContextInitiator;
 import com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContextInitiator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,7 +13,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 
 public class AbstractBaseItTest {
 
@@ -37,6 +37,7 @@ public class AbstractBaseItTest {
                 .addInitiator(new SchemaCreatorStrategyContextInitiator())
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
+                .addInitiator(new PosmultenUtilContextInitiator())
                 .configure("hibernate.schema-creator.cfg.xml")
                 .build();
 

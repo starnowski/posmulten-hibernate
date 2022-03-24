@@ -30,9 +30,10 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherTest extends Specificatio
     {
         given:
             def tested = new DefaultSharedSchemaContextBuilderMetadataEnricher()
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
 
         when:
-            tested.initiateService(new HashMap(), null)
+            tested.initiateService(new HashMap(), serviceRegistryImplementor)
 
         then:
             tested != null
@@ -43,7 +44,8 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherTest extends Specificatio
     {
         given:
             def tested = new DefaultSharedSchemaContextBuilderMetadataEnricher()
-            tested.initiateService(new HashMap(), null)
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
+            tested.initiateService(new HashMap(), serviceRegistryImplementor)
 
         when:
             def results = tested.getEnrichers()

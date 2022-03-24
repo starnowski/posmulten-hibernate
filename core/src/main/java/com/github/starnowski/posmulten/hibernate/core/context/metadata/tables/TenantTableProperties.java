@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TenantTableProperties {
     private String table;
-    private Map<String, String> primaryKeysColumnAndTypeMap = new HashMap<>();
+    private Map<String, String> primaryKeysColumnAndTypeMap;
     private String tenantColumnName;
 
     public String getTable() {
@@ -17,11 +17,11 @@ public class TenantTableProperties {
     }
 
     public Map<String, String> getPrimaryKeysColumnAndTypeMap() {
-        return primaryKeysColumnAndTypeMap;
+        return new HashMap<>(primaryKeysColumnAndTypeMap);
     }
 
     public void setPrimaryKeysColumnAndTypeMap(Map<String, String> primaryKeysColumnAndTypeMap) {
-        this.primaryKeysColumnAndTypeMap = primaryKeysColumnAndTypeMap;
+        this.primaryKeysColumnAndTypeMap = new HashMap<>(primaryKeysColumnAndTypeMap);
     }
 
     public String getTenantColumnName() {

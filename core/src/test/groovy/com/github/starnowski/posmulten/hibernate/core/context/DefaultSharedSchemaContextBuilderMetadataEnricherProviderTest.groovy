@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context
 
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.enrichers.DefaultSharedSchemaContextBuilderMetadataEnricher
+import org.hibernate.service.spi.ServiceRegistryImplementor
 import spock.lang.Specification
 
 import java.util.stream.Collectors
@@ -20,9 +21,10 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderTest extends Spec
     {
         given:
             def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProvider()
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
 
         when:
-            tested.initiateService(new HashMap(), null)
+            tested.initiateService(new HashMap(), serviceRegistryImplementor)
 
         then:
             tested != null
@@ -33,7 +35,8 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderTest extends Spec
     {
         given:
             def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProvider()
-            tested.initiateService(new HashMap(), null)
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
+            tested.initiateService(new HashMap(), serviceRegistryImplementor)
 
         when:
             def results = tested.getEnrichers()

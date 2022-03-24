@@ -55,4 +55,24 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
             mapBuilder().put("hibernate.posmulten.tenant.valid.values", "invalid,xxx").build()        ||  true    |   ["invalid", "xxx"]
             mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", false).put("hibernate.posmulten.tenant.valid.values", "invalid,xxx").build()        ||  false    |   ["invalid", "xxx"]
     }
+
+    @Unroll
+    def "should provide correct DefaultSharedSchemaContextBuilder based on configuration map #map, expected maximum identifier length #maxLength"()
+    {
+        given:
+            def tested = new DefaultSharedSchemaContextBuilderProvider(map)
+
+        when:
+            def result = tested.get()
+
+        then:
+            def request = result.getSharedSchemaContextRequestCopy()
+            request.identifierMaxLength == maxLength
+
+        where:
+            map                                                                                         ||  maxLength
+            new HashMap<>()                                                                             ||  com.github.starnowski.posmulten.hibernate.core.Properties.MAXIMUM_IDENTIFIER_LENGTH
+            mapBuilder().put("hibernate.posmulten.maximum.identifier.length", "13").build()             ||  13
+            mapBuilder().put("hibernate.posmulten.maximum.identifier.length", "176").build()            ||  176
+    }
 }

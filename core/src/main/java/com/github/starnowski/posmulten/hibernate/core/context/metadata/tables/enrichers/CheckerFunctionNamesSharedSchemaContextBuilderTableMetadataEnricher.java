@@ -1,6 +1,9 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers;
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
@@ -10,33 +13,32 @@ import org.hibernate.mapping.Table;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.Map;
-import java.util.Optional;
 
 public class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
 
     private boolean initialized = false;
+    private PosmultenUtilContext posmultenUtilContext;
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
-        if (!table.isPhysicalTable()) {
+        PersistentClassResolver persistentClassResolver = this.posmultenUtilContext.getPersistentClassResolver();
+        PersistentClass persistentClass = persistentClassResolver.resolve(metadata, table);
+        if (persistentClass == null) {
             return builder;
         }
-        Optional<PersistentClass> pClass = metadata.getEntityBindings().stream().filter(persistentClass -> table.equals(persistentClass.getTable())).findFirst();
-        if (!pClass.isPresent()) {
-            return builder;
-        }
-        PersistentClass persistentClass = pClass.get();
-        TenantTablePropertiesResolver tenantTablePropertiesResolver = new TenantTablePropertiesResolver();
-        TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table);
+        TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
+        TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table, metadata);
         if (tenantTableProperties != null) {
-            String functionName = "is_rls_record_exists_in_" + tenantTableProperties.getTable();
-            builder.setNameForFunctionThatChecksIfRecordExistsInTable(tenantTableProperties.getTable(), functionName);
+            NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
+            //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
+            builder.setNameForFunctionThatChecksIfRecordExistsInTable(tenantTableProperties.getTable(), nameGenerator.generate("is_rls_record_exists_in_", table));
         }
         return builder;
     }
 
     @Override
     public void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+        this.posmultenUtilContext = serviceRegistryImplementor.getService(PosmultenUtilContext.class);
         initialized = true;
     }
 

@@ -10,6 +10,7 @@
     <modules>
         <module>core</module>
         <module>test-utils</module>
+        <module>core-functional-tests</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -25,6 +26,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <org.objenesis.objenesis.version>3.2</org.objenesis.objenesis.version>
+        <org.mockito.mockito-inline.version>4.4.0</org.mockito.mockito-inline.version>
     </properties>
 
     <dependencyManagement>
@@ -83,6 +85,13 @@
                 <groupId>org.objenesis</groupId>
                 <artifactId>objenesis</artifactId>
                 <version>${org.objenesis.objenesis.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-inline</artifactId>
+                <version>${org.mockito.mockito-inline.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

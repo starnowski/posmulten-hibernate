@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context
 
+import org.hibernate.service.spi.ServiceRegistryImplementor
 import spock.lang.Specification
 
 class DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiatorTest extends Specification {
@@ -8,9 +9,10 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiatorTest ext
     {
         given:
             def tested = new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator()
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
 
         when:
-            def result = tested.initiateService(new HashMap(), null)
+            def result = tested.initiateService(new HashMap(), serviceRegistryImplementor)
 
         then:
             result != null
