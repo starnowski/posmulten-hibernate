@@ -5,6 +5,9 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Table;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TenantTablePropertiesResolver {
 
     public TenantTableProperties resolve(PersistentClass persistentClass, Table table, Metadata metadata) {
@@ -15,11 +18,13 @@ public class TenantTablePropertiesResolver {
         TenantTableProperties result = new TenantTableProperties();
         result.setTable(table.getName());
         result.setTenantColumnName(tenantTable.tenantIdColumn() == null || tenantTable.tenantIdColumn().trim().isEmpty() ? null : tenantTable.tenantIdColumn());
+        Map<String, String> primaryKeysColumnAndTypeMap = new HashMap<>();
         table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {
                     String sqlType = column.getSqlType();
-                    result.getPrimaryKeysColumnAndTypeMap().put(column.getName(), sqlType == null ? column.getSqlType(metadata.getDatabase().getDialect(), metadata) : sqlType);
+                    primaryKeysColumnAndTypeMap.put(column.getName(), sqlType == null ? column.getSqlType(metadata.getDatabase().getDialect(), metadata) : sqlType);
                 }
         );
+        result.setPrimaryKeysColumnAndTypeMap(primaryKeysColumnAndTypeMap);
         return result;
     }
 }
