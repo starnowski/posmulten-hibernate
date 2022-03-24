@@ -27,13 +27,15 @@ public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implement
         final Iterator fkItr = table.getForeignKeyIterator();
         while (fkItr.hasNext()) {
             final ForeignKey foreignKey = (ForeignKey) fkItr.next();
-            try {
-                TenantTable tenantTable = Class.forName(foreignKey.getReferencedEntityName()).getAnnotation(TenantTable.class);
-                if (foreignKey.getReferencedEntityName() != null && tenantTable != null) {
-                    helper.enrichBuilder(builder, foreignKey, nameGenerator);
+            if (foreignKey.getReferencedEntityName() != null) {
+                try {
+                    TenantTable tenantTable = Class.forName(foreignKey.getReferencedEntityName()).getAnnotation(TenantTable.class);
+                    if (tenantTable != null) {
+                        helper.enrichBuilder(builder, foreignKey, nameGenerator);
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
         }
         return builder;

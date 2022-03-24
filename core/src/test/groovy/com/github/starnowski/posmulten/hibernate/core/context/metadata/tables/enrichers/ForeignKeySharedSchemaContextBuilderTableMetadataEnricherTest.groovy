@@ -21,7 +21,7 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Spec
             def foreignKeyWithTenantTable1 = prepareForeignKey(TableWithTableAnnotation.class.getName())
             def foreignKeyWithTenantTable2 = prepareForeignKey(TableWithTableAnnotation.class.getName())
             def foreignKeyWithoutTenantTable1 = prepareForeignKey(TableWithoutTenantTableAnnotation.class.getName())
-            def foreignKeyWithNullTable = prepareForeignKey(TableWithoutTenantTableAnnotation.class.getName())
+            def foreignKeyWithNullTable = prepareForeignKey(null)
 
             def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
             def posmultenUtilContext = Mock(PosmultenUtilContext)
