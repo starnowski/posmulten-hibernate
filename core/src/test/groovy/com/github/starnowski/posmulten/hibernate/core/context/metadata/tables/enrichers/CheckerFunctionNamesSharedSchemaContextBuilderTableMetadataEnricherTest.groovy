@@ -10,12 +10,11 @@ import org.hibernate.boot.Metadata
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.Table
 import org.hibernate.service.spi.ServiceRegistryImplementor
-import spock.lang.Specification
 import spock.lang.Unroll
 
-class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricherTest extends Specification {
+class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricherTest extends AbstractDefaultSharedSchemaContextBuilderTableMetadataEnricherTest<CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher> {
 
-    def tested = new CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher()
+    CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher tested = new CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher()
 
     def "should not enrich builder when persistentClass can not be resolve for table"(){
         given:
@@ -107,5 +106,15 @@ class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricherTest ex
             "tab1"              |   "check_record_for"
             "users"             |   "does_record_exists"
             "sys_users"         |   "is_rec_ex"
+    }
+
+    @Override
+    Map getMap() {
+        return null
+    }
+
+    @Override
+    ServiceRegistryImplementor getServiceRegistryImplementor() {
+        return Mock(ServiceRegistryImplementor)
     }
 }

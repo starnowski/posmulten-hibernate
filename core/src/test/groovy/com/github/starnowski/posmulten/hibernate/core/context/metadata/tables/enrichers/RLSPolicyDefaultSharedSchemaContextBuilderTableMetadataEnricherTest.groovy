@@ -10,12 +10,11 @@ import org.hibernate.boot.Metadata
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.Table
 import org.hibernate.service.spi.ServiceRegistryImplementor
-import spock.lang.Specification
 import spock.lang.Unroll
 
-class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricherTest extends Specification {
+class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricherTest extends AbstractDefaultSharedSchemaContextBuilderTableMetadataEnricherTest<RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher> {
 
-    def tested = new RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher()
+    RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher tested = new RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher()
 
     def "should not enrich builder when persistentClass can not be resolve for table"(){
         given:
@@ -110,5 +109,15 @@ class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricherTest extend
             "tab1"              |   [id: "varchar"]                     |   "ten_id"            |   "some_pol_rls"
             "users"             |   [user_uuid: "UUID"]                 |   "tenant"            |   "policy_prefix"
             "sys_users"         |   [id: "int", sys_uid: "varch"]       |   "customer"          |   "pol_rls"
+    }
+
+    @Override
+    Map getMap() {
+        return null
+    }
+
+    @Override
+    ServiceRegistryImplementor getServiceRegistryImplementor() {
+        return Mock(ServiceRegistryImplementor)
     }
 }
