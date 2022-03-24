@@ -10,12 +10,11 @@ import org.hibernate.mapping.Collection
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.Table
 import org.hibernate.service.spi.ServiceRegistryImplementor
-import spock.lang.Specification
 import spock.lang.Unroll
 
-class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest extends Specification {
+class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest extends AbstractDefaultSharedSchemaContextBuilderTableMetadataEnricherTest<JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher> {
 
-    def tested = new JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher()
+    JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher tested = new JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher()
 
     def "should not enrich builder when collection can not be resolve for table"(){
         given:
@@ -113,5 +112,15 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
             tableName   |   rlsPolicyName
             "tabxxx"    |   "policy_x1"
             "roles"     |   "rls_policy"
+    }
+
+    @Override
+    Map getMap() {
+        return null
+    }
+
+    @Override
+    ServiceRegistryImplementor getServiceRegistryImplementor() {
+        return Mock(ServiceRegistryImplementor)
     }
 }
