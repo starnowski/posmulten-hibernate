@@ -12,7 +12,7 @@ import org.hibernate.service.spi.ServiceRegistryImplementor
 
 class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends AbstractDefaultSharedSchemaContextBuilderTableMetadataEnricherTest<ForeignKeySharedSchemaContextBuilderTableMetadataEnricher> {
 
-    def ForeignKeySharedSchemaContextBuilderTableMetadataEnricher tested = new ForeignKeySharedSchemaContextBuilderTableMetadataEnricher()
+    ForeignKeySharedSchemaContextBuilderTableMetadataEnricher tested = new ForeignKeySharedSchemaContextBuilderTableMetadataEnricher()
 
     def "should enrich builder for foreign keys that has reference to tenant table"()
     {
@@ -49,6 +49,33 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Abst
             result.is(builder)
     }
 
+    def "should thrown an exception when enricher will not find class"()
+    {
+        given:
+            def foreignKey = prepareForeignKey("no_such_class.in.project")
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
+            def posmultenUtilContext = Mock(PosmultenUtilContext)
+            def helper = Mock(ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper)
+            def nameGenerator = Mock(NameGenerator)
+            serviceRegistryImplementor.getService(PosmultenUtilContext) >> posmultenUtilContext
+            posmultenUtilContext.getNameGenerator() >> nameGenerator
+            posmultenUtilContext.getForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper() >> helper
+
+            def builder = Mock(DefaultSharedSchemaContextBuilder)
+            def metadata = Mock(Metadata)
+            def table = Mock(Table)
+            table.getForeignKeyIterator() >> { [foreignKey].iterator() }
+
+            tested.init(null, serviceRegistryImplementor)
+
+        when:
+            tested.enrich(builder, metadata, table)
+
+        then:
+            def ex = thrown(RuntimeException.class)
+            ex.cause instanceof ClassNotFoundException
+    }
+
     private prepareForeignKey(String clazz)
     {
         def foreignKey = Mock(ForeignKey)
@@ -57,12 +84,12 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Abst
     }
 
     @Override
-    def Map getMap() {
+    Map getMap() {
         return null
     }
 
     @Override
-    def ServiceRegistryImplementor getServiceRegistryImplementor() {
+    ServiceRegistryImplementor getServiceRegistryImplementor() {
         return Mock(ServiceRegistryImplementor)
     }
 
