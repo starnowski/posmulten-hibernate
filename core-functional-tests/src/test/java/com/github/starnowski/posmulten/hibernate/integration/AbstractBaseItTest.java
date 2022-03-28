@@ -24,6 +24,7 @@ public class AbstractBaseItTest {
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
 
