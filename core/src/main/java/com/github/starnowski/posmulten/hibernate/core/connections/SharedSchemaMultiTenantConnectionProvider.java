@@ -46,6 +46,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
 
     public void releaseConnection(String tenant, Connection connection) throws SQLException {
         ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
+        //TODO Set dummy tenant id
 //        try {
 //            PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
 //            statement.setString(1, INVALID_TENANT_ID);//TODO Try to resolve tenant column type (in case if type is different than string type)
@@ -81,8 +82,8 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
         try {
             this.context = defaultSharedSchemaContextBuilderProvider.get().build();
         } catch (SharedSchemaContextBuilderException e) {
-            //TODO Thrown an exception
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        //TODO Resolve dummy tenant id
     }
 }
