@@ -6,5 +6,5 @@ public class Properties {
     public static final String GRANTEE = "hibernate.posmulten.grantee";
     public static final String ID_PROPERTY = "hibernate.posmulten.tenant.id.property";
     public static final String TENANT_ID_SET_CURRENT_AS_DEFAULT_FLAG = "hibernate.posmulten.tenant.id.set.current.as.default";
-    public static final String TENANT_ID_VALID_VALUES = "hibernate.posmulten.tenant.valid.values";
+    public static final String TENANT_ID_INVALID_VALUES = "hibernate.posmulten.tenant.id.values.blacklist";
 }

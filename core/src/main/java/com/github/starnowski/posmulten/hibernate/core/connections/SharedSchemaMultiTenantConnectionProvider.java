@@ -20,12 +20,11 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
     private ISharedSchemaContext context;
 
     public Connection getAnyConnection() throws SQLException {
-        //TODO Set dummy tenant (for all)
         return connectionProvider.getConnection();
     }
 
     public void releaseAnyConnection(Connection connection) throws SQLException {
-        //TODO
+        connection.close();
     }
 
     public Connection getConnection(String tenant) throws SQLException {
@@ -47,16 +46,16 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
 
     public void releaseConnection(String tenant, Connection connection) throws SQLException {
         ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
-        try {
-            PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
-            statement.setString(1, INVALID_TENANT_ID);//TODO Try to resolve tenant column type (in case if type is different than string type)
-            statement.execute();
-        } catch (SQLException e) {
-            throw new HibernateException(
-                    "Could not alter JDBC connection to specified tenant [" + tenant + "]",
-                    e
-            );
-        }
+//        try {
+//            PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
+//            statement.setString(1, INVALID_TENANT_ID);//TODO Try to resolve tenant column type (in case if type is different than string type)
+//            statement.execute();
+//        } catch (SQLException e) {
+//            throw new HibernateException(
+//                    "Could not alter JDBC connection to specified tenant [" + tenant + "]",
+//                    e
+//            );
+//        }
         connection.close();
     }
 
