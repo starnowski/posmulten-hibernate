@@ -3,6 +3,7 @@ package com.github.starnowski.posmulten.hibernate.core.connections
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext
+import com.github.starnowski.posmulten.postgresql.core.rls.function.ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider
 import org.hibernate.service.spi.ServiceRegistryImplementor
 import spock.lang.Specification
@@ -23,12 +24,20 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             def connectionProvider = Mock(ConnectionProvider)
             def defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
             def defaultSharedSchemaContextBuilder = Mock(DefaultSharedSchemaContextBuilder)
+            defaultSharedSchemaContextBuilderProvider.get() >> defaultSharedSchemaContextBuilder
 
             def connection = Mock(Connection)
-            def statement = Mock(PreparedStatement)
+            connectionProvider.getConnection() >> connection
 
+            def statement = Mock(PreparedStatement)
             def context = Mock(ISharedSchemaContext)
-            context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> preparedStatement
+            def factory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            defaultSharedSchemaContextBuilder.build() >> context
+            context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> factory
+            factory.returnPreparedStatementThatSetCurrentTenant() >> preparedStatement
+
+            serviceRegistry.getService(ConnectionProvider) >> connectionProvider
+            serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
             tested.injectServices(serviceRegistry)
 
         when:
