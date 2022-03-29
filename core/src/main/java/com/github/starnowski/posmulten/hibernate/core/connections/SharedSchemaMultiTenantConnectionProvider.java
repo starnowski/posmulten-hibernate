@@ -32,6 +32,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
         ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
         try {
             PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
+            //TODO
             statement.setString(1, tenant);//TODO Try to resolve tenant column type (in case if type is different than string type)
             statement.execute();
         } catch (SQLException e) {
