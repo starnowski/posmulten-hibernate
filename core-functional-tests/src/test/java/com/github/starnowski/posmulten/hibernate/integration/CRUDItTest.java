@@ -14,12 +14,15 @@ public class CRUDItTest extends AbstractBaseItTest {
 
     private static String uuid1 = "3b13cf9e-b39c-11ec-b909-0242ac120002";
     private static String uuid2 = "4b653630-b39c-11ec-b909-0242ac120002";
+    private static String TENANT1 = "ten1";
+    private static String TENANT2 = "ten2";
+    private static String[] TENANT_IDS = {TENANT1, TENANT2};
 
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
         return new Object[][]{
-                {"ten1", new User().setUserId(UUID.fromString(uuid1)).setUsername("Simon")},
-                {"ten2", new User().setUserId(UUID.fromString(uuid2)).setUsername("johndoe")}
+                {TENANT1, new User().setUserId(UUID.fromString(uuid1)).setUsername("Simon")},
+                {TENANT2, new User().setUserId(UUID.fromString(uuid2)).setUsername("johndoe")}
         };
     }
 
@@ -36,6 +39,44 @@ public class CRUDItTest extends AbstractBaseItTest {
             User current = session.find(User.class, user.getUserId());
             assertThat(current).isNotNull();
             assertThat(current.getUserId()).isEqualTo(user.getUserId());
+        }
+    }
+
+    @Test(dependsOnMethods = "shouldCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should not able to read records that belongs to different tenant", description = "should not able to read records that belongs to different tenant")
+    public void shouldNotAbleToReadRecordThatBelongsToDifferentTenants(String tenant, User user) {
+        for (String tt : TENANT_IDS) {
+            // GIVEN
+            setCurrentTenant(tenant);
+            try (Session session = openPrimarySession()) {
+
+                // WHEN
+                User current = session.find(User.class, user.getUserId());
+
+                // THEN
+                assertThat(current).isNull();
+            }
+        }
+    }
+
+    //TODO Not able to update for different tenant
+    //TODO Update
+    //TODO Not able to delete for different tenant
+    //TODO Delete
+
+    //TODO Change methods dependencies
+    @Test(dependsOnMethods = "shouldNotAbleToReadRecordThatBelongsToDifferentTenants",dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
+    public void shouldDeleteUsersPerTenants(String tenant, User user) {
+        // GIVEN
+        setCurrentTenant(tenant);
+        try (Session session = openPrimarySession()) {
+            user = session.find(User.class, user.getUserId());
+
+            // WHEN
+            session.delete(user);
+
+            // THEN
+            User current = session.find(User.class, user.getUserId());
+            assertThat(current).isNull();
         }
     }
 }
