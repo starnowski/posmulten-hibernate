@@ -1,11 +1,13 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
 import com.github.starnowski.posmulten.hibernate.core.model.User;
+import org.hibernate.Session;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
 
+import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CRUDItTest extends AbstractBaseItTest {
@@ -22,16 +24,18 @@ public class CRUDItTest extends AbstractBaseItTest {
     }
 
     @Test(dataProvider = "usersTenants", testName = "should create user for tenant", description = "should create user for tenant")
-    public void shouldCreateDefaultTenantColumn(User user, String tenant) {
+    public void shouldCreateUsersPerTenants(String tenant, User user) {
         // GIVEN
-        //TODO Set tenant
+        setCurrentTenant(tenant);
+        try (Session session = openPrimarySession()) {
 
-        // WHEN
-        primarySession.persist(user);
+            // WHEN
+            session.save(user);
 
-        // THEN
-        User current = primarySession.find(User.class, user.getUserId());
-        assertThat(current).isNotNull();
-        assertThat(current.getUserId()).isEqualTo(user.getUserId());
+            // THEN
+            User current = session.find(User.class, user.getUserId());
+            assertThat(current).isNotNull();
+            assertThat(current.getUserId()).isEqualTo(user.getUserId());
+        }
     }
 }
