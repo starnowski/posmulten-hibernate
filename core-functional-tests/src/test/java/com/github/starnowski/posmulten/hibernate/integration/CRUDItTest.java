@@ -31,9 +31,11 @@ public class CRUDItTest extends AbstractBaseItTest {
         // GIVEN
         setCurrentTenant(tenant);
         try (Session session = openPrimarySession()) {
+            session.beginTransaction();
 
             // WHEN
             session.save(user);
+            session.flush();
 
             // THEN
             User current = session.find(User.class, user.getUserId());
@@ -73,9 +75,11 @@ public class CRUDItTest extends AbstractBaseItTest {
         setCurrentTenant(tenant);
         try (Session session = openPrimarySession()) {
             user = session.find(User.class, user.getUserId());
+            session.beginTransaction();
 
             // WHEN
             session.delete(user);
+            session.flush();
 
             // THEN
             User current = session.find(User.class, user.getUserId());
