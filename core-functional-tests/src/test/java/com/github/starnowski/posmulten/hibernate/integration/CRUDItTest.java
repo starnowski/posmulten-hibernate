@@ -45,6 +45,9 @@ public class CRUDItTest extends AbstractBaseItTest {
     @Test(dependsOnMethods = "shouldCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should not able to read records that belongs to different tenant", description = "should not able to read records that belongs to different tenant")
     public void shouldNotAbleToReadRecordThatBelongsToDifferentTenants(String tenant, User user) {
         for (String tt : TENANT_IDS) {
+            if (tt.equals(tenant)) {
+                continue;
+            }
             // GIVEN
             setCurrentTenant(tenant);
             try (Session session = openPrimarySession()) {
@@ -64,7 +67,7 @@ public class CRUDItTest extends AbstractBaseItTest {
     //TODO Delete
 
     //TODO Change methods dependencies
-    @Test(dependsOnMethods = "shouldNotAbleToReadRecordThatBelongsToDifferentTenants",dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
+    @Test(dependsOnMethods = "shouldNotAbleToReadRecordThatBelongsToDifferentTenants", dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
     public void shouldDeleteUsersPerTenants(String tenant, User user) {
         // GIVEN
         setCurrentTenant(tenant);
