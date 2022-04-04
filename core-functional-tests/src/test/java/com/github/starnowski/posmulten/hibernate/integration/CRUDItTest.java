@@ -65,6 +65,20 @@ public class CRUDItTest extends AbstractBaseItTest {
         }
     }
 
+    @Test(dependsOnMethods = "shouldCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should read created user for tenant", description = "should read created user for tenant")
+    public void shouldReadCreateUsersPerTenants(String tenant, User user) {
+        // GIVEN
+        setCurrentTenant(tenant);
+        try (Session session = openPrimarySession()) {
+            // WHEN
+            User current = session.find(User.class, user.getUserId());
+
+            // THEN
+            assertThat(current).isNotNull();
+            assertThat(current.getUserId()).isEqualTo(user.getUserId());
+        }
+    }
+
     //TODO Not able to update for different tenant
     //TODO Update
     //TODO Not able to delete for different tenant
