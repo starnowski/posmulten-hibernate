@@ -2,6 +2,7 @@ package com.github.starnowski.posmulten.hibernate.integration;
 
 import com.github.starnowski.posmulten.hibernate.core.model.User;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -31,11 +32,12 @@ public class CRUDItTest extends AbstractBaseItTest {
         // GIVEN
         setCurrentTenant(tenant);
         try (Session session = openPrimarySession()) {
-            session.beginTransaction();
+            Transaction transaction = session.beginTransaction();
 
             // WHEN
             session.save(user);
             session.flush();
+            transaction.commit();
 
             // THEN
             User current = session.find(User.class, user.getUserId());
@@ -75,11 +77,12 @@ public class CRUDItTest extends AbstractBaseItTest {
         setCurrentTenant(tenant);
         try (Session session = openPrimarySession()) {
             user = session.find(User.class, user.getUserId());
-            session.beginTransaction();
+            Transaction transaction = session.beginTransaction();
 
             // WHEN
             session.delete(user);
             session.flush();
+            transaction.commit();
 
             // THEN
             User current = session.find(User.class, user.getUserId());
