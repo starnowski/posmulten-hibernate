@@ -77,12 +77,32 @@ public class CRUDItTest extends AbstractBaseItTest {
     }
 
     //TODO Not able to update for different tenant
-    //TODO Update
+
+    @Test(dependsOnMethods = "shouldReadCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should update created user for tenant", description = "should update created user for tenant")
+    public void shouldUpdateCreateUsersPerTenants(String tenant, User user) {
+        // GIVEN
+        setCurrentTenant(tenant);
+        try (Session session = openPrimarySession()) {
+            Transaction transaction = session.beginTransaction();
+            user = findUserByUsername(session, user.getUsername());
+            assertThat(user.getPassword()).isNull();
+            user.setPassword("XXX");
+
+            // WHEN
+            user = (User) session.merge(user);
+            session.flush();
+            transaction.commit();
+
+            // THEN
+            assertThat(user).isNotNull();
+            assertThat(user.getPassword()).isEqualTo("XXX");
+        }
+    }
     //TODO Not able to delete for different tenant
     //TODO Delete
 
     //TODO Change methods dependencies
-    @Test(dependsOnMethods = "shouldNotAbleToReadRecordThatBelongsToDifferentTenants", dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
+    @Test(dependsOnMethods = {"shouldNotAbleToReadRecordThatBelongsToDifferentTenants", "shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
     public void shouldDeleteUsersPerTenants(String tenant, User user) {
         // GIVEN
         setCurrentTenant(tenant);
