@@ -3,18 +3,15 @@ package com.github.starnowski.posmulten.hibernate.integration;
 import com.github.starnowski.posmulten.hibernate.core.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.UUID;
 
 import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CRUDItTest extends AbstractBaseItTest {
 
-    private static String uuid1 = "3b13cf9e-b39c-11ec-b909-0242ac120002";
-    private static String uuid2 = "4b653630-b39c-11ec-b909-0242ac120002";
     private static String TENANT1 = "ten1";
     private static String TENANT2 = "ten2";
     private static String[] TENANT_IDS = {TENANT1, TENANT2};
@@ -22,8 +19,8 @@ public class CRUDItTest extends AbstractBaseItTest {
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
         return new Object[][]{
-                {TENANT1, new User().setUserId(UUID.fromString(uuid1)).setUsername("Simon")},
-                {TENANT2, new User().setUserId(UUID.fromString(uuid2)).setUsername("johndoe")}
+                {TENANT1, new User().setUsername("Simon")},
+                {TENANT2, new User().setUsername("johndoe")}
         };
     }
 
@@ -35,12 +32,12 @@ public class CRUDItTest extends AbstractBaseItTest {
             Transaction transaction = session.beginTransaction();
 
             // WHEN
-            session.save(user);
+            session.persist(user);
             session.flush();
             transaction.commit();
 
             // THEN
-            User current = session.find(User.class, user.getUserId());
+            User current = findUserByUsername(session, user.getUsername());
             assertThat(current).isNotNull();
             assertThat(current.getUserId()).isEqualTo(user.getUserId());
         }
@@ -53,11 +50,11 @@ public class CRUDItTest extends AbstractBaseItTest {
                 continue;
             }
             // GIVEN
-            setCurrentTenant(tenant);
+            setCurrentTenant(tt);
             try (Session session = openPrimarySession()) {
 
                 // WHEN
-                User current = session.find(User.class, user.getUserId());
+                User current = findUserByUsername(session, user.getUsername());
 
                 // THEN
                 assertThat(current).isNull();
@@ -71,11 +68,11 @@ public class CRUDItTest extends AbstractBaseItTest {
         setCurrentTenant(tenant);
         try (Session session = openPrimarySession()) {
             // WHEN
-            User current = session.find(User.class, user.getUserId());
+            User current = findUserByUsername(session, user.getUsername());
 
             // THEN
             assertThat(current).isNotNull();
-            assertThat(current.getUserId()).isEqualTo(user.getUserId());
+            assertThat(current.getUsername()).isEqualTo(user.getUsername());
         }
     }
 
@@ -90,7 +87,7 @@ public class CRUDItTest extends AbstractBaseItTest {
         // GIVEN
         setCurrentTenant(tenant);
         try (Session session = openPrimarySession()) {
-            user = session.find(User.class, user.getUserId());
+            user = findUserByUsername(session, user.getUsername());
             Transaction transaction = session.beginTransaction();
 
             // WHEN
@@ -99,8 +96,15 @@ public class CRUDItTest extends AbstractBaseItTest {
             transaction.commit();
 
             // THEN
-            User current = session.find(User.class, user.getUserId());
+            User current = findUserByUsername(session, user.getUsername());
             assertThat(current).isNull();
         }
+    }
+
+    private User findUserByUsername(Session session, String username)
+    {
+        Query<User> query = session.createQuery("FROM User as user WHERE user.username = :username", User.class);
+        query.setParameter("username", username);
+        return query.uniqueResult();
     }
 }
