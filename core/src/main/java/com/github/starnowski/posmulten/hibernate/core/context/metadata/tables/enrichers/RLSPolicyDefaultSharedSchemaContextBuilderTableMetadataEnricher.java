@@ -32,6 +32,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
             builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
+            //TODO Use TableUtils to resolve if tables has tenant column already created by Hibernate, if yes then do not create column by posmulten
             builder.createTenantColumnForTable(tenantTableProperties.getTable());
         }
         return builder;
