@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class TenantTableProperties {
     private String table;
+    private String schema;
     private Map<String, String> primaryKeysColumnAndTypeMap;
     private String tenantColumnName;
 
@@ -30,5 +31,13 @@ public class TenantTableProperties {
 
     public void setTenantColumnName(String tenantColumnName) {
         this.tenantColumnName = tenantColumnName;
+    }
+
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 }
