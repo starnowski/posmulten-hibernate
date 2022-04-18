@@ -25,8 +25,28 @@ class TableUtilsTest extends Specification {
             result
 
         where:
-            table   |   columns |   expectedColumn
+            table   |   columns                         |   expectedColumn
             "user"  |   ["user_id", "uuid", "tenant"]   |   "tenant"
+            "post"  |   ["user_id", "date", "id"]       |   "date"
+    }
+
+    @Unroll
+    def "should return false when table #table do not contains column #expectedColumn , all columns #columns"(){
+        given:
+            Table t = Mock(Table)
+            def c = mapColumns(columns)
+            t.getColumnIterator() >> { c.iterator() }
+
+        when:
+            def result = tested.hasColumnWithName(t, expectedColumn)
+
+        then:
+            !result
+
+        where:
+            table   |   columns                         |   expectedColumn
+            "user"  |   ["user_id", "uuid", "tenant"]   |   "some_id"
+            "post"  |   ["user_id", "date", "id"]       |   "uuid"
     }
 
     private List<Column> mapColumns(List<String> columnsNames){
