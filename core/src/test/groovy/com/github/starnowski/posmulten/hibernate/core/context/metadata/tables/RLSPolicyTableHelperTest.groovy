@@ -96,4 +96,47 @@ class RLSPolicyTableHelperTest extends Specification {
             "sys_users"         |   null        |  "customer"                   |   "pol_rls"
             "sys_users"         |   "public"    |  "customer"                   |   "pol_rls"
     }
+
+    @Unroll
+    def "should enrich builder with rls policy #policyName for table #tableName, schema #schema, with resolved tenant column #resolvedTenantColumnName that already exist for table"(){
+        given:
+            def primaryKeysColumnAndTypeMap = [id: "int", sys_uid: "varch"]
+            def posmultenUtilContext = Mock(PosmultenUtilContext)
+            def builder = Mock(DefaultSharedSchemaContextBuilder)
+            def table = Mock(Table)
+            def tenantTablePropertiesResolver = Mock(TenantTablePropertiesResolver)
+            posmultenUtilContext.getTenantTablePropertiesResolver() >> tenantTablePropertiesResolver
+            def tenantTableProperties = Mock(TenantTableProperties)
+            tenantTableProperties.getTable() >> tableName
+            tenantTableProperties.getPrimaryKeysColumnAndTypeMap() >> primaryKeysColumnAndTypeMap
+            tenantTableProperties.getTenantColumnName() >> null
+            tenantTableProperties.getSchema() >> schema
+            def nameGenerator = Mock(NameGenerator)
+            nameGenerator.generate("rls_policy_", table) >> policyName
+            posmultenUtilContext.getNameGenerator() >> nameGenerator
+
+            def requestCopy = Mock(SharedSchemaContextRequest)
+            builder.getSharedSchemaContextRequestCopy() >> requestCopy
+            requestCopy.resolveTenantColumnByTableKey(new TableKey(tableName, schema)) >> resolvedTenantColumnName
+
+            def tableUtils = Mock(TableUtils)
+            posmultenUtilContext.getTableUtils() >> tableUtils
+            tableUtils.hasColumnWithName(table, resolvedTenantColumnName) >> true
+
+        when:
+            tested.enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext)
+
+        then:
+            1 * builder.createRLSPolicyForTable(tableName, primaryKeysColumnAndTypeMap, null, policyName)
+
+        and: "create tenant column when column does not yet exist for table"
+            0 * builder.createTenantColumnForTable(_)
+
+        where:
+            tableName           |   schema      |   resolvedTenantColumnName    |   policyName
+            "tab1"              |   null        |  "ten_id"                     |   "some_pol_rls"
+            "users"             |   "secondary" |  "tenant"                     |   "policy_prefix"
+            "sys_users"         |   null        |  "customer"                   |   "pol_rls"
+            "sys_users"         |   "public"    |  "customer"                   |   "pol_rls"
+    }
 }
