@@ -33,6 +33,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             TableUtils tableUtils = posmultenUtilContext.getTableUtils();
             String resolvedTenantColumn = builder.getSharedSchemaContextRequestCopy().resolveTenantColumnByTableKey(new TableKey(tenantTableProperties.getTable(), tenantTableProperties.getSchema()));
             if (!tableUtils.hasColumnWithName(table, resolvedTenantColumn)) {
+                //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
                 builder.createTenantColumnForTable(tenantTableProperties.getTable());
             }
         }
