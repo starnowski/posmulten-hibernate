@@ -139,4 +139,22 @@ class RLSPolicyTableHelperTest extends Specification {
             "sys_users"         |   null        |  "customer"                   |   "pol_rls"
             "sys_users"         |   "public"    |  "customer"                   |   "pol_rls"
     }
+
+    def "should not enrich builder when table properties can not be resolve for table"(){
+        given:
+            def posmultenUtilContext = Mock(PosmultenUtilContext)
+            def builder = Mock(DefaultSharedSchemaContextBuilder)
+            def table = Mock(Table)
+            def nameGenerator = Mock(NameGenerator)
+            posmultenUtilContext.getNameGenerator() >> nameGenerator
+
+            def tableUtils = Mock(TableUtils)
+            posmultenUtilContext.getTableUtils() >> tableUtils
+
+        when:
+            tested.enrichBuilderWithTableRLSPolicy(builder, table, null, posmultenUtilContext)
+
+        then:
+            0 * builder._
+    }
 }
