@@ -2,11 +2,9 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.*;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.TableKey;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Table;
@@ -32,8 +30,11 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
             //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
             builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
-            //TODO Use TableUtils to resolve if tables has tenant column already created by Hibernate, if yes then do not create column by posmulten
-            builder.createTenantColumnForTable(tenantTableProperties.getTable());
+            TableUtils tableUtils = posmultenUtilContext.getTableUtils();
+            String resolvedTenantColumn = builder.getSharedSchemaContextRequestCopy().resolveTenantColumnByTableKey(new TableKey(tenantTableProperties.getTable(), tenantTableProperties.getSchema()));
+            if (!tableUtils.hasColumnWithName(table, resolvedTenantColumn)) {
+                builder.createTenantColumnForTable(tenantTableProperties.getTable());
+            }
         }
         return builder;
     }
