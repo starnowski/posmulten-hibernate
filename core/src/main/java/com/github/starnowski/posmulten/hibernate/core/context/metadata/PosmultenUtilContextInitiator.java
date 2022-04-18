@@ -18,6 +18,7 @@ public class PosmultenUtilContextInitiator implements StandardServiceInitiator<P
         result.setCollectionResolver(new CollectionResolver());
         result.setNameGenerator(new NameGenerator(map.containsKey(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH) ? Integer.parseInt((String) map.get(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH)) : MAXIMUM_IDENTIFIER_LENGTH));
         result.setForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper(new ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper());
+        result.setTableUtils(new TableUtils());
         return result;
     }
 

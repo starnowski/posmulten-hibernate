@@ -13,6 +13,7 @@ public class PosmultenUtilContext implements Service {
     private NameGenerator nameGenerator;
     private CollectionResolver collectionResolver;
     private ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper;
+    private TableUtils tableUtils;
 
     public ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper getForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper() {
         return foreignKeySharedSchemaContextBuilderTableMetadataEnricherHelper;
@@ -52,5 +53,13 @@ public class PosmultenUtilContext implements Service {
 
     public void setTenantTablePropertiesResolver(TenantTablePropertiesResolver tenantTablePropertiesResolver) {
         this.tenantTablePropertiesResolver = tenantTablePropertiesResolver;
+    }
+
+    public TableUtils getTableUtils() {
+        return tableUtils;
+    }
+
+    public void setTableUtils(TableUtils tableUtils) {
+        this.tableUtils = tableUtils;
     }
 }
