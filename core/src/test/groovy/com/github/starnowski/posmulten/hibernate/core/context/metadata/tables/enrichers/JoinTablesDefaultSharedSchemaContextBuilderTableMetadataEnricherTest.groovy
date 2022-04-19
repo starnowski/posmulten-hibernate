@@ -2,8 +2,9 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyTableHelper
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder
 import org.hibernate.boot.Metadata
 import org.hibernate.mapping.Collection
@@ -74,7 +75,7 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
     }
 
     @Unroll
-    def "should enrich builder for table #tableName with policy #rlsPolicyName"(){
+    def "should enrich builder for table #tableName with policy #rlsPolicyName, schema #schema"(){
         given:
             def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
             def posmultenUtilContext = Mock(PosmultenUtilContext)
@@ -87,31 +88,38 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
             def metadata = Mock(Metadata)
             def table = Mock(Table)
             table.getName() >> tableName
+            table.getSchema() >> schemaName
 
             def collection = Mock(Collection)
             persistentClassResolver.resolve(metadata, table) >> null
             collectionResolver.resolve(metadata, table) >> collection
 
-            def nameGenerator = Mock(NameGenerator)
-            posmultenUtilContext.getNameGenerator() >> nameGenerator
-            nameGenerator.generate("rls_policy_", table) >> rlsPolicyName
-
+            def rlsPolicyHelper = Mock(RLSPolicyTableHelper)
+            posmultenUtilContext.getRlsPolicyTableHelper() >> rlsPolicyHelper
             tested.init(null, serviceRegistryImplementor)
+            TenantTableProperties tenantTableProperties = null
+
 
         when:
             def result = tested.enrich(builder, metadata, table)
 
         then:
-            1 * builder.createTenantColumnForTable(tableName)
-            1 * builder.createRLSPolicyForTable(tableName, new HashMap<>(), null, rlsPolicyName)
+            1 * rlsPolicyHelper.enrichBuilderWithTableRLSPolicy(builder, table, _, posmultenUtilContext) >> {
+                arguments ->
+                    tenantTableProperties = (TenantTableProperties)arguments[2]
+            }
+            tenantTableProperties.getTable() == tableName
+            tenantTableProperties.getTenantColumnName() == null
+            tenantTableProperties.getPrimaryKeysColumnAndTypeMap() == [:]
+            tenantTableProperties.getSchema() == schemaName
 
         and: "returned the same object of builder"
             result.is(builder)
 
         where:
-            tableName   |   rlsPolicyName
-            "tabxxx"    |   "policy_x1"
-            "roles"     |   "rls_policy"
+            tableName   |   rlsPolicyName   |   schemaName
+            "tabxxx"    |   "policy_x1"     |   null
+            "roles"     |   "rls_policy"    |   "secondary"
     }
 
     @Override
