@@ -7,17 +7,15 @@ import org.hibernate.mapping.Table;
 
 public class RLSPolicyTableHelper {
 
-    public void enrichBuilderWithTableRLSPolicy(DefaultSharedSchemaContextBuilder builder, Table table, TenantTableProperties tenantTableProperties, PosmultenUtilContext posmultenUtilContext)
-    {
+    public void enrichBuilderWithTableRLSPolicy(DefaultSharedSchemaContextBuilder builder, Table table, TenantTableProperties tenantTableProperties, PosmultenUtilContext posmultenUtilContext) {
         if (tenantTableProperties != null) {
             NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
-            //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-            builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
+            TableKey tableKey = new TableKey(tenantTableProperties.getTable(), tenantTableProperties.getSchema());
+            builder.createRLSPolicyForTable(tableKey, tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
             TableUtils tableUtils = posmultenUtilContext.getTableUtils();
-            String resolvedTenantColumn = builder.getSharedSchemaContextRequestCopy().resolveTenantColumnByTableKey(new TableKey(tenantTableProperties.getTable(), tenantTableProperties.getSchema()));
+            String resolvedTenantColumn = builder.getSharedSchemaContextRequestCopy().resolveTenantColumnByTableKey(tableKey);
             if (!tableUtils.hasColumnWithName(table, resolvedTenantColumn)) {
-                //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-                builder.createTenantColumnForTable(tenantTableProperties.getTable());
+                builder.createTenantColumnForTable(tableKey);
             }
         }
     }

@@ -41,10 +41,10 @@ class RLSPolicyTableHelperTest extends Specification {
             tested.enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext)
 
         then:
-            1 * builder.createRLSPolicyForTable(tableName, primaryKeysColumnAndTypeMap, tenantColumnName, policyName)
+            1 * builder.createRLSPolicyForTable(new TableKey(tableName, schema), primaryKeysColumnAndTypeMap, tenantColumnName, policyName)
 
         and: "create tenant column when column does not yet exist for table"
-            1 * builder.createTenantColumnForTable(tableName)
+            1 * builder.createTenantColumnForTable(new TableKey(tableName, schema))
 
         where:
             tableName           |   schema      |   primaryKeysColumnAndTypeMap             |   tenantColumnName    |   policyName
@@ -84,10 +84,10 @@ class RLSPolicyTableHelperTest extends Specification {
             tested.enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext)
 
         then:
-            1 * builder.createRLSPolicyForTable(tableName, primaryKeysColumnAndTypeMap, null, policyName)
+            1 * builder.createRLSPolicyForTable(new TableKey(tableName, schema), primaryKeysColumnAndTypeMap, null, policyName)
 
         and: "create tenant column when column does not yet exist for table"
-            1 * builder.createTenantColumnForTable(tableName)
+            1 * builder.createTenantColumnForTable(new TableKey(tableName, schema))
 
         where:
             tableName           |   schema      |   resolvedTenantColumnName    |   policyName
@@ -127,7 +127,7 @@ class RLSPolicyTableHelperTest extends Specification {
             tested.enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext)
 
         then:
-            1 * builder.createRLSPolicyForTable(tableName, primaryKeysColumnAndTypeMap, null, policyName)
+            1 * builder.createRLSPolicyForTable(new TableKey(tableName, schema), primaryKeysColumnAndTypeMap, null, policyName)
 
         and: "create tenant column when column does not yet exist for table"
             0 * builder.createTenantColumnForTable(_)
