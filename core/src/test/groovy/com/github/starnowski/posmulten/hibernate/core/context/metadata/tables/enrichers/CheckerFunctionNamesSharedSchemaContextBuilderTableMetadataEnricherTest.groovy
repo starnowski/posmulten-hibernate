@@ -6,6 +6,7 @@ import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.Pe
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder
+import com.github.starnowski.posmulten.postgresql.core.context.TableKey
 import org.hibernate.boot.Metadata
 import org.hibernate.mapping.PersistentClass
 import org.hibernate.mapping.Table
@@ -69,7 +70,7 @@ class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricherTest ex
     }
 
     @Unroll
-    def "should enrich builder with function #functionName for table #tableName"(){
+    def "should enrich builder with function #functionName for table #tableName, schema #schema"(){
         given:
             def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
             def posmultenUtilContext = Mock(PosmultenUtilContext)
@@ -85,6 +86,7 @@ class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricherTest ex
             posmultenUtilContext.getTenantTablePropertiesResolver() >> tenantTablePropertiesResolver
             def tenantTableProperties = Mock(TenantTableProperties)
             tenantTableProperties.getTable() >> tableName
+            tenantTableProperties.getSchema() >> schema
             tenantTablePropertiesResolver.resolve(persistentClass, table, metadata) >> tenantTableProperties
             def nameGenerator = Mock(NameGenerator)
             nameGenerator.generate("is_rls_record_exists_in_", table) >> functionName
@@ -96,16 +98,22 @@ class CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricherTest ex
             def result = tested.enrich(builder, metadata, table)
 
         then:
-            1 * builder.setNameForFunctionThatChecksIfRecordExistsInTable(tableName, functionName)
+            1 * builder.setNameForFunctionThatChecksIfRecordExistsInTable(new TableKey(tableName, schema), functionName)
 
         and: "returned the same object of builder"
             result.is(builder)
 
         where:
-            tableName           |   functionName
-            "tab1"              |   "check_record_for"
-            "users"             |   "does_record_exists"
-            "sys_users"         |   "is_rec_ex"
+            tableName           |   schema          |   functionName
+            "tab1"              |   null            |   "check_record_for"
+            "users"             |   null            |   "does_record_exists"
+            "sys_users"         |   null            |   "is_rec_ex"
+            "tab1"              |   "public"        |   "check_record_for"
+            "users"             |   "public"        |   "does_record_exists"
+            "sys_users"         |   "public"        |   "is_rec_ex"
+            "tab1"              |   "secondary"     |   "check_record_for"
+            "users"             |   "third_schema"  |   "does_record_exists"
+            "sys_users"         |   "some_sch"      |   "is_rec_ex"
     }
 
     @Override
