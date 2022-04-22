@@ -17,6 +17,7 @@ public class TenantTablePropertiesResolver {
         }
         TenantTableProperties result = new TenantTableProperties();
         result.setTable(table.getName());
+        result.setSchema(table.getSchema());
         result.setTenantColumnName(tenantTable.tenantIdColumn() == null || tenantTable.tenantIdColumn().trim().isEmpty() ? null : tenantTable.tenantIdColumn());
         Map<String, String> primaryKeysColumnAndTypeMap = new HashMap<>();
         table.getPrimaryKey().getColumnIterator().forEachRemaining(column -> {

@@ -20,4 +20,9 @@
             <class name="com.github.starnowski.posmulten.hibernate.integration.ConstraintItTest" />
         </classes>
     </test>
+    <test name="should execute operation per tenants">
+        <classes>
+            <class name="com.github.starnowski.posmulten.hibernate.integration.CRUDItTest" />
+        </classes>
+    </test>
 </suite>

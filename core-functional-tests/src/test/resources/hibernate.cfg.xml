@@ -12,6 +12,7 @@
         <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider</property>
         <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl</property>
         <property name="archive.autodetection">class</property>
+        <property name="posmulten.grantee">posmhib4-user</property>
 
         <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Category" />
         <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Comment" />

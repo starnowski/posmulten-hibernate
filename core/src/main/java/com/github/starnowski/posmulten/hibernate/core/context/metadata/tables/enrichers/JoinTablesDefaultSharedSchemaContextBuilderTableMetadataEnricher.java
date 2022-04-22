@@ -3,8 +3,8 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.Collection;
@@ -29,11 +29,12 @@ public class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher im
         if (pCollection == null || persistentClass != null) {
             return builder;
         }
-        NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
-        //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-        builder.createTenantColumnForTable(table.getName());
-        //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-        builder.createRLSPolicyForTable(table.getName(), new HashMap<>(), null, nameGenerator.generate("rls_policy_", table));
+        TenantTableProperties tenantTableProperties = new TenantTableProperties();
+        tenantTableProperties.setTable(table.getName());
+        tenantTableProperties.setSchema(table.getSchema());
+        tenantTableProperties.setPrimaryKeysColumnAndTypeMap(new HashMap<>());
+        tenantTableProperties.setTenantColumnName(null);
+        this.posmultenUtilContext.getRlsPolicyTableHelper().enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext);
         return builder;
     }
 

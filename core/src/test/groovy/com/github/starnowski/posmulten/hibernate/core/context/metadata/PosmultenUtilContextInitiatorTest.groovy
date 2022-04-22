@@ -22,6 +22,8 @@ class PosmultenUtilContextInitiatorTest extends Specification {
             result.getNameGenerator() != null
             result.getCollectionResolver() != null
             result.getForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper() != null
+            result.getTableUtils() != null
+            result.getRlsPolicyTableHelper() != null
     }
 
     def "should return correct class"()

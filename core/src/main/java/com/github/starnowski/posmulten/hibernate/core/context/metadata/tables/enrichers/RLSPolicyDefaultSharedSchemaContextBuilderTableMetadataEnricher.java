@@ -2,7 +2,6 @@ package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.e
 
 import com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties;
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver;
@@ -28,12 +27,7 @@ public class RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher imp
         }
         TenantTablePropertiesResolver tenantTablePropertiesResolver = posmultenUtilContext.getTenantTablePropertiesResolver();
         TenantTableProperties tenantTableProperties = tenantTablePropertiesResolver.resolve(persistentClass, table, metadata);
-        if (tenantTableProperties != null) {
-            NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
-            //TODO Pass schema and table name https://github.com/starnowski/posmulten/issues/239
-            builder.createRLSPolicyForTable(tenantTableProperties.getTable(), tenantTableProperties.getPrimaryKeysColumnAndTypeMap(), tenantTableProperties.getTenantColumnName(), nameGenerator.generate("rls_policy_", table));
-            builder.createTenantColumnForTable(tenantTableProperties.getTable());
-        }
+        posmultenUtilContext.getRlsPolicyTableHelper().enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext);
         return builder;
     }
 

@@ -51,9 +51,9 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
             new HashMap<>() ||  true   |   null
             mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", false).build() ||  false   |   null
             mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", true).build() ||  true   |   null
-            mapBuilder().put("hibernate.posmulten.tenant.valid.values", "ten-1").build()        ||  true    |   ["ten-1"]
-            mapBuilder().put("hibernate.posmulten.tenant.valid.values", "invalid,xxx").build()        ||  true    |   ["invalid", "xxx"]
-            mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", false).put("hibernate.posmulten.tenant.valid.values", "invalid,xxx").build()        ||  false    |   ["invalid", "xxx"]
+            mapBuilder().put("hibernate.posmulten.tenant.id.values.blacklist", "ten-1").build()        ||  true    |   ["ten-1"]
+            mapBuilder().put("hibernate.posmulten.tenant.id.values.blacklist", "invalid,xxx").build()        ||  true    |   ["invalid", "xxx"]
+            mapBuilder().put("hibernate.posmulten.tenant.id.set.current.as.default", false).put("hibernate.posmulten.tenant.id.values.blacklist", "invalid,xxx").build()        ||  false    |   ["invalid", "xxx"]
     }
 
     @Unroll

@@ -56,7 +56,7 @@ class TenantTablePropertiesResolverTest extends Specification {
     }
 
     @Unroll
-    def "should return object with table: #expectedTable, expected columns for primary keys: #expectedColumns" ()
+    def "should return object with table: #expectedTable, schema #expectedSchema expected columns for primary keys: #expectedColumns" ()
     {
         given:
             def persistentClass = Mock(PersistentClass)
@@ -67,13 +67,17 @@ class TenantTablePropertiesResolverTest extends Specification {
 
         then:
             result.getTable() == expectedTable
+            result.getSchema() == expectedSchema
             result.getPrimaryKeysColumnAndTypeMap() == expectedColumns
 
         where:
-            table                                                                   ||  expectedTable   |  expectedColumns
-            prepareTable("user", ["id": "numeric"])                                 ||  "user"    |   ["id": "numeric"]
-            prepareTable("comments", ["comment_id": "long"])                        ||  "comments"  |   ["comment_id": "long"]
-            prepareTable("posts", ["user_id": "numeric", "post_uuid" : "UUID"])     ||  "posts"   |   ["user_id": "numeric", "post_uuid" : "UUID"]
+            table                                                                                   ||  expectedTable   |   expectedSchema  |  expectedColumns
+            prepareTable("user", ["id": "numeric"])                                                 ||  "user"    | null    |  ["id": "numeric"]
+            prepareTable("comments", ["comment_id": "long"])                                        ||  "comments"  | null    |   ["comment_id": "long"]
+            prepareTable("posts", ["user_id": "numeric", "post_uuid" : "UUID"])                     ||  "posts"   | null    |   ["user_id": "numeric", "post_uuid" : "UUID"]
+            prepareTable("user", "non_public_schema", ["id": "numeric"])                            ||  "user"    | "non_public_schema"    |  ["id": "numeric"]
+            prepareTable("comments", "public", ["comment_id": "long"])                              ||  "comments"  | "public"    |   ["comment_id": "long"]
+            prepareTable("posts", "secondary_sh",  ["user_id": "numeric", "post_uuid" : "UUID"])    ||  "posts"   | "secondary_sh"    |   ["user_id": "numeric", "post_uuid" : "UUID"]
     }
 
     @Unroll
@@ -113,6 +117,11 @@ class TenantTablePropertiesResolverTest extends Specification {
 
     private static Table prepareTable(String name, Map<String, String> primaryColumns)
     {
+        return prepareTable(name, null, primaryColumns)
+    }
+
+    private static Table prepareTable(String name, String schema, Map<String, String> primaryColumns)
+    {
         def table = mock(Table.class)
         def primaryKey = mock(PrimaryKey.class)
         List<Column> columns = new ArrayList<>()
@@ -126,6 +135,7 @@ class TenantTablePropertiesResolverTest extends Specification {
         }
         when(table.getPrimaryKey()).thenReturn(primaryKey)
         when(table.getName()).thenReturn(name)
+        when(table.getSchema()).thenReturn(schema)
         when(primaryKey.getColumnIterator()).thenAnswer({columns.iterator()} )
         return table
     }

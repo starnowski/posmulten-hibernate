@@ -16,14 +16,15 @@ import org.testng.annotations.BeforeSuite;
 
 public class AbstractBaseItTest {
 
-    protected Session schemaCreatorSession;
-    protected Session primarySession;
     private static SessionFactory primarySessionFactory;
     private static SessionFactory schemaCreatorSessionFactory;
+    protected Session schemaCreatorSession;
+    protected Session primarySession;
 
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
 
@@ -48,15 +49,19 @@ public class AbstractBaseItTest {
 
     @BeforeSuite(groups = "Integration tests")
     public void prepareDatabase() {
-        this.schemaCreatorSessionFactory = getSchemaCreatorSessionFactory();
-        this.primarySessionFactory = getPrimarySessionFactory();
+        schemaCreatorSessionFactory = getSchemaCreatorSessionFactory();
+        primarySessionFactory = getPrimarySessionFactory();
     }
 
     @BeforeClass
     public void openSession() {
         schemaCreatorSession = schemaCreatorSessionFactory.openSession();
-        //TODO Set current tenant in tenant provider
 //        primarySession = primarySessionFactory.openSession();
+    }
+
+    protected Session openPrimarySession()
+    {
+        return primarySessionFactory.openSession();
     }
 
     @AfterTest

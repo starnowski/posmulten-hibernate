@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables
 
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder
+import com.github.starnowski.posmulten.postgresql.core.context.TableKey
 import org.hibernate.mapping.Column
 import org.hibernate.mapping.ForeignKey
 import org.hibernate.mapping.PrimaryKey
@@ -13,7 +14,7 @@ import static java.util.stream.Collectors.toList
 class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelperTest extends Specification {
 
     @Unroll
-    def "should enrich builder with foreign key for table #tableName and columns #expectedColumnsReference, reference table #referenceTableName, expected constraint name #cn, table columns #tableColumns, reference table columns #referenceTableColumns"() {
+    def "should enrich builder with foreign key for table #tableName in schema #schema and columns #expectedColumnsReference, reference table #referenceTableName in schema #referenceTableSchemaName, expected constraint name #cn, table columns #tableColumns, reference table columns #referenceTableColumns"() {
         given:
             def tested = new ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper()
             def builder = Mock(DefaultSharedSchemaContextBuilder)
@@ -27,7 +28,9 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelperTest extend
             foreignKey.getTable() >> table
             referenceTable.getPrimaryKey() >> primaryKey
             referenceTable.getName() >> referenceTableName
+            referenceTable.getSchema() >> referenceTableSchemaName
             table.getName() >> tableName
+            table.getSchema() >> schema
             primaryKey.getColumns() >> mapColumns(referenceTableColumns)
             foreignKey.getColumns() >> foreignKeyColumns
 
@@ -36,12 +39,18 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelperTest extend
 
         then:
             1 * nameGenerator.generate("rls_fk_con_", table, foreignKeyColumns) >> cn
-            1 * builder.createSameTenantConstraintForForeignKey(tableName, referenceTableName, expectedColumnsReference, cn)
+            1 * builder.createSameTenantConstraintForForeignKey(new TableKey(tableName, schema), new TableKey(referenceTableName, referenceTableSchemaName), expectedColumnsReference, cn)
 
         where:
-            tableName       |   referenceTableName      |   cn                  |   tableColumns                    |   referenceTableColumns   ||  expectedColumnsReference
-            "posts"         |   "users"                 |   "some_con"          |   ["user_id"]                     |   ["id"]                  ||  [user_id: "id"]
-            "comments"      |   "posts"                 |   "comm_fk_axczv"     |   ["post_id", "post_user_id"]     |   ["id", "user_id"]       ||  [post_id: "id", post_user_id: "user_id"]
+            tableName       |   schema          |   referenceTableName      | referenceTableSchemaName  |   cn                  |   tableColumns                    |   referenceTableColumns   ||  expectedColumnsReference
+            "posts"         |   null            |   "users"                 |  null                     |   "some_con"          |   ["user_id"]                     |   ["id"]                  ||  [user_id: "id"]
+            "comments"      |   null            |   "posts"                 |  null                     |   "comm_fk_axczv"     |   ["post_id", "post_user_id"]     |   ["id", "user_id"]       ||  [post_id: "id", post_user_id: "user_id"]
+            "posts"         |   "secondary"     |   "users"                 |  null                     |   "some_con"          |   ["user_id"]                     |   ["id"]                  ||  [user_id: "id"]
+            "comments"      |   "secondary"     |   "posts"                 |  null                     |   "comm_fk_axczv"     |   ["post_id", "post_user_id"]     |   ["id", "user_id"]       ||  [post_id: "id", post_user_id: "user_id"]
+            "posts"         |   "secondary"     |   "users"                 |  "pos_sch"                |   "some_con"          |   ["user_id"]                     |   ["id"]                  ||  [user_id: "id"]
+            "comments"      |   "secondary"     |   "posts"                 |  "pos_sch"                |   "comm_fk_axczv"     |   ["post_id", "post_user_id"]     |   ["id", "user_id"]       ||  [post_id: "id", post_user_id: "user_id"]
+            "posts"         |   null            |   "users"                 |  "pos_sch"                |   "some_con"          |   ["user_id"]                     |   ["id"]                  ||  [user_id: "id"]
+            "comments"      |   null            |   "posts"                 |  "pos_sch"                |   "comm_fk_axczv"     |   ["post_id", "post_user_id"]     |   ["id", "user_id"]       ||  [post_id: "id", post_user_id: "user_id"]
     }
 
     private List<Column> mapColumns(List<String> columnsNames){

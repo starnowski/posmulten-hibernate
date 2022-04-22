@@ -28,8 +28,8 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
         } else {
             defaultSharedSchemaContextBuilder.setCurrentTenantIdentifierAsDefaultValueForTenantColumnInAllTables(true);
         }
-        if (configuration.containsKey(TENANT_ID_VALID_VALUES)) {
-            defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get(TENANT_ID_VALID_VALUES)).split(",")), null, null);
+        if (configuration.containsKey(TENANT_ID_INVALID_VALUES)) {
+            defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get(TENANT_ID_INVALID_VALUES)).split(",")), null, null);
         }
         defaultSharedSchemaContextBuilder.setIdentifierMaxLength(configuration.containsKey(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH) ? Integer.parseInt((String) configuration.get(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH)) : MAXIMUM_IDENTIFIER_LENGTH);
         return defaultSharedSchemaContextBuilder;
