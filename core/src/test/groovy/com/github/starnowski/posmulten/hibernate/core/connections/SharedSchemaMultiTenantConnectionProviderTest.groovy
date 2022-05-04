@@ -24,6 +24,7 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             def connectionProvider = Mock(ConnectionProvider)
             def defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
             def defaultSharedSchemaContextBuilder = Mock(DefaultSharedSchemaContextBuilder)
+            def currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
             defaultSharedSchemaContextBuilderProvider.get() >> defaultSharedSchemaContextBuilder
 
             def connection = Mock(Connection)
@@ -38,6 +39,7 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
 
             serviceRegistry.getService(ConnectionProvider) >> connectionProvider
             serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+            serviceRegistry.getService(ICurrentTenantPreparedStatementSetter) >> currentTenantPreparedStatementSetter
             tested.injectServices(serviceRegistry)
 
         when:
@@ -46,7 +48,7 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
         then:
             result == connection
             1 * connection.prepareStatement(preparedStatement) >> statement
-            1 * statement.setString(1, tenantId)
+            1 * currentTenantPreparedStatementSetter.setup(statement, tenantId)
             1 * statement.execute()
 
         where:

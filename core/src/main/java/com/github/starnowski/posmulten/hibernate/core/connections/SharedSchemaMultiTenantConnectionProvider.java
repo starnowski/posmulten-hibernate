@@ -18,6 +18,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
 
     private ConnectionProvider connectionProvider;
     private ISharedSchemaContext context;
+    private ICurrentTenantPreparedStatementSetter currentTenantPreparedStatementSetter;
 
     public Connection getAnyConnection() throws SQLException {
         return connectionProvider.getConnection();
@@ -32,9 +33,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
         ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
         try {
             PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
-            //TODO Use strategy pattern
-            //TODO Add regex resolver that resolves based on passed tenant column type what is java type
-            statement.setString(1, tenant);//TODO Try to resolve tenant column type (in case if type is different than string type)
+            currentTenantPreparedStatementSetter.setup(statement, tenant);
             statement.execute();
         } catch (SQLException e) {
             //TODO sanitize message
@@ -86,6 +85,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
         } catch (SharedSchemaContextBuilderException e) {
             throw new RuntimeException(e);
         }
+        this.currentTenantPreparedStatementSetter = serviceRegistry.getService(ICurrentTenantPreparedStatementSetter.class);
         //TODO Resolve dummy tenant id
     }
 }

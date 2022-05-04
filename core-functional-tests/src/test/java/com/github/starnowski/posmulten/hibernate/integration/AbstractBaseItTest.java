@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
+import com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator;
 import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
 import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
 import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
@@ -25,6 +26,7 @@ public class AbstractBaseItTest {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
+                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
 
@@ -59,8 +61,7 @@ public class AbstractBaseItTest {
 //        primarySession = primarySessionFactory.openSession();
     }
 
-    protected Session openPrimarySession()
-    {
+    protected Session openPrimarySession() {
         return primarySessionFactory.openSession();
     }
 
