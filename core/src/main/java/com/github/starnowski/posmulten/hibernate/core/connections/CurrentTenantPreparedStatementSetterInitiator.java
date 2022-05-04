@@ -19,7 +19,7 @@ public class CurrentTenantPreparedStatementSetterInitiator implements StandardSe
                 case "custom":
                     if (map.containsKey(TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER)) {
                         try {
-                            return (ICurrentTenantPreparedStatementSetter) Class.forName((String) map.get(TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER)).getDeclaredConstructor().newInstance();
+                            return Class.forName((String) map.get(TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER)).asSubclass(ICurrentTenantPreparedStatementSetter.class).getDeclaredConstructor().newInstance();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
