@@ -32,6 +32,7 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
             defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get(TENANT_ID_INVALID_VALUES)).split(",")), null, null);
         }
         defaultSharedSchemaContextBuilder.setIdentifierMaxLength(configuration.containsKey(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH) ? Integer.parseInt((String) configuration.get(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH)) : MAXIMUM_IDENTIFIER_LENGTH);
+        //TODO Setting name for functions that get and set current tenant
         return defaultSharedSchemaContextBuilder;
     }
 }

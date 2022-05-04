@@ -24,6 +24,7 @@ public class LightweightDefaultSharedSchemaContextBuilderProvider implements IDe
         if (configuration.containsKey(ID_PROPERTY)) {
             defaultSharedSchemaContextBuilder.setCurrentTenantIdProperty((String) configuration.get(ID_PROPERTY));
         }
+        //TODO Setting name for functions that get and set current tenant
         return defaultSharedSchemaContextBuilder;
     }
 }
