@@ -1,6 +1,10 @@
 package com.github.starnowski.posmulten.hibernate.core.connections
 
 import spock.lang.Specification
+import spock.lang.Unroll
+
+import java.sql.PreparedStatement
+import java.sql.SQLException
 
 class CurrentTenantPreparedStatementSetterInitiatorTest extends Specification {
 
@@ -50,5 +54,37 @@ class CurrentTenantPreparedStatementSetterInitiatorTest extends Specification {
         then:
             result
             result instanceof CurrentTenantPreparedStatementSetterForLong
+    }
+
+    @Unroll
+    def "should return implementation for custom type when property 'hibernate.posmulten.tenant.column.java.type' is set with value 'custom' and return class defined by property 'hibernate.posmulten.tenant.column.java.type.custom.resolver' #resolverClass"(){
+        given:
+            Map map = new HashMap()
+            map.put("hibernate.posmulten.tenant.column.java.type", "custom")
+            map.put("hibernate.posmulten.tenant.column.java.type.custom.resolver", resolverClass.getName())
+
+        when:
+            def result = tested.initiateService(map, null)
+
+        then:
+            result
+            result.getClass().equals(resolverClass)
+
+        where:
+            resolverClass << [CurrentTenantPreparedStatementSetterType1.class, CurrentTenantPreparedStatementSetterType2.class]
+    }
+
+    private final static class CurrentTenantPreparedStatementSetterType1 implements ICurrentTenantPreparedStatementSetter {
+        @Override
+        void setup(PreparedStatement statement, String tenant) throws SQLException {
+
+        }
+    }
+
+    private final static class CurrentTenantPreparedStatementSetterType2 implements ICurrentTenantPreparedStatementSetter {
+        @Override
+        void setup(PreparedStatement statement, String tenant) throws SQLException {
+
+        }
     }
 }
