@@ -23,6 +23,7 @@ class LightweightDefaultSharedSchemaContextBuilderProviderTest extends Specifica
             def context = result.build()
             context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() != null
             context.getIGetCurrentTenantIdFunctionInvocationFactory() != null
+            context.getCurrentTenantIdPropertyType() != null
 
         where:
             map             ||  schema  |   currentTenantIdProperty

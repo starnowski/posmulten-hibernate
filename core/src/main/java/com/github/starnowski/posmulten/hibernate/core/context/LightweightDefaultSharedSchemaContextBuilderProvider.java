@@ -1,7 +1,11 @@
 package com.github.starnowski.posmulten.hibernate.core.context;
 
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.enrichers.CurrentTenantIdPropertyTypeEnricher;
+import com.github.starnowski.posmulten.postgresql.core.context.enrichers.GetCurrentTenantIdFunctionDefinitionEnricher;
+import com.github.starnowski.posmulten.postgresql.core.context.enrichers.SetCurrentTenantIdFunctionDefinitionEnricher;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import static com.github.starnowski.posmulten.hibernate.core.Properties.ID_PROPERTY;
@@ -16,6 +20,7 @@ public class LightweightDefaultSharedSchemaContextBuilderProvider implements IDe
     @Override
     public DefaultSharedSchemaContextBuilder get() {
         DefaultSharedSchemaContextBuilder defaultSharedSchemaContextBuilder = configuration.containsKey("hibernate.default_schema") ? new DefaultSharedSchemaContextBuilder((String) configuration.get("hibernate.default_schema")) : new DefaultSharedSchemaContextBuilder(null);
+        defaultSharedSchemaContextBuilder.setEnrichers(Arrays.asList(new GetCurrentTenantIdFunctionDefinitionEnricher(), new SetCurrentTenantIdFunctionDefinitionEnricher(), new CurrentTenantIdPropertyTypeEnricher()));
         if (configuration.containsKey(ID_PROPERTY)) {
             defaultSharedSchemaContextBuilder.setCurrentTenantIdProperty((String) configuration.get(ID_PROPERTY));
         }
