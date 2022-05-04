@@ -12,6 +12,7 @@ public class CurrentTenantPreparedStatementSetterInitiator implements StandardSe
     @Override
     public ICurrentTenantPreparedStatementSetter initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
         if (map.containsKey(TENANT_COLUMN_JAVA_TYPE)) {
+            //TODO https://github.com/starnowski/posmulten/issues/251
             switch ((String) map.get(TENANT_COLUMN_JAVA_TYPE)) {
                 case "long":
                     return new CurrentTenantPreparedStatementSetterForLong();
