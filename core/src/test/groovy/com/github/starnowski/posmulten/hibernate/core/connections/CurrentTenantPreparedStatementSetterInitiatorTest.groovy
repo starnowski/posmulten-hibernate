@@ -25,4 +25,30 @@ class CurrentTenantPreparedStatementSetterInitiatorTest extends Specification {
             result
             result instanceof CurrentTenantPreparedStatementSetterForString
     }
+
+    def "should return implementation for string type when property 'hibernate.posmulten.tenant.column.java.type' is set with value 'string'"(){
+        given:
+            Map map = new HashMap()
+            map.put("hibernate.posmulten.tenant.column.java.type", "string")
+
+        when:
+            def result = tested.initiateService(map, null)
+
+        then:
+            result
+            result instanceof CurrentTenantPreparedStatementSetterForString
+    }
+
+    def "should return implementation for long type when property 'hibernate.posmulten.tenant.column.java.type' is set with value 'long'"(){
+        given:
+            Map map = new HashMap()
+            map.put("hibernate.posmulten.tenant.column.java.type", "long")
+
+        when:
+            def result = tested.initiateService(map, null)
+
+        then:
+            result
+            result instanceof CurrentTenantPreparedStatementSetterForLong
+    }
 }
