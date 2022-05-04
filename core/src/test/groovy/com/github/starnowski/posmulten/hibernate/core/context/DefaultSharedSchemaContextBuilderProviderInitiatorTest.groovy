@@ -25,7 +25,7 @@ class DefaultSharedSchemaContextBuilderProviderInitiatorTest extends Specificati
             map.put("hibernate.posmulten.schema.builder.provider", "full")
 
         when:
-            def result = tested.initiateService(new HashMap(), null)
+            def result = tested.initiateService(map, null)
 
         then:
             result != null
@@ -40,7 +40,7 @@ class DefaultSharedSchemaContextBuilderProviderInitiatorTest extends Specificati
             map.put("hibernate.posmulten.schema.builder.provider", "lightweight")
 
         when:
-            def result = tested.initiateService(new HashMap(), null)
+            def result = tested.initiateService(map, null)
 
         then:
             result != null
