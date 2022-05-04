@@ -8,7 +8,7 @@ import java.util.Map;
 public class CurrentTenantPreparedStatementSetterInitiator implements StandardServiceInitiator<ICurrentTenantPreparedStatementSetter> {
     @Override
     public ICurrentTenantPreparedStatementSetter initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
-        return null;
+        return new CurrentTenantPreparedStatementSetterForString();
     }
 
     @Override
