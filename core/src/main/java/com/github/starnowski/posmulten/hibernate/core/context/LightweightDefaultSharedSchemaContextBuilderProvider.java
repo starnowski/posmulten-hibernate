@@ -8,7 +8,7 @@ import com.github.starnowski.posmulten.postgresql.core.context.enrichers.SetCurr
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.core.Properties.ID_PROPERTY;
+import static com.github.starnowski.posmulten.hibernate.core.Properties.*;
 
 public class LightweightDefaultSharedSchemaContextBuilderProvider implements IDefaultSharedSchemaContextBuilderProvider {
 
@@ -17,6 +17,7 @@ public class LightweightDefaultSharedSchemaContextBuilderProvider implements IDe
     public LightweightDefaultSharedSchemaContextBuilderProvider(Map configuration) {
         this.configuration = configuration;
     }
+
     @Override
     public DefaultSharedSchemaContextBuilder get() {
         DefaultSharedSchemaContextBuilder defaultSharedSchemaContextBuilder = configuration.containsKey("hibernate.default_schema") ? new DefaultSharedSchemaContextBuilder((String) configuration.get("hibernate.default_schema")) : new DefaultSharedSchemaContextBuilder(null);
@@ -24,7 +25,12 @@ public class LightweightDefaultSharedSchemaContextBuilderProvider implements IDe
         if (configuration.containsKey(ID_PROPERTY)) {
             defaultSharedSchemaContextBuilder.setCurrentTenantIdProperty((String) configuration.get(ID_PROPERTY));
         }
-        //TODO Setting name for functions that get and set current tenant
+        if (configuration.containsKey(GET_CURRENT_TENANT_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setGetCurrentTenantIdFunctionName((String) configuration.get(GET_CURRENT_TENANT_FUNCTION_NAME));
+        }
+        if (configuration.containsKey(SET_CURRENT_TENANT_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setSetCurrentTenantIdFunctionName((String) configuration.get(SET_CURRENT_TENANT_FUNCTION_NAME));
+        }
         return defaultSharedSchemaContextBuilder;
     }
 }
