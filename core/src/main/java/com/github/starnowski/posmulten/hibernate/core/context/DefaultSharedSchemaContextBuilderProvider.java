@@ -33,6 +33,12 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
         }
         defaultSharedSchemaContextBuilder.setIdentifierMaxLength(configuration.containsKey(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH) ? Integer.parseInt((String) configuration.get(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH)) : MAXIMUM_IDENTIFIER_LENGTH);
         //TODO Setting name for functions that get and set current tenant
+        if (configuration.containsKey(GET_CURRENT_TENANT_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setGetCurrentTenantIdFunctionName((String) configuration.get(GET_CURRENT_TENANT_FUNCTION_NAME));
+        }
+        if (configuration.containsKey(SET_CURRENT_TENANT_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setSetCurrentTenantIdFunctionName((String) configuration.get(SET_CURRENT_TENANT_FUNCTION_NAME));
+        }
         return defaultSharedSchemaContextBuilder;
     }
 }
