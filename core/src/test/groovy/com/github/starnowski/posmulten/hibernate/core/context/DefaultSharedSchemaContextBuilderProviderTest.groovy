@@ -75,4 +75,40 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
             mapBuilder().put("hibernate.posmulten.maximum.identifier.length", "13").build()             ||  13
             mapBuilder().put("hibernate.posmulten.maximum.identifier.length", "176").build()            ||  176
     }
+
+    @Unroll
+    def "should set name for function that sets current tenant based on property 'hibernate.posmulten.function.setcurrenttenant.name', expected #value"()
+    {
+        given:
+            def tested = new DefaultSharedSchemaContextBuilderProvider(map)
+
+        when:
+            def result = tested.get()
+
+        then:
+            result.getSharedSchemaContextRequestCopy().getSetCurrentTenantIdFunctionName() == value
+
+        where:
+            map                                                                                                     ||  value
+            mapBuilder().put("hibernate.posmulten.function.setcurrenttenant.name", "set_tenant").build()            ||  "set_tenant"
+            mapBuilder().put("hibernate.posmulten.function.setcurrenttenant.name", "_tenant_should_be").build()     ||  "_tenant_should_be"
+    }
+
+    @Unroll
+    def "should set name for function that gets current tenant based on property 'hibernate.posmulten.function.getcurrenttenant.name', expected #value"()
+    {
+        given:
+            def tested = new DefaultSharedSchemaContextBuilderProvider(map)
+
+        when:
+            def result = tested.get()
+
+        then:
+            result.getSharedSchemaContextRequestCopy().getGetCurrentTenantIdFunctionName() == value
+
+        where:
+        map                                                                                                     ||  value
+            mapBuilder().put("hibernate.posmulten.function.getcurrenttenant.name", "get_tenant").build()        ||  "get_tenant"
+            mapBuilder().put("hibernate.posmulten.function.getcurrenttenant.name", "_tenant_value_is").build()  ||  "_tenant_value_is"
+    }
 }
