@@ -37,8 +37,12 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
             statement.execute();
         } catch (SQLException e) {
             //TODO sanitize message
+//            throw new HibernateException(
+//                    "Could not alter JDBC connection to specified tenant [" + tenant + "]",
+//                    e
+//            );
             throw new HibernateException(
-                    "Could not alter JDBC connection to specified tenant [" + tenant + "]",
+                    "Could not alter JDBC connection to specified tenant",
                     e
             );
         }
