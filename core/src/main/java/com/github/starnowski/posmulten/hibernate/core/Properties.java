@@ -11,4 +11,8 @@ public class Properties {
     public static final String TENANT_COLUMN_JAVA_TYPE = "hibernate.posmulten.tenant.column.java.type";
     public static final String TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER = "hibernate.posmulten.tenant.column.java.type.custom.resolver";
     public static final String SCHEMA_BUILDER_PROVIDER = "hibernate.posmulten.schema.builder.provider";
+    public static final String GET_CURRENT_TENANT_FUNCTION_NAME = "hibernate.posmulten.function.getcurrenttenant.name";
+    public static final String SET_CURRENT_TENANT_FUNCTION_NAME = "hibernate.posmulten.function.setcurrenttenant.name";
+    public static final String EQUALS_CURRENT_TENANT_IDENTIFIER_FUNCTION_NAME = "hibernate.posmulten.function.equalscurrenttenantidentifier.name";
+    public static final String TENANT_HAS_AUTHORITIES_FUNCTION_NAME = "hibernate.posmulten.function.tenanthasauthorities.name";
 }
