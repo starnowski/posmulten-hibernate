@@ -129,4 +129,22 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
             mapBuilder().put("hibernate.posmulten.function.equalscurrenttenantidentifier.name", "equals_tenant").build()    ||  "equals_tenant"
             mapBuilder().put("hibernate.posmulten.function.equalscurrenttenantidentifier.name", "_is_equal").build()        ||  "_is_equal"
     }
+
+    @Unroll
+    def "should set name for function that checks if tenant has authorities based on property 'hibernate.posmulten.function.tenanthasauthorities.name', expected #value"()
+    {
+        given:
+            def tested = new DefaultSharedSchemaContextBuilderProvider(map)
+
+        when:
+            def result = tested.get()
+
+        then:
+            result.getSharedSchemaContextRequestCopy().getTenantHasAuthoritiesFunctionName() == value
+
+        where:
+            map                                                                                                                 ||  value
+            mapBuilder().put("hibernate.posmulten.function.tenanthasauthorities.name", "ten_has_aut").build()                   ||  "ten_has_aut"
+            mapBuilder().put("hibernate.posmulten.function.tenanthasauthorities.name", "tenanthasauthorities_fun").build()      ||  "tenanthasauthorities_fun"
+    }
 }
