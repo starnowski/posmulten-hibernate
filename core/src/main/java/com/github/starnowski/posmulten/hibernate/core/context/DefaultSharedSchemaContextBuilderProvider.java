@@ -32,6 +32,18 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
             defaultSharedSchemaContextBuilder.createValidTenantValueConstraint(asList(((String) configuration.get(TENANT_ID_INVALID_VALUES)).split(",")), null, null);
         }
         defaultSharedSchemaContextBuilder.setIdentifierMaxLength(configuration.containsKey(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH) ? Integer.parseInt((String) configuration.get(POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH)) : MAXIMUM_IDENTIFIER_LENGTH);
+        if (configuration.containsKey(GET_CURRENT_TENANT_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setGetCurrentTenantIdFunctionName((String) configuration.get(GET_CURRENT_TENANT_FUNCTION_NAME));
+        }
+        if (configuration.containsKey(SET_CURRENT_TENANT_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setSetCurrentTenantIdFunctionName((String) configuration.get(SET_CURRENT_TENANT_FUNCTION_NAME));
+        }
+        if (configuration.containsKey(EQUALS_CURRENT_TENANT_IDENTIFIER_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setEqualsCurrentTenantIdentifierFunctionName((String) configuration.get(EQUALS_CURRENT_TENANT_IDENTIFIER_FUNCTION_NAME));
+        }
+        if (configuration.containsKey(TENANT_HAS_AUTHORITIES_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setTenantHasAuthoritiesFunctionName((String) configuration.get(TENANT_HAS_AUTHORITIES_FUNCTION_NAME));
+        }
         return defaultSharedSchemaContextBuilder;
     }
 }
