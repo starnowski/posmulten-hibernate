@@ -64,6 +64,7 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderTest extends Spec
 
         then:
             results.stream().map({ it.getClass() }).collect(Collectors.toList()) == expectedEnrichersClasses
+            results.stream().allMatch({ it.isInitialized()})
 
         where:
             configuration   ||  expectedEnrichersClasses
@@ -76,6 +77,8 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderTest extends Spec
 
     private static class Type1 implements IDefaultSharedSchemaContextBuilderMetadataEnricher {
 
+        private boolean initialized = false
+
         @Override
         DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata) {
             return null
@@ -83,12 +86,19 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderTest extends Spec
 
         @Override
         boolean isInitialized() {
-            return false
+            return initialized
+        }
+
+        @Override
+        void initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+            this.initialized = true
         }
     }
 
     private static class Type2 implements IDefaultSharedSchemaContextBuilderMetadataEnricher {
 
+        private boolean initialized = false
+
         @Override
         DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata) {
             return null
@@ -96,7 +106,12 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherProviderTest extends Spec
 
         @Override
         boolean isInitialized() {
-            return false
+            return initialized
+        }
+
+        @Override
+        void initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+            this.initialized = true
         }
     }
 }
