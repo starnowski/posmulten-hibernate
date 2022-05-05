@@ -15,4 +15,6 @@ public class Properties {
     public static final String SET_CURRENT_TENANT_FUNCTION_NAME = "hibernate.posmulten.function.setcurrenttenant.name";
     public static final String EQUALS_CURRENT_TENANT_IDENTIFIER_FUNCTION_NAME = "hibernate.posmulten.function.equalscurrenttenantidentifier.name";
     public static final String TENANT_HAS_AUTHORITIES_FUNCTION_NAME = "hibernate.posmulten.function.tenanthasauthorities.name";
+    public static final String METADATA_TABLE_ADDITIONAL_ENRICHERS = "hibernate.posmulten.metadata.table.additional.enrichers";
+    public static final String METADATA_ADDITIONAL_ENRICHERS = "hibernate.posmulten.metadata.additional.enrichers";
 }

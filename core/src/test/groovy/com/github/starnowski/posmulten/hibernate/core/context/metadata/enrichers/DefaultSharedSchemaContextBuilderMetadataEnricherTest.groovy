@@ -12,8 +12,11 @@ import org.hibernate.boot.model.relational.Namespace
 import org.hibernate.mapping.Table
 import org.hibernate.service.spi.ServiceRegistryImplementor
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.util.stream.Collectors
+
+import static com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder.mapBuilder
 
 class DefaultSharedSchemaContextBuilderMetadataEnricherTest extends Specification {
 
@@ -85,5 +88,73 @@ class DefaultSharedSchemaContextBuilderMetadataEnricherTest extends Specificatio
             result == builder
             1 * tableMetadataEnricher.enrich(builder, metadata, table1) >> builder
             1 * tableMetadataEnricher.enrich(builder, metadata, table2) >> builder
+    }
+
+    @Unroll
+    def "should add additional enrichres specified by property 'hibernate.posmulten.metadata.table.additional.enrichers', expected enricher classes #expectedEnrichersClasses"()
+    {
+        given:
+            def tested = new DefaultSharedSchemaContextBuilderMetadataEnricher()
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
+            tested.initiateService(configuration, serviceRegistryImplementor)
+
+        when:
+            def results = tested.getEnrichers()
+
+        then:
+            results
+            !results.isEmpty()
+            results.stream().allMatch({ it.isInitialized()})
+
+        and: "enrichers should have correct type"
+            results.stream().map({ it.getClass() }).collect(Collectors.toList()) == expectedEnrichersClasses
+
+        where:
+            configuration   ||  expectedEnrichersClasses
+            mapBuilder().put("hibernate.posmulten.metadata.table.additional.enrichers", String.join(",", Type1.name)).build()        ||  [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, ForeignKeySharedSchemaContextBuilderTableMetadataEnricher.class, CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher.class, Type1.class]
+            mapBuilder().put("hibernate.posmulten.metadata.table.additional.enrichers", String.join(",", Type2.name)).build()        ||  [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, ForeignKeySharedSchemaContextBuilderTableMetadataEnricher.class, CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher.class, Type2.class]
+            mapBuilder().put("hibernate.posmulten.metadata.table.additional.enrichers", String.join(",", Type1.name, Type2.name)).build()        ||  [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, ForeignKeySharedSchemaContextBuilderTableMetadataEnricher.class, CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher.class, Type1.class, Type2.class]
+            mapBuilder().put("hibernate.posmulten.metadata.table.additional.enrichers", String.join(",", Type2.name, Type1.name)).build()        ||  [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, ForeignKeySharedSchemaContextBuilderTableMetadataEnricher.class, CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher.class, Type2.class, Type1.class]
+            mapBuilder().put("hibernate.posmulten.metadata.table.additional.enrichers", "").build()        ||  [RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher.class, ForeignKeySharedSchemaContextBuilderTableMetadataEnricher.class, CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher.class]
+    }
+
+    private static class Type1 implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
+
+        private boolean initialized = false
+
+        @Override
+        DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
+            return null
+        }
+
+        @Override
+        void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+            this.initialized = true
+        }
+
+        @Override
+        boolean isInitialized() {
+            return initialized
+        }
+    }
+
+    private static class Type2 implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
+
+        private boolean initialized = false
+
+        @Override
+        DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
+            return null
+        }
+
+        @Override
+        void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
+            this.initialized = true
+        }
+
+        @Override
+        boolean isInitialized() {
+            return initialized
+        }
     }
 }

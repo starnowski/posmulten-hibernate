@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.starnowski.posmulten.hibernate.core.Properties.METADATA_TABLE_ADDITIONAL_ENRICHERS;
+
 public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefaultSharedSchemaContextBuilderMetadataEnricher {
 
     private boolean initialized = false;
@@ -42,6 +44,19 @@ public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefau
         enrichers.add(new JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher());
         enrichers.add(new ForeignKeySharedSchemaContextBuilderTableMetadataEnricher());
         enrichers.add(new CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher());
+        if (map.containsKey(METADATA_TABLE_ADDITIONAL_ENRICHERS)) {
+            String[] classNames = ((String) map.get(METADATA_TABLE_ADDITIONAL_ENRICHERS)).split(",");
+            for (String className : classNames) {
+                if (className.trim().isEmpty()) {
+                    continue;
+                }
+                try {
+                    enrichers.add(Class.forName(className).asSubclass(IDefaultSharedSchemaContextBuilderTableMetadataEnricher.class).getDeclaredConstructor().newInstance());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
         enrichers.forEach(enricher -> enricher.init(map, serviceRegistryImplementor));
         this.initialized = true;
     }
