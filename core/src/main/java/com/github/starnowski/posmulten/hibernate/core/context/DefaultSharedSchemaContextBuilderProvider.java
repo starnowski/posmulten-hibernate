@@ -39,6 +39,9 @@ public class DefaultSharedSchemaContextBuilderProvider implements IDefaultShared
         if (configuration.containsKey(SET_CURRENT_TENANT_FUNCTION_NAME)) {
             defaultSharedSchemaContextBuilder.setSetCurrentTenantIdFunctionName((String) configuration.get(SET_CURRENT_TENANT_FUNCTION_NAME));
         }
+        if (configuration.containsKey(EQUALS_CURRENT_TENANT_IDENTIFIER_FUNCTION_NAME)) {
+            defaultSharedSchemaContextBuilder.setEqualsCurrentTenantIdentifierFunctionName((String) configuration.get(EQUALS_CURRENT_TENANT_IDENTIFIER_FUNCTION_NAME));
+        }
         return defaultSharedSchemaContextBuilder;
     }
 }
