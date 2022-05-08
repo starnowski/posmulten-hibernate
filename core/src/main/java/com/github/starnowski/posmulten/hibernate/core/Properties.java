@@ -17,4 +17,5 @@ public class Properties {
     public static final String TENANT_HAS_AUTHORITIES_FUNCTION_NAME = "hibernate.posmulten.function.tenanthasauthorities.name";
     public static final String METADATA_TABLE_ADDITIONAL_ENRICHERS = "hibernate.posmulten.metadata.table.additional.enrichers";
     public static final String METADATA_ADDITIONAL_ENRICHERS = "hibernate.posmulten.metadata.additional.enrichers";
+    public static final String IGNORE_FOREIGN_KEY_CONSTRAINT = "hibernate.posmulten.foreignkey.constraint.ignore";
 }
