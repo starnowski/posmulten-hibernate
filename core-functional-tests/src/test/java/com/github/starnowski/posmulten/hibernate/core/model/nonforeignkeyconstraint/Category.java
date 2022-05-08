@@ -26,6 +26,8 @@ public class Category {
     @GeneratedValue
     private long id;
 
+    @EmbeddedId PrimaryKey<Long> primaryKey;
+
     @Column
     private String text;
 
