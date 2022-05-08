@@ -110,7 +110,7 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Abst
             def table = Mock(Table)
             table.getForeignKeyIterator() >> { [foreignKey].iterator() }
 
-            tested.init(null, serviceRegistryImplementor)
+            tested.init(getMap(), serviceRegistryImplementor)
 
         when:
             tested.enrich(builder, metadata, table)
@@ -129,7 +129,7 @@ class ForeignKeySharedSchemaContextBuilderTableMetadataEnricherTest extends Abst
 
     @Override
     Map getMap() {
-        return null
+        new HashMap()
     }
 
     @Override
