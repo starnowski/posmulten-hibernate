@@ -14,13 +14,14 @@ import java.util.Set;
 @Accessors(chain = true)
 @Table(name = "posts")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable
 public class Post {
 
-    @Id
-    @GeneratedValue
-    private long id;
+    @EmbeddedId
+    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
+    @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
+    private PrimaryKey<Long> primaryKey;
     @ManyToOne
     @JoinColumn(name = "userId")
     private User author;

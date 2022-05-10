@@ -18,22 +18,19 @@ import java.util.Set;
 @Accessors(chain = true)
 @Table(name = "categories")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable(tenantIdColumn = "categoryTenantId")
 public class Category {
 
-    @Id
-    @GeneratedValue
-    private long id;
-
-    @EmbeddedId PrimaryKey<Long> primaryKey;
+    @EmbeddedId
+    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
+    @AttributeOverride(name="tenant", column=@Column(name = "categoryTenantId", insertable = false, updatable = false))
+    private PrimaryKey<Long> primaryKey;
 
     @Column
     private String text;
 
+    @MapsId("tenant")
     @ManyToMany(mappedBy = "categories")
     private Set<Post> posts;
-
-    @Column(name = "categoryTenantId", insertable = false, updatable = false)
-    private String tenantId;
 }
