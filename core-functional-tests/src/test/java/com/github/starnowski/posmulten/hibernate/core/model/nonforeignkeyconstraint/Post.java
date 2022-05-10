@@ -24,7 +24,7 @@ public class Post {
     private PrimaryKey<Long> primaryKey;
     @ManyToOne
     @MapsId("tenant")
-    @JoinColumn(name = "primaryKey.primaryKey")
+    @JoinColumn(name = "user_id")
     private User author;
 
     @Column(columnDefinition = "text")

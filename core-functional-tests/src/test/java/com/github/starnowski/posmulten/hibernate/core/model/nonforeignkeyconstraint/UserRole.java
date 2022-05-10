@@ -14,18 +14,20 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Table(name = "user_role")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable
 public class UserRole {
-    @Id
-    @GeneratedValue
-    private long id;
+    @EmbeddedId
+    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
+    @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
+    private PrimaryKey<Long> primaryKey;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     RoleEnum role;
 
     @ManyToOne
+    @MapsId("tenant")
     @JoinColumn(name = "user_id")
     private User user;
 }
