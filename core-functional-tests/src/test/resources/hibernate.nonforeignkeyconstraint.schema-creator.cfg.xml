@@ -13,11 +13,11 @@
         <property name="archive.autodetection">class</property>
         <property name="posmulten.grantee">posmhib4-user</property>
 
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Category" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Comment" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Post" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Tenant" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.User" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.UserRole" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.UserRole" />
     </session-factory>
 </hibernate-configuration>
