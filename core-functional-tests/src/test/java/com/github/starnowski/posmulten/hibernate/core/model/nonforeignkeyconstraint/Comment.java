@@ -18,14 +18,15 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Table(name = "comments")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable(tenantIdColumn = "comment_tenant_id")
 public class Comment {
-    @Id
-    @GeneratedValue
-    private long id;
+    @EmbeddedId
+    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
+    @AttributeOverride(name="tenant", column=@Column(name = "comment_tenant_id", insertable = false, updatable = false))
+    private PrimaryKey<Long> primaryKey;
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "primaryKey.primaryKey")
     private User author;
     @ManyToOne
     private Post post;

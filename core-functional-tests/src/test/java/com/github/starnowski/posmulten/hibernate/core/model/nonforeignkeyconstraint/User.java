@@ -15,14 +15,14 @@ import java.util.UUID;
 @Accessors(chain = true)
 @Table(name = "user_info")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "userId")
+@EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable
 public class User {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "user_id")
-    private UUID userId;
+    @EmbeddedId
+    @AttributeOverride(name="primaryKey", column=@Column(name="user_id"))
+    @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
+    private PrimaryKey<UUID> primaryKey;
     private String username;
     private String password;
     @OneToMany(mappedBy = "user")
