@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CRUDItTest extends AbstractBaseItTest {
+public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
     private static String TENANT1 = "ten1";
     private static String TENANT2 = "ten2";

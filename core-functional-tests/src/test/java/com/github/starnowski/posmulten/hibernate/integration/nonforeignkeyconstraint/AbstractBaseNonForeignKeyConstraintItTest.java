@@ -15,7 +15,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
-public class AbstractBaseItTest {
+public class AbstractBaseNonForeignKeyConstraintItTest {
 
     private static SessionFactory primarySessionFactory;
     private static SessionFactory schemaCreatorSessionFactory;

@@ -9,7 +9,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class RLSPolicyCheckItTest extends AbstractBaseItTest {
+public class RLSPolicyCheckItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
     @DataProvider(name = "tenantTables")
     protected static Object[][] tenantTables() {
