@@ -58,7 +58,6 @@ public class AbstractBaseItTest {
     @BeforeClass
     public void openSession() {
         schemaCreatorSession = schemaCreatorSessionFactory.openSession();
-//        primarySession = primarySessionFactory.openSession();
     }
 
     protected Session openPrimarySession() {
