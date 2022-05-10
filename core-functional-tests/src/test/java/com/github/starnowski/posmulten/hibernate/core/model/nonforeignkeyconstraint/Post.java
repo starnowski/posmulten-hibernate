@@ -23,7 +23,8 @@ public class Post {
     @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @MapsId("tenant")
+    @JoinColumn(name = "primaryKey.primaryKey")
     private User author;
 
     @Column(columnDefinition = "text")

@@ -26,9 +26,12 @@ public class Comment {
     @AttributeOverride(name="tenant", column=@Column(name = "comment_tenant_id", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
     @ManyToOne
+    @MapsId("tenant")
     @JoinColumn(name = "primaryKey.primaryKey")
     private User author;
     @ManyToOne
+    @MapsId("tenant")
+    @JoinColumn(name = "primaryKey.primaryKey")
     private Post post;
     @Column(columnDefinition = "text")
     private String text;
