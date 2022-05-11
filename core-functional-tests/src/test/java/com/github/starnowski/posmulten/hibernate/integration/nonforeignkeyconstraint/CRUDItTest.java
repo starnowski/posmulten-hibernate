@@ -1,7 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
 import com.github.starnowski.posmulten.hibernate.core.model.User;
-import com.github.starnowski.posmulten.hibernate.integration.AbstractBaseItTest;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -13,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
-    private static String TENANT1 = "ten1";
-    private static String TENANT2 = "ten2";
-    private static String[] TENANT_IDS = {TENANT1, TENANT2};
+    private static final String TENANT1 = "ten1";
+    private static final String TENANT2 = "ten2";
+    private static final String[] TENANT_IDS = {TENANT1, TENANT2};
 
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
@@ -122,8 +121,7 @@ public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
         }
     }
 
-    private User findUserByUsername(Session session, String username)
-    {
+    private User findUserByUsername(Session session, String username) {
         Query<User> query = session.createQuery("FROM User as user WHERE user.username = :username", User.class);
         query.setParameter("username", username);
         return query.uniqueResult();

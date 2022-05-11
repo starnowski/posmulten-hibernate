@@ -1,6 +1,5 @@
 package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.integration.AbstractBaseItTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
