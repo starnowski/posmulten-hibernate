@@ -18,7 +18,7 @@ public class RLSPolicyCheckItTest extends AbstractBaseNonForeignKeyConstraintItT
                 {"comments_nonforeignkeyconstraint"},
                 {"categories_nonforeignkeyconstraint"},
                 {"user_role_nonforeignkeyconstraint"},
-                {"posts_categories_nonforeignkeyconstraint"}
+                {"posts_nonforeignkeyconstraint_categories_nonforeignkeyconstraint"}
         };
     }
 
