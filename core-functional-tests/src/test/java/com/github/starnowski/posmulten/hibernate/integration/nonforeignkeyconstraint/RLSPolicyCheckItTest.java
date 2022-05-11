@@ -31,7 +31,7 @@ public class RLSPolicyCheckItTest extends AbstractBaseNonForeignKeyConstraintItT
         Long result = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsLong(connection.createStatement(), format("SELECT COUNT(1) FROM pg_catalog.pg_policy pg, pg_class pc, pg_catalog.pg_namespace pn WHERE pg.polrelid = pc.oid AND pc.relnamespace = pn.oid AND pc.relname = '%1$s' AND pn.nspname = '%2$s';", tableName, schemaName)));
 
         // THEN
-        assertThat(result).isEqualTo(result);
+        assertThat(result).isEqualTo(1L);
     }
 
 }

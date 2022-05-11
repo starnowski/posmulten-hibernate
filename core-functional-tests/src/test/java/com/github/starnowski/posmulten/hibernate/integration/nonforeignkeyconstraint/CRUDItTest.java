@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.core.model.User;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -39,7 +39,7 @@ public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
             // THEN
             User current = findUserByUsername(session, user.getUsername());
             assertThat(current).isNotNull();
-            assertThat(current.getUserId()).isEqualTo(user.getUserId());
+            assertThat(current.getPrimaryKey().getStringKey()).isEqualTo(user.getPrimaryKey().getStringKey());
         }
     }
 
