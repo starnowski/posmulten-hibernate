@@ -5,7 +5,7 @@
         <property name="connection.username">posmhib4-owner</property>
         <property name="connection.password">posmhib4-owner</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">create-drop</property>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="multiTenancy">NONE</property>

@@ -11,9 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 public class AbstractBaseNonForeignKeyConstraintItTest {
 
@@ -64,7 +62,7 @@ public class AbstractBaseNonForeignKeyConstraintItTest {
         return primarySessionFactory.openSession();
     }
 
-    @AfterTest
+    @AfterClass
     public void closeSession() {
         try {
             if (schemaCreatorSession != null) {
