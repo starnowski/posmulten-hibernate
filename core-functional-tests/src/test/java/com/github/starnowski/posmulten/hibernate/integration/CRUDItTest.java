@@ -94,6 +94,7 @@ public class CRUDItTest extends AbstractBaseItTest {
             transaction.commit();
 
             // THEN
+            user = findUserByUsername(session, user.getUsername());
             assertThat(user).isNotNull();
             assertThat(user.getPassword()).isEqualTo("XXX");
         }
