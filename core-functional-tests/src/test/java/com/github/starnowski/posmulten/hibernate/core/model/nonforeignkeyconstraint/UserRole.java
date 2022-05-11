@@ -14,11 +14,11 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Table(name = "user_role")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "primaryKey.primaryKey")
+@EqualsAndHashCode(of = "primaryKey")
 @TenantTable
 public class UserRole {
     @EmbeddedId
-    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
+    @AttributeOverride(name="key", column=@Column(name="id"))
     @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
     private LongPrimaryKey primaryKey;
 

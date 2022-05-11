@@ -9,15 +9,15 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class StringPrimaryKey implements Serializable {
 
-    protected String primaryKey;
-    protected String tenant;
+    private String stringKey;
+    private String tenant;
 
-    public String getPrimaryKey() {
-        return primaryKey;
+    public String getStringKey() {
+        return stringKey;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setStringKey(String stringKey) {
+        this.stringKey = stringKey;
     }
 
     public String getTenant() {

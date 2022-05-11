@@ -20,11 +20,11 @@ import java.util.UUID;
 public class User {
 
     @EmbeddedId
-    @AttributeOverride(name="primaryKey", column=@Column(name="user_id"))
+    @AttributeOverride(name="stringKey", column=@Column(name="user_id"))
     @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
     private StringPrimaryKey primaryKey;
     private String username;
     private String password;
-//    @OneToMany(mappedBy = "user")
-//    private Set<UserRole> roles;
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> roles;
 }

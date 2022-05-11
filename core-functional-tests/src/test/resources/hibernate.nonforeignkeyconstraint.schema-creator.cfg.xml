@@ -19,6 +19,6 @@
 <!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Post" />-->
 <!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Tenant" />-->
         <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User" />
-<!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.UserRole" />-->
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.UserRole" />
     </session-factory>
 </hibernate-configuration>

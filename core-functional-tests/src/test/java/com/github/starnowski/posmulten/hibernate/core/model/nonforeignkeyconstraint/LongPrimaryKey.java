@@ -9,15 +9,15 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class LongPrimaryKey implements Serializable {
 
-    protected Long primaryKey;
-    protected String tenant;
+    private Long key;
+    private String tenant;
 
-    public Long getPrimaryKey() {
-        return primaryKey;
+    public Long getKey() {
+        return key;
     }
 
-    public void setPrimaryKey(Long primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getTenant() {
