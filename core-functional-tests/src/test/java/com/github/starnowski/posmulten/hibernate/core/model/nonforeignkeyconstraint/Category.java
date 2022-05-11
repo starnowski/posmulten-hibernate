@@ -31,6 +31,6 @@ public class Category {
     private String text;
 
     //TODO
-//    @ManyToMany(mappedBy = "categories")
-//    private Set<Post> posts;
+    @ManyToMany(mappedBy = "categories")
+    private Set<Post> posts;
 }

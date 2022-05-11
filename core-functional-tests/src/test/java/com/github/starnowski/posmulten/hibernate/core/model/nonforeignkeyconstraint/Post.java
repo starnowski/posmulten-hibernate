@@ -33,6 +33,6 @@ public class Post {
 //    @OneToMany(mappedBy = "post")
 //    private Set<Comment> comments;
 
-//    @ManyToMany
-//    private Set<Category> categories;
+    @ManyToMany
+    private Set<Category> categories;
 }
