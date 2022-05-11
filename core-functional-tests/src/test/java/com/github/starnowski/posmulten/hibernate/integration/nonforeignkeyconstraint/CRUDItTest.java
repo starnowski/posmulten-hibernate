@@ -119,11 +119,30 @@ public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
             assertThat(user.getPassword()).isEqualTo("XXX");
         }
     }
-    //TODO Not able to delete for different tenant
-    //TODO Delete
 
-    //TODO Change methods dependencies
-    @Test(dependsOnMethods = {"shouldNotAbleToReadRecordThatBelongsToDifferentTenants", "shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
+    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try delete user for different tenant", description = "should try delete user for different tenant")
+    public void shouldTryToDeleteUsersFromDifferentTenants(String tenant, User user) {
+        for (String tt : TENANT_IDS) {
+            if (tt.equals(tenant)) {
+                continue;
+            }
+            // GIVEN
+            setCurrentTenant(tt);
+            try (Session session = openPrimarySession()) {
+                Transaction transaction = session.beginTransaction();
+
+                // WHEN
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info WHERE username = '%s'", user.getUsername())).executeUpdate();
+                session.flush();
+                transaction.commit();
+
+                // THEN
+                assertThat(numberOfDeleteRecords).isZero();
+            }
+        }
+    }
+
+    @Test(dependsOnMethods = {"shouldTryToDeleteUsersFromDifferentTenants"}, dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
     public void shouldDeleteUsersPerTenants(String tenant, User user) {
         // GIVEN
         setCurrentTenant(tenant);
