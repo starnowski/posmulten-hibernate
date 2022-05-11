@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "categories")
+@Table(name = "categories_nonforeignkeyconstraint")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable(tenantIdColumn = "categoryTenantId")
@@ -30,7 +30,7 @@ public class Category {
     @Column
     private String text;
 
-    @MapsId("tenant")
-    @ManyToMany(mappedBy = "categories")
-    private Set<Post> posts;
+    //TODO
+//    @ManyToMany(mappedBy = "categories")
+//    private Set<Post> posts;
 }

@@ -14,7 +14,7 @@
         <property name="archive.autodetection">class</property>
         <property name="posmulten.schema.builder.provider">lightweight</property>
 
-<!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Category" />-->
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Category" />
 <!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Comment" />-->
 <!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Post" />-->
 <!--        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Tenant" />-->
