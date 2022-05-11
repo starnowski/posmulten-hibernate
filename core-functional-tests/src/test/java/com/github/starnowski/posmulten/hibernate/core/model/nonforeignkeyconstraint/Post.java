@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "posts")
+@Table(name = "posts_nonforeignkeyconstraint")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable
@@ -22,17 +22,17 @@ public class Post {
     @AttributeOverride(name="primaryKey", column=@Column(name="id"))
     @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
-    @ManyToOne
-    @MapsId("tenant")
-    @JoinColumn(name = "user_id")
-    private User author;
+//    @ManyToOne
+//    @MapsId("tenant")
+//    @JoinColumn(name = "user_id")
+//    private User author;
 
     @Column(columnDefinition = "text")
     private String text;
 
-    @OneToMany(mappedBy = "post")
-    private Set<Comment> comments;
+//    @OneToMany(mappedBy = "post")
+//    private Set<Comment> comments;
 
-    @ManyToMany
-    private Set<Category> categories;
+//    @ManyToMany
+//    private Set<Category> categories;
 }

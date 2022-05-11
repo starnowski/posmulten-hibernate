@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "comments")
+@Table(name = "comments_nonforeignkeyconstraint")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey.primaryKey")
 @TenantTable(tenantIdColumn = "comment_tenant_id")
@@ -25,14 +25,14 @@ public class Comment {
     @AttributeOverride(name="primaryKey", column=@Column(name="id"))
     @AttributeOverride(name="tenant", column=@Column(name = "comment_tenant_id", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
-    @ManyToOne
-    @MapsId("tenant")
-    @JoinColumn(name = "primaryKey.primaryKey")
-    private User author;
-    @ManyToOne
-    @MapsId("tenant")
-    @JoinColumn(name = "primaryKey.primaryKey")
-    private Post post;
+//    @ManyToOne
+//    @MapsId("tenant")
+//    @JoinColumn(name = "primaryKey.primaryKey")
+//    private User author;
+//    @ManyToOne
+//    @MapsId("tenant")
+//    @JoinColumn(name = "primaryKey.primaryKey")
+//    private Post post;
     @Column(columnDefinition = "text")
     private String text;
 }
