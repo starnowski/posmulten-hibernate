@@ -16,7 +16,7 @@ import java.util.UUID;
 @Table(name = "user_info")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey")
-@TenantTable
+@TenantTable(tenantIdColumn = "tenant")
 public class User {
 
     @EmbeddedId

@@ -47,7 +47,7 @@ public class AbstractBaseNonForeignKeyConstraintItTest {
         return factory;
     }
 
-    @BeforeSuite(groups = "Integration tests")
+    @BeforeSuite(groups = "Integration tests for model without foreign keys constraints and with composite primary keys")
     public void prepareDatabase() {
         schemaCreatorSessionFactory = getSchemaCreatorSessionFactory();
         primarySessionFactory = getPrimarySessionFactory();
