@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.StringPrimaryKey;
 import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,8 +20,8 @@ public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
         return new Object[][]{
-                {TENANT1, new User().setUsername("Simon")},
-                {TENANT2, new User().setUsername("johndoe")}
+                {TENANT1, new User().setUsername("Simon").setPrimaryKey(new StringPrimaryKey().withStringKey("key1").withTenant(TENANT1))},
+                {TENANT2, new User().setUsername("johndoe").setPrimaryKey(new StringPrimaryKey().withStringKey("key2").withTenant(TENANT2))}
         };
     }
 

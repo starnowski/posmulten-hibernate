@@ -10,11 +10,13 @@ import java.io.Serializable;
 public class StringPrimaryKey implements Serializable {
 
     private String stringKey;
+
     private String tenant;
 
     public String getStringKey() {
         return stringKey;
     }
+
 
     public void setStringKey(String stringKey) {
         this.stringKey = stringKey;
@@ -24,7 +26,18 @@ public class StringPrimaryKey implements Serializable {
         return tenant;
     }
 
+
     public void setTenant(String tenant) {
         this.tenant = tenant;
+    }
+
+    public StringPrimaryKey withStringKey(String stringKey) {
+        this.stringKey = stringKey;
+        return this;
+    }
+
+    public StringPrimaryKey withTenant(String tenant) {
+        this.tenant = tenant;
+        return this;
     }
 }
