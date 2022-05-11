@@ -16,7 +16,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "user_info")
+@Table(name = "user_info_nonforeignkeyconstraint")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey")
 @TenantTable(tenantIdColumn = "tenant")

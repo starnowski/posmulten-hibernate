@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "user_role")
+@Table(name = "user_role_nonforeignkeyconstraint")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey")
 @TenantTable
@@ -30,10 +30,6 @@ public class UserRole {
     RoleEnum role;
 
     @ManyToOne
-//    @MapsId
-//    @JoinColumns(value = {
-//            @JoinColumn(name = "tenant", referencedColumnName = "tenant"),
-//            @JoinColumn(name = "user_id", referencedColumnName = "user_id") })
     @JoinColumnsOrFormulas(value = {
             @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant", referencedColumnName = "tenant")),
             @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id"))

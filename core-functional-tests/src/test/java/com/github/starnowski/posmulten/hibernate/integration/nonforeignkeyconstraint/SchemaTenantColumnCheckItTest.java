@@ -1,7 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.core.model.*;
-import com.github.starnowski.posmulten.hibernate.integration.AbstractBaseItTest;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.*;
 import com.github.starnowski.posmulten.hibernate.test.utils.ReflectionUtils;
 import com.github.starnowski.posmulten.hibernate.test.utils.TestUtils;
 import org.hibernate.jdbc.ReturningWork;
@@ -19,17 +18,17 @@ public class SchemaTenantColumnCheckItTest extends AbstractBaseNonForeignKeyCons
     @DataProvider(name = "defaultTenantColumn")
     protected static Object[][] defaultTenantColumn() {
         return new Object[][]{
-                {Post.class, "posts"},
-                {User.class, "user_info"},
-                {UserRole.class, "user_role"}
+                {Post.class, "posts_nonforeignkeyconstraint"}
         };
     }
 
     @DataProvider(name = "customTenantColumn")
     protected static Object[][] customTenantColumn() {
         return new Object[][]{
-                {Comment.class, "comments", "comment_tenant_id"},
-                {Category.class, "categories", "categorytenantid"}
+                {Comment.class, "comments_nonforeignkeyconstraint", "comment_tenant_id"},
+                {Category.class, "categories_nonforeignkeyconstraint", "categorytenantid"},
+                {User.class, "user_info_nonforeignkeyconstraint"},
+                {UserRole.class, "user_role_nonforeignkeyconstraint"}
         };
     }
 
