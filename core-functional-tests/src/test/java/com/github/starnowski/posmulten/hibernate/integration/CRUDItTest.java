@@ -76,7 +76,7 @@ public class CRUDItTest extends AbstractBaseItTest {
         }
     }
 
-    @Test(dependsOnMethods = {"shouldReadCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try update user for different tenant", description = "should try delete user for different tenant")
+    @Test(dependsOnMethods = {"shouldReadCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try update user for different tenant", description = "should try update user for different tenant")
     public void shouldTryToUpdateUsersFromDifferentTenants(String tenant, User user) {
         for (String tt : TENANT_IDS) {
             if (tt.equals(tenant)) {
