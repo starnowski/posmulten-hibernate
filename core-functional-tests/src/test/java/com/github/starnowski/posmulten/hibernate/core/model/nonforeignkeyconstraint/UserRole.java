@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 
@@ -27,9 +30,13 @@ public class UserRole {
     RoleEnum role;
 
     @ManyToOne
-    @MapsId("tenant")
-    @JoinColumns(value = {
-            @JoinColumn(name = "tenant", referencedColumnName = "tenant"),
-            @JoinColumn(name = "user_id", referencedColumnName = "user_id") })
+//    @MapsId
+//    @JoinColumns(value = {
+//            @JoinColumn(name = "tenant", referencedColumnName = "tenant"),
+//            @JoinColumn(name = "user_id", referencedColumnName = "user_id") })
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id"))
+    })
     private User user;
 }
