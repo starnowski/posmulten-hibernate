@@ -12,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CRUDItTest extends AbstractBaseItTest {
 
-    private static String TENANT1 = "ten1";
-    private static String TENANT2 = "ten2";
-    private static String[] TENANT_IDS = {TENANT1, TENANT2};
+    private static final String TENANT1 = "ten1";
+    private static final String TENANT2 = "ten2";
+    private static final String[] TENANT_IDS = {TENANT1, TENANT2};
 
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
@@ -98,11 +98,30 @@ public class CRUDItTest extends AbstractBaseItTest {
             assertThat(user.getPassword()).isEqualTo("XXX");
         }
     }
-    //TODO Not able to delete for different tenant
-    //TODO Delete
 
-    //TODO Change methods dependencies
-    @Test(dependsOnMethods = {"shouldNotAbleToReadRecordThatBelongsToDifferentTenants", "shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
+    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try delete user for different tenant", description = "should try delete user for different tenant")
+    public void shouldTryToDeleteUsersFromDifferentTenants(String tenant, User user) {
+        for (String tt : TENANT_IDS) {
+            if (tt.equals(tenant)) {
+                continue;
+            }
+            // GIVEN
+            setCurrentTenant(tt);
+            try (Session session = openPrimarySession()) {
+                Transaction transaction = session.beginTransaction();
+
+                // WHEN
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info where username = '%s'", user.getUsername())).executeUpdate();
+                session.flush();
+                transaction.commit();
+
+                // THEN
+                assertThat(numberOfDeleteRecords).isZero();
+            }
+        }
+    }
+
+    @Test(dependsOnMethods = {"shouldTryToDeleteUsersFromDifferentTenants"}, dataProvider = "usersTenants", testName = "should delete user for tenant", description = "should delete user for tenant")
     public void shouldDeleteUsersPerTenants(String tenant, User user) {
         // GIVEN
         setCurrentTenant(tenant);
@@ -121,8 +140,7 @@ public class CRUDItTest extends AbstractBaseItTest {
         }
     }
 
-    private User findUserByUsername(Session session, String username)
-    {
+    private User findUserByUsername(Session session, String username) {
         Query<User> query = session.createQuery("FROM User as user WHERE user.username = :username", User.class);
         query.setParameter("username", username);
         return query.uniqueResult();
