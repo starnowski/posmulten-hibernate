@@ -27,8 +27,8 @@ public class SchemaTenantColumnCheckItTest extends AbstractBaseNonForeignKeyCons
         return new Object[][]{
                 {Comment.class, "comments_nonforeignkeyconstraint", "comment_tenant_id"},
                 {Category.class, "categories_nonforeignkeyconstraint", "categorytenantid"},
-                {User.class, "user_info_nonforeignkeyconstraint"},
-                {UserRole.class, "user_role_nonforeignkeyconstraint"}
+                {User.class, "user_info_nonforeignkeyconstraint", "tenant"},
+                {UserRole.class, "user_role_nonforeignkeyconstraint", "tenant"}
         };
     }
 
