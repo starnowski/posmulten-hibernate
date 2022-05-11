@@ -76,9 +76,29 @@ public class CRUDItTest extends AbstractBaseItTest {
         }
     }
 
-    //TODO Not able to update for different tenant
+    @Test(dependsOnMethods = {"shouldReadCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try update user for different tenant", description = "should try delete user for different tenant")
+    public void shouldTryToUpdateUsersFromDifferentTenants(String tenant, User user) {
+        for (String tt : TENANT_IDS) {
+            if (tt.equals(tenant)) {
+                continue;
+            }
+            // GIVEN
+            setCurrentTenant(tt);
+            try (Session session = openPrimarySession()) {
+                Transaction transaction = session.beginTransaction();
 
-    @Test(dependsOnMethods = "shouldReadCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should update created user for tenant", description = "should update created user for tenant")
+                // WHEN
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'YYY' WHERE username = '%s'", user.getUsername())).executeUpdate();
+                session.flush();
+                transaction.commit();
+
+                // THEN
+                assertThat(numberOfDeleteRecords).isZero();
+            }
+        }
+    }
+
+    @Test(dependsOnMethods = "shouldTryToUpdateUsersFromDifferentTenants", dataProvider = "usersTenants", testName = "should update created user for tenant", description = "should update created user for tenant")
     public void shouldUpdateCreateUsersPerTenants(String tenant, User user) {
         // GIVEN
         setCurrentTenant(tenant);
@@ -112,7 +132,7 @@ public class CRUDItTest extends AbstractBaseItTest {
                 Transaction transaction = session.beginTransaction();
 
                 // WHEN
-                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info where username = '%s'", user.getUsername())).executeUpdate();
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info WHERE username = '%s'", user.getUsername())).executeUpdate();
                 session.flush();
                 transaction.commit();
 
