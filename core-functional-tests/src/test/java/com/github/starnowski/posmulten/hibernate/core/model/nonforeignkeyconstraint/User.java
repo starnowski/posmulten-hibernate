@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
-import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Data
 @Entity
@@ -23,13 +23,13 @@ import java.util.UUID;
 public class User {
 
     @EmbeddedId
-    @AttributeOverride(name="stringKey", column=@Column(name="user_id"))
-    @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
+    @AttributeOverride(name = "stringKey", column = @Column(name = "user_id"))
+    @AttributeOverride(name = "tenant", column = @Column(name = "tenant", insertable = false, updatable = false))
     private StringPrimaryKey primaryKey;
     private String username;
     private String password;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", fetch = LAZY)
     @JoinColumnsOrFormulas(value = {
             @JoinColumnOrFormula(column = @JoinColumn(name = "tenant", referencedColumnName = "tenant")),
             @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
