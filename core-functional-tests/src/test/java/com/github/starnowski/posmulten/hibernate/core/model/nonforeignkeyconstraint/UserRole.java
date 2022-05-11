@@ -20,7 +20,7 @@ public class UserRole {
     @EmbeddedId
     @AttributeOverride(name="primaryKey", column=@Column(name="id"))
     @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
-    private PrimaryKey<Long> primaryKey;
+    private LongPrimaryKey primaryKey;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -28,6 +28,8 @@ public class UserRole {
 
     @ManyToOne
     @MapsId("tenant")
-    @JoinColumn(name = "user_id")
+    @JoinColumns(value = {
+            @JoinColumn(name = "tenant", referencedColumnName = "tenant"),
+            @JoinColumn(name = "user_id", referencedColumnName = "user_id") })
     private User user;
 }
