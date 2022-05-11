@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,12 +23,15 @@ public class Post {
 
     @EmbeddedId
     @AttributeOverride(name="primaryKey", column=@Column(name="id"))
-    @AttributeOverride(name="tenant", column=@Column(name = "tenant", insertable = false, updatable = false))
+    @AttributeOverride(name="tenant", column=@Column(name = "tenant_id", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
-//    @ManyToOne
-//    @MapsId("tenant")
-//    @JoinColumn(name = "user_id")
-//    private User author;
+
+    @ManyToOne
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant_id", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id"))
+    })
+    private User author;
 
     @Column(columnDefinition = "text")
     private String text;

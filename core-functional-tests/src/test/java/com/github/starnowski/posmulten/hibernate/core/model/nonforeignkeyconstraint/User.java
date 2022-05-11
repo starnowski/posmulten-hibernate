@@ -28,6 +28,13 @@ public class User {
     private StringPrimaryKey primaryKey;
     private String username;
     private String password;
+
+    @OneToMany(mappedBy = "author")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(column = @JoinColumn(name = "tenant", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    })
+    private Set<Post> posts;
     @OneToMany(mappedBy = "user")
     @JoinColumnsOrFormulas(value = {
             @JoinColumnOrFormula(column = @JoinColumn(name = "tenant", referencedColumnName = "tenant")),
