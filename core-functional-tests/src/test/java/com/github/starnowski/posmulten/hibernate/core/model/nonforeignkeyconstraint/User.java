@@ -4,6 +4,7 @@ import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -20,6 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey")
 @TenantTable(tenantIdColumn = "tenant")
+@ToString(of = {"primaryKey", "username"})
 public class User {
 
     @EmbeddedId

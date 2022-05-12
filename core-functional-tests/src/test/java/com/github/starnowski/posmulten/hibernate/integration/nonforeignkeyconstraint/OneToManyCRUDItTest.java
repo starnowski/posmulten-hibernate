@@ -1,7 +1,9 @@
-package com.github.starnowski.posmulten.hibernate.integration;
+package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.core.model.Post;
-import com.github.starnowski.posmulten.hibernate.core.model.User;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Post;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.StringPrimaryKey;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User;
+import com.github.starnowski.posmulten.hibernate.integration.AbstractBaseItTest;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,7 +18,7 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OneToManyCRUDItTest extends AbstractBaseItTest {
+public class OneToManyCRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
     private static final String TENANT1 = "ten_1";
     private static final String TENANT2 = "ten_2";
@@ -25,24 +27,24 @@ public class OneToManyCRUDItTest extends AbstractBaseItTest {
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
         return new Object[][]{
-                {TENANT1, new User().setUsername("Mike")},
-                {TENANT1, new User().setUsername("Bill")},
-                {TENANT2, new User().setUsername("Jake")}
+                {TENANT1, new User().setPrimaryKey(new StringPrimaryKey().withStringKey("key1").withTenant(TENANT1)).setUsername("Mike")},
+                {TENANT1, new User().setPrimaryKey(new StringPrimaryKey().withStringKey("key2").withTenant(TENANT1)).setUsername("Bill")},
+                {TENANT2, new User().setPrimaryKey(new StringPrimaryKey().withStringKey("key3").withTenant(TENANT2)).setUsername("Jake")}
         };
     }
 
     @DataProvider(name = "posts")
     protected static Object[][] posts() {
         return new Object[][]{
-                {TENANT1, new Post().setText("post1"), "Mike"},
-                {TENANT1, new Post().setText("post2"), "Mike"},
-                {TENANT1, new Post().setText("post3"), "Mike"},
-                {TENANT2, new Post().setText("post11"), "Jake"},
-                {TENANT2, new Post().setText("post12"), "Jake"},
-                {TENANT2, new Post().setText("post13"), "Jake"},
-                {TENANT1, new Post().setText("post21"), "Bill"},
-                {TENANT1, new Post().setText("post22"), "Bill"},
-                {TENANT1, new Post().setText("post23"), "Bill"}
+                {TENANT1, new Post().setTenant(TENANT1).setText("post1"), "Mike"},
+                {TENANT1, new Post().setTenant(TENANT1).setText("post2"), "Mike"},
+                {TENANT1, new Post().setTenant(TENANT1).setText("post3"), "Mike"},
+                {TENANT2, new Post().setTenant(TENANT2).setText("post11"), "Jake"},
+                {TENANT2, new Post().setTenant(TENANT2).setText("post12"), "Jake"},
+                {TENANT2, new Post().setTenant(TENANT2).setText("post13"), "Jake"},
+                {TENANT1, new Post().setTenant(TENANT1).setText("post21"), "Bill"},
+                {TENANT1, new Post().setTenant(TENANT1).setText("post22"), "Bill"},
+                {TENANT1, new Post().setTenant(TENANT1).setText("post23"), "Bill"}
         };
     }
 
@@ -70,7 +72,9 @@ public class OneToManyCRUDItTest extends AbstractBaseItTest {
             // THEN
             User current = findUserByUsername(session, user.getUsername());
             assertThat(current).isNotNull();
-            assertThat(current.getUserId()).isNotNull();
+            assertThat(current.getPrimaryKey()).isNotNull();
+            assertThat(current.getPrimaryKey().getStringKey()).isNotNull();
+            assertThat(current.getPrimaryKey().getTenant()).isNotNull();
         }
     }
 
@@ -92,7 +96,7 @@ public class OneToManyCRUDItTest extends AbstractBaseItTest {
             Post current = findPostByText(session, post.getText());
             assertThat(current).isNotNull();
             assertThat(current.getAuthor()).isNotNull();
-            assertThat(current.getAuthor().getUserId()).isEqualTo(user.getUserId());
+            assertThat(current.getAuthor().getPrimaryKey()).isEqualTo(user.getPrimaryKey());
         }
     }
 

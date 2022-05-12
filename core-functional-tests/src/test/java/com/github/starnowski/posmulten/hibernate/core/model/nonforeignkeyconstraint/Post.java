@@ -4,6 +4,7 @@ import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
@@ -17,20 +18,28 @@ import java.util.Set;
 @Accessors(chain = true)
 @Table(name = "posts_nonforeignkeyconstraint")
 @NoArgsConstructor
-@EqualsAndHashCode(of = "primaryKey.primaryKey")
-@TenantTable
+@EqualsAndHashCode(of = "key")
+@ToString(of = {"key", "text"})
+@TenantTable(tenantIdColumn = "tenant")
+@IdClass(LongPrimaryKey.class)
 public class Post {
 
-    @EmbeddedId
-    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
-    @AttributeOverride(name="tenant", column=@Column(name = "tenant_id", insertable = false, updatable = false))
-    private PrimaryKey<Long> primaryKey;
+    @Id
+    @GeneratedValue
+    private long key;
+    @Id
+    @Column(name = "tenant", insertable = false, updatable = false)
+    private String tenant;
 
     @ManyToOne
     @JoinColumnsOrFormulas(value = {
-            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant_id", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant", referencedColumnName = "tenant")),
             @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id"))
     })
+//    @JoinColumns({
+//            @JoinColumn(name = "user_id"),
+//            @JoinColumn(name = "tenant")
+//    })
     private User author;
 
     @Column(columnDefinition = "text")

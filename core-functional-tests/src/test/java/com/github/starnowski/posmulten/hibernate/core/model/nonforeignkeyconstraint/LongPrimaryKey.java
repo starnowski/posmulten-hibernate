@@ -3,6 +3,7 @@ package com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstr
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
 import java.io.Serializable;
 
 @Embeddable
