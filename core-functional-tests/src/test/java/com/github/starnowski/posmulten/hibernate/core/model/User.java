@@ -29,4 +29,6 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private Set<UserRole> roles;
+    @OneToMany(mappedBy = "author")
+    private Set<Post> posts;
 }

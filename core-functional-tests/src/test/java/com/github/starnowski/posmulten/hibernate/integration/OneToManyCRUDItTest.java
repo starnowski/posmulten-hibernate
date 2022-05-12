@@ -2,13 +2,18 @@ package com.github.starnowski.posmulten.hibernate.integration;
 
 import com.github.starnowski.posmulten.hibernate.core.model.Post;
 import com.github.starnowski.posmulten.hibernate.core.model.User;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
+
 import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OneToManyCRUDItTest extends AbstractBaseItTest {
@@ -38,6 +43,15 @@ public class OneToManyCRUDItTest extends AbstractBaseItTest {
                 {TENANT1, new Post().setText("post21"), "Bill"},
                 {TENANT1, new Post().setText("post22"), "Bill"},
                 {TENANT1, new Post().setText("post23"), "Bill"}
+        };
+    }
+
+    @DataProvider(name = "expectedPostsForUsers")
+    protected static Object[][] expectedPostsForUsers() {
+        return new Object[][]{
+                {TENANT1, "Mike", new String[]{"post1", "post2", "post3"}},
+                {TENANT1, "Bill", new String[]{"post21", "post22", "post23"}},
+                {TENANT2, "Jake", new String[]{"post11", "post12", "post13"}}
         };
     }
 
@@ -82,7 +96,22 @@ public class OneToManyCRUDItTest extends AbstractBaseItTest {
         }
     }
 
-    @Test(dependsOnMethods = {"shouldCreatePostsAndAttachToUserPerTenants"}, dataProvider = "posts", testName = "should delete posts for tenant", description = "should delete posts for tenant")
+    @Test(dependsOnMethods = "shouldCreatePostsAndAttachToUserPerTenants", dataProvider = "expectedPostsForUsers", testName = "should read created user for tenant and validate its posts", description = "should read created user for tenant and validate its posts")
+    public void shouldReadPostsAndValidatedAttachmentToUser(String tenant, String username, String... expectedPostsTexts) {
+        // GIVEN
+        setCurrentTenant(tenant);
+        try (Session session = openPrimarySession()) {
+            // WHEN
+            User current = findUserByUsername(session, username);
+            Hibernate.initialize(current.getPosts());
+
+            // THEN
+            assertThat(current.getPosts()).isNotEmpty();
+            assertThat((current.getPosts().stream().map(Post::getText).collect(toSet()))).isEqualTo(new HashSet<>(asList(expectedPostsTexts)));
+        }
+    }
+
+    @Test(dependsOnMethods = {"shouldReadPostsAndValidatedAttachmentToUser"}, dataProvider = "posts", testName = "should delete posts for tenant", description = "should delete posts for tenant")
     public void shouldDeletePostsPerTenants(String tenant, Post post, String username) {
         // GIVEN
         setCurrentTenant(tenant);
