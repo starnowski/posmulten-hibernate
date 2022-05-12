@@ -88,7 +88,6 @@ public class OneToManyCRUDItTest extends AbstractBaseNonForeignKeyConstraintItTe
             // WHEN
             User user = findUserByUsername(session, username);
             post.setAuthor(user);
-//            post.setAuthorKey(user.getPrimaryKey().getStringKey());
             session.persist(post);
             session.flush();
             transaction.commit();
