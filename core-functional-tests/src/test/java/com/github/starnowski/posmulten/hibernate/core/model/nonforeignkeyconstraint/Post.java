@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "key")
 @ToString(of = {"key", "text"})
-@TenantTable(tenantIdColumn = "tenant")
+@TenantTable
 @IdClass(LongPrimaryKey.class)
 public class Post {
 
@@ -28,12 +28,12 @@ public class Post {
     @GeneratedValue
     private long key;
     @Id
-    @Column(name = "tenant", insertable = false, updatable = false)
+    @Column(name = "tenant_id", insertable = false, updatable = false)
     private String tenant;
 
     @ManyToOne
     @JoinColumnsOrFormulas(value = {
-            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant_id", referencedColumnName = "tenant")),
             @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     })
     private User author;

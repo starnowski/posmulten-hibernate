@@ -33,7 +33,8 @@ public class User {
 
     @OneToMany(mappedBy = "author", fetch = LAZY)
     @JoinColumnsOrFormulas(value = {
-            @JoinColumnOrFormula(column = @JoinColumn(name = "tenant", referencedColumnName = "tenant")),
+            //name --> Post column, referencedColumnName -- User column
+            @JoinColumnOrFormula(column = @JoinColumn(name = "tenant_id", referencedColumnName = "tenant")),
             @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     })
     private Set<Post> posts;

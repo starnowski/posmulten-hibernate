@@ -36,7 +36,7 @@ public class Comment {
     private User author;
     @ManyToOne
     @JoinColumnsOrFormulas(value = {
-            @JoinColumnOrFormula(formula = @JoinFormula(value = "comment_tenant_id", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "comment_tenant_id", referencedColumnName = "tenant_id")),
             @JoinColumnOrFormula(column = @JoinColumn(name = "post_id", referencedColumnName = "key"))
     })
     private Post post;
