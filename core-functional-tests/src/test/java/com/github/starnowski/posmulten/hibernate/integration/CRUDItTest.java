@@ -120,7 +120,27 @@ public class CRUDItTest extends AbstractBaseItTest {
         }
     }
 
-    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try delete user for different tenant", description = "should try delete user for different tenant")
+    @Test(dependsOnMethods = "shouldUpdateCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should update created user for tenant with native query", description = "should update created user for tenant with native query")
+    public void shouldUpdateCreateUsersPerTenantsWithNativeQuery(String tenant, User user) {
+        // GIVEN
+        setCurrentTenant(tenant);
+        try (Session session = openPrimarySession()) {
+            Transaction transaction = session.beginTransaction();
+
+            // WHEN
+            int numberOfUpdatedRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'ZZZ' WHERE username = '%s'", user.getUsername())).executeUpdate();
+            session.flush();
+            transaction.commit();
+
+            // THEN
+            assertThat(numberOfUpdatedRecords).isEqualTo(1);
+            user = findUserByUsername(session, user.getUsername());
+            assertThat(user).isNotNull();
+            assertThat(user.getPassword()).isEqualTo("ZZZ");
+        }
+    }
+
+    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenantsWithNativeQuery"}, dataProvider = "usersTenants", testName = "should try delete user for different tenant", description = "should try delete user for different tenant")
     public void shouldTryToDeleteUsersFromDifferentTenants(String tenant, User user) {
         for (String tt : TENANT_IDS) {
             if (tt.equals(tenant)) {

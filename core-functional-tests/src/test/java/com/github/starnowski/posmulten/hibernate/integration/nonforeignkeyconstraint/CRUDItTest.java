@@ -89,7 +89,7 @@ public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
                 Transaction transaction = session.beginTransaction();
 
                 // WHEN
-                int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'YYY' WHERE username = '%s'", user.getUsername())).executeUpdate();
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info_nonforeignkeyconstraint SET password = 'YYY' WHERE username = '%s'", user.getUsername())).executeUpdate();
                 session.flush();
                 transaction.commit();
 
@@ -132,7 +132,7 @@ public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
                 Transaction transaction = session.beginTransaction();
 
                 // WHEN
-                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info WHERE username = '%s'", user.getUsername())).executeUpdate();
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info_nonforeignkeyconstraint WHERE username = '%s'", user.getUsername())).executeUpdate();
                 session.flush();
                 transaction.commit();
 
