@@ -4,6 +4,7 @@ import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @TenantTable
+@ToString(of = {"id", "text"})
 public class Post {
 
     @Id
