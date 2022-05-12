@@ -36,19 +36,7 @@ public class Post {
             @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant", referencedColumnName = "tenant")),
             @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     })
-//    @JoinColumnsOrFormulas(value = {
-//            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant", referencedColumnName = "tenant"), column = @JoinColumn(name = "tenant", referencedColumnName = "tenant", insertable = false, updatable = false)),
-//            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id"), column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
-//    })
-//    @JoinColumns({
-//            @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false),
-//            @JoinColumn(name = "tenant", referencedColumnName = "tenant", insertable = false, updatable = false)
-//    })
     private User author;
-
-//    @JoinColumn(name = "user_id", referencedColumnName = "user_id", table = "user_info_nonforeignkeyconstraint")
-//    @Column(name = "user_id")
-//    private String authorKey;
 
     @Column(columnDefinition = "text")
     private String text;
