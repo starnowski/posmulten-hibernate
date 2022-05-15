@@ -20,7 +20,6 @@ https://www.markdownguide.org/basic-syntax/
 - Add strategy component that sets tenant value for prepared parameter in 
     com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider#getConnection(String tenant) 
     method [6](https://github.com/starnowski/posmulten-hibernate/issues/6)
-    
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterForLong
       [6](https://github.com/starnowski/posmulten-hibernate/issues/6)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterForString
@@ -43,8 +42,19 @@ https://www.markdownguide.org/basic-syntax/
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
     - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.RLSPolicyDefaultSharedSchemaContextBuilderTableMetadataEnricher
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+
 
 - Add implementation of MultiTenantConnectionProvider type [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider
+      [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyTableHelper
       [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
 
