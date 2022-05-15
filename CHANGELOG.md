@@ -33,7 +33,10 @@ https://www.markdownguide.org/basic-syntax/
 - Create maven project [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.enrichers.DefaultSharedSchemaContextBuilderMetadataEnricher
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
 
 - Add implementation of MultiTenantConnectionProvider type [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider
       [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
+
