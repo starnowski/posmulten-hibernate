@@ -6,6 +6,7 @@ import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstra
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -19,6 +20,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class OneToManyCRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
@@ -148,15 +150,12 @@ public class OneToManyCRUDItTest extends AbstractBaseNonForeignKeyConstraintItTe
 
         setCurrentTenant(postTenant);
         try (Session session = openPrimarySession()) {
-            Transaction transaction = session.beginTransaction();
+            session.beginTransaction();
 
-            int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE posts_nonforeignkeyconstraint SET user_id = '%s' WHERE text = '%s'", userId, postText)).executeUpdate();
-            session.flush();
-            transaction.commit();
-
-            // THEN
-            // This is unexpected behavior, hibernate does not creates foreign key constraint for JoinColumnsOrFormulas annotation
-            assertThat(numberOfDeleteRecords).isOne();
+            assertThatThrownBy(() ->
+                    session.createNativeQuery(String.format("UPDATE posts_nonforeignkeyconstraint SET user_id = '%s' WHERE text = '%s'", userId, postText)).executeUpdate()
+            )
+                    .isInstanceOf(javax.persistence.PersistenceException.class).getCause().isInstanceOf(ConstraintViolationException.class);
         }
     }
 
