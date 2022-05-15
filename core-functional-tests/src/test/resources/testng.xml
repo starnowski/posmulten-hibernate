@@ -25,4 +25,9 @@
             <class name="com.github.starnowski.posmulten.hibernate.integration.CRUDItTest" />
         </classes>
     </test>
+    <test name="should execute operation per tenants for many-to-many relations">
+        <classes>
+            <class name="com.github.starnowski.posmulten.hibernate.integration.OneToManyCRUDItTest" />
+        </classes>
+    </test>
 </suite>
