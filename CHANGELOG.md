@@ -27,3 +27,7 @@ https://www.markdownguide.org/basic-syntax/
       [6](https://github.com/starnowski/posmulten-hibernate/issues/6)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator
       [6](https://github.com/starnowski/posmulten-hibernate/issues/6)
+    - Added component com.github.starnowski.posmulten.hibernate.core.connections.ICurrentTenantPreparedStatementSetter
+      [6](https://github.com/starnowski/posmulten-hibernate/issues/6)
+
+
