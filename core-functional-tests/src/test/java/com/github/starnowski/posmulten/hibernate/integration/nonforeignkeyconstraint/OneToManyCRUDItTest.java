@@ -3,7 +3,6 @@ package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconst
 import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.Post;
 import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.StringPrimaryKey;
 import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User;
-import com.github.starnowski.posmulten.hibernate.integration.AbstractBaseItTest;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
