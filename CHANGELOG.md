@@ -58,6 +58,8 @@ https://www.markdownguide.org/basic-syntax/
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1) 
     - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PosmultenUtilContextInitiator
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProvider
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
     
 - Add implementation of MultiTenantConnectionProvider type [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider
@@ -65,4 +67,6 @@ https://www.markdownguide.org/basic-syntax/
     - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyTableHelper
       [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
     - Added component com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils
+      [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext
       [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
