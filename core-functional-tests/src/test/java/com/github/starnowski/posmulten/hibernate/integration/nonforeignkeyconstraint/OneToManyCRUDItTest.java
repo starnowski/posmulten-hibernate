@@ -13,6 +13,9 @@ import org.testng.annotations.Test;
 import java.util.HashSet;
 
 import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
+import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.selectAndReturnFirstRecordAsLong;
+import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.selectAndReturnFirstRecordAsString;
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,6 +56,21 @@ public class OneToManyCRUDItTest extends AbstractBaseNonForeignKeyConstraintItTe
                 {TENANT1, "Mike", new String[]{"post1", "post2", "post3"}},
                 {TENANT1, "Bill", new String[]{"post21", "post22", "post23"}},
                 {TENANT2, "Jake", new String[]{"post11", "post12", "post13"}}
+        };
+    }
+
+    @DataProvider(name = "postsAndUsersFromDifferentTenant")
+    protected static Object[][] postsAndUsersFromDifferentTenant() {
+        return new Object[][]{
+                {TENANT1, "post1", TENANT2, "Jake"},
+                {TENANT1, "post2", TENANT2, "Jake"},
+                {TENANT1, "post3", TENANT2, "Jake"},
+                {TENANT2, "post11", TENANT1, "Bill"},
+                {TENANT2, "post12", TENANT1, "Bill"},
+                {TENANT2, "post13", TENANT1, "Mike"},
+                {TENANT1, "post21", TENANT2, "Jake"},
+                {TENANT1, "post22", TENANT2, "Jake"},
+                {TENANT1, "post23", TENANT2, "Jake"}
         };
     }
 
@@ -114,7 +132,35 @@ public class OneToManyCRUDItTest extends AbstractBaseNonForeignKeyConstraintItTe
         }
     }
 
-    @Test(dependsOnMethods = {"shouldReadPostsAndValidatedAttachmentToUser"}, dataProvider = "posts", testName = "should delete posts for tenant", description = "should delete posts for tenant")
+    @Test(dependsOnMethods = "shouldReadPostsAndValidatedAttachmentToUser", dataProvider = "postsAndUsersFromDifferentTenant", testName = "should try to update post with user id from different tenant with native query", description = "should try to update post with user id from different tenant with native query")
+    public void shouldUpdateCreateUsersPerTenantsWithNativeQuery(String postTenant, String postText, String userTenant, String userName) {
+        // GIVEN
+        Long numberOfPostsForPostTenant = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsLong(connection.createStatement(), format("SELECT COUNT(1) FROM posts_nonforeignkeyconstraint WHERE text = '%1$s' AND tenant_id = '%2$s';", postText, postTenant)));
+        Long numberOfPostsForNonPostTenant = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsLong(connection.createStatement(), format("SELECT COUNT(1) FROM posts_nonforeignkeyconstraint WHERE text = '%1$s' AND tenant_id = '%2$s';", postText, userTenant)));
+        Long numberOfUsersForUserTenant = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsLong(connection.createStatement(), format("SELECT COUNT(1) FROM user_info_nonforeignkeyconstraint WHERE username = '%1$s' AND tenant = '%2$s';", userName, userTenant)));
+        Long numberOfUsersForNonUserTenant = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsLong(connection.createStatement(), format("SELECT COUNT(1) FROM user_info_nonforeignkeyconstraint WHERE username = '%1$s' AND tenant = '%2$s';", userName, postTenant)));
+        String userId = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsString(connection.createStatement(), format("SELECT user_id FROM user_info_nonforeignkeyconstraint WHERE username = '%1$s' AND tenant = '%2$s';", userName, userTenant)));
+
+        assertThat(numberOfPostsForPostTenant).isOne();
+        assertThat(numberOfPostsForNonPostTenant).isZero();
+        assertThat(numberOfUsersForUserTenant).isOne();
+        assertThat(numberOfUsersForNonUserTenant).isZero();
+
+        setCurrentTenant(postTenant);
+        try (Session session = openPrimarySession()) {
+            Transaction transaction = session.beginTransaction();
+
+            int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE posts_nonforeignkeyconstraint SET user_id = '%s' WHERE text = '%s'", userId, postText)).executeUpdate();
+            session.flush();
+            transaction.commit();
+
+            // THEN
+            // This is unexpected behavior, hibernate does not creates foreign key constraint for JoinColumnsOrFormulas annotation
+            assertThat(numberOfDeleteRecords).isOne();
+        }
+    }
+
+    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenantsWithNativeQuery"}, dataProvider = "posts", testName = "should delete posts for tenant", description = "should delete posts for tenant")
     public void shouldDeletePostsPerTenants(String tenant, Post post, String username) {
         // GIVEN
         setCurrentTenant(tenant);
