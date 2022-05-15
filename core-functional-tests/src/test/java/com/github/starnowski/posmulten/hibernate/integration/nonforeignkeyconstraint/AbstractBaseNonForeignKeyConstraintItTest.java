@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.integration;
+package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
 import com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator;
 import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
@@ -11,12 +11,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
-public class AbstractBaseItTest {
+public class AbstractBaseNonForeignKeyConstraintItTest {
 
     private static SessionFactory primarySessionFactory;
     private static SessionFactory schemaCreatorSessionFactory;
@@ -28,7 +25,7 @@ public class AbstractBaseItTest {
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
-                .configure() // configures settings from hibernate.cfg.xml
+                .configure("hibernate.nonforeignkeyconstraint.cfg.xml")
                 .build();
 
         SessionFactory factory = new MetadataSources(registry)
@@ -42,7 +39,7 @@ public class AbstractBaseItTest {
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
                 .addInitiator(new PosmultenUtilContextInitiator())
-                .configure("hibernate.schema-creator.cfg.xml")
+                .configure("hibernate.nonforeignkeyconstraint.schema-creator.cfg.xml")
                 .build();
 
         SessionFactory factory = new MetadataSources(registry)
@@ -50,7 +47,7 @@ public class AbstractBaseItTest {
         return factory;
     }
 
-    @BeforeSuite(groups = "Integration tests")
+    @BeforeSuite(groups = "Integration tests for model without foreign keys constraints and with composite primary keys")
     public void prepareDatabase() {
         schemaCreatorSessionFactory = getSchemaCreatorSessionFactory();
         primarySessionFactory = getPrimarySessionFactory();

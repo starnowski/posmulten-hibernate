@@ -1,6 +1,7 @@
-package com.github.starnowski.posmulten.hibernate.integration;
+package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.core.model.User;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.StringPrimaryKey;
+import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -10,7 +11,7 @@ import org.testng.annotations.Test;
 import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CRUDItTest extends AbstractBaseItTest {
+public class CRUDItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
     private static final String TENANT1 = "ten1";
     private static final String TENANT2 = "ten2";
@@ -19,8 +20,8 @@ public class CRUDItTest extends AbstractBaseItTest {
     @DataProvider(name = "usersTenants")
     protected static Object[][] userTenants() {
         return new Object[][]{
-                {TENANT1, new User().setUsername("Simon")},
-                {TENANT2, new User().setUsername("johndoe")}
+                {TENANT1, new User().setUsername("Simon").setPrimaryKey(new StringPrimaryKey().withStringKey("key1").withTenant(TENANT1))},
+                {TENANT2, new User().setUsername("johndoe").setPrimaryKey(new StringPrimaryKey().withStringKey("key2").withTenant(TENANT2))}
         };
     }
 
@@ -39,7 +40,7 @@ public class CRUDItTest extends AbstractBaseItTest {
             // THEN
             User current = findUserByUsername(session, user.getUsername());
             assertThat(current).isNotNull();
-            assertThat(current.getUserId()).isEqualTo(user.getUserId());
+            assertThat(current.getPrimaryKey().getStringKey()).isEqualTo(user.getPrimaryKey().getStringKey());
         }
     }
 
@@ -88,7 +89,7 @@ public class CRUDItTest extends AbstractBaseItTest {
                 Transaction transaction = session.beginTransaction();
 
                 // WHEN
-                int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'YYY' WHERE username = '%s'", user.getUsername())).executeUpdate();
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info_nonforeignkeyconstraint SET password = 'YYY' WHERE username = '%s'", user.getUsername())).executeUpdate();
                 session.flush();
                 transaction.commit();
 
@@ -114,33 +115,12 @@ public class CRUDItTest extends AbstractBaseItTest {
             transaction.commit();
 
             // THEN
-            user = findUserByUsername(session, user.getUsername());
             assertThat(user).isNotNull();
             assertThat(user.getPassword()).isEqualTo("XXX");
         }
     }
 
-    @Test(dependsOnMethods = "shouldUpdateCreateUsersPerTenants", dataProvider = "usersTenants", testName = "should update created user for tenant with native query", description = "should update created user for tenant with native query")
-    public void shouldUpdateCreateUsersPerTenantsWithNativeQuery(String tenant, User user) {
-        // GIVEN
-        setCurrentTenant(tenant);
-        try (Session session = openPrimarySession()) {
-            Transaction transaction = session.beginTransaction();
-
-            // WHEN
-            int numberOfUpdatedRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'ZZZ' WHERE username = '%s'", user.getUsername())).executeUpdate();
-            session.flush();
-            transaction.commit();
-
-            // THEN
-            assertThat(numberOfUpdatedRecords).isEqualTo(1);
-            user = findUserByUsername(session, user.getUsername());
-            assertThat(user).isNotNull();
-            assertThat(user.getPassword()).isEqualTo("ZZZ");
-        }
-    }
-
-    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenantsWithNativeQuery"}, dataProvider = "usersTenants", testName = "should try delete user for different tenant", description = "should try delete user for different tenant")
+    @Test(dependsOnMethods = {"shouldUpdateCreateUsersPerTenants"}, dataProvider = "usersTenants", testName = "should try delete user for different tenant", description = "should try delete user for different tenant")
     public void shouldTryToDeleteUsersFromDifferentTenants(String tenant, User user) {
         for (String tt : TENANT_IDS) {
             if (tt.equals(tenant)) {
@@ -152,7 +132,7 @@ public class CRUDItTest extends AbstractBaseItTest {
                 Transaction transaction = session.beginTransaction();
 
                 // WHEN
-                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info WHERE username = '%s'", user.getUsername())).executeUpdate();
+                int numberOfDeleteRecords = session.createNativeQuery(String.format("DELETE FROM user_info_nonforeignkeyconstraint WHERE username = '%s'", user.getUsername())).executeUpdate();
                 session.flush();
                 transaction.commit();
 

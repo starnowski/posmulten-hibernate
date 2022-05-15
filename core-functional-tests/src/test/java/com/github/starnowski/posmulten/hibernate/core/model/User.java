@@ -4,6 +4,7 @@ import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "userId")
 @TenantTable
+@ToString(of = {"userId", "username"})
 public class User {
 
     @Id
@@ -27,4 +29,6 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private Set<UserRole> roles;
+    @OneToMany(mappedBy = "author")
+    private Set<Post> posts;
 }

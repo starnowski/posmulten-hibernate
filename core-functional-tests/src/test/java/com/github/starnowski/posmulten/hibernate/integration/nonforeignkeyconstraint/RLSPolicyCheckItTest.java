@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.integration;
+package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,17 +8,17 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class RLSPolicyCheckItTest extends AbstractBaseItTest {
+public class RLSPolicyCheckItTest extends AbstractBaseNonForeignKeyConstraintItTest {
 
     @DataProvider(name = "tenantTables")
     protected static Object[][] tenantTables() {
         return new Object[][]{
-                {"posts"},
-                {"user_info"},
-                {"comments"},
-                {"categories"},
-                {"user_role"},
-                {"posts_categories"}
+                {"posts_nonforeignkeyconstraint"},
+                {"user_info_nonforeignkeyconstraint"},
+                {"comments_nonforeignkeyconstraint"},
+                {"categories_nonforeignkeyconstraint"},
+                {"user_role_nonforeignkeyconstraint"},
+                {"posts_nonforeignkeyconstraint_categories_nonforeignkeyconstraint"}
         };
     }
 

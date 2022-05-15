@@ -14,13 +14,19 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 import java.util.Iterator;
 import java.util.Map;
 
+import static com.github.starnowski.posmulten.hibernate.core.Properties.IGNORE_FOREIGN_KEY_CONSTRAINT;
+
 public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
 
     private boolean initialized = false;
+    private boolean ignoreForeignKeyConstraintIgnore = false;
     private PosmultenUtilContext posmultenUtilContext;
 
     @Override
     public DefaultSharedSchemaContextBuilder enrich(DefaultSharedSchemaContextBuilder builder, Metadata metadata, Table table) {
+        if (ignoreForeignKeyConstraintIgnore) {
+            return builder;
+        }
         NameGenerator nameGenerator = posmultenUtilContext.getNameGenerator();
         ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper helper = posmultenUtilContext.getForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper();
         // foreign keys
@@ -44,6 +50,10 @@ public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implement
     @Override
     public void init(Map map, ServiceRegistryImplementor serviceRegistryImplementor) {
         this.posmultenUtilContext = serviceRegistryImplementor.getService(PosmultenUtilContext.class);
+        if (map.containsKey(IGNORE_FOREIGN_KEY_CONSTRAINT)) {
+            Object value = map.get(IGNORE_FOREIGN_KEY_CONSTRAINT);
+            ignoreForeignKeyConstraintIgnore = value instanceof Boolean ? (Boolean) value : Boolean.parseBoolean((String) value);
+        }
         initialized = true;
     }
 
