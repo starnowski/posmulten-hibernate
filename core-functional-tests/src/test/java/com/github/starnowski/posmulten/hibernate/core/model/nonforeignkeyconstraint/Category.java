@@ -31,5 +31,6 @@ public class Category {
     private String text;
 
     @ManyToMany
+    @JoinTable(name = "posts_nonforeignkeyconstraint_categories_nonforeignkeyconstraint")
     private Set<Post> posts;
 }
