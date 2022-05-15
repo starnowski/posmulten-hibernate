@@ -68,6 +68,10 @@ https://www.markdownguide.org/basic-syntax/
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
     - Added component com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricherProvider
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
 
 - Add implementation of MultiTenantConnectionProvider type [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider
@@ -82,4 +86,6 @@ https://www.markdownguide.org/basic-syntax/
 - Added provider for DefaultSharedSchemaContextBuilder component without any redundant configuration 
   [7](https://github.com/starnowski/posmulten-hibernate/issues/7)
     - Added component com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator
+      [7](https://github.com/starnowski/posmulten-hibernate/issues/7)
+    - Added component com.github.starnowski.posmulten.hibernate.core.context.LightweightDefaultSharedSchemaContextBuilderProvider
       [7](https://github.com/starnowski/posmulten-hibernate/issues/7)
