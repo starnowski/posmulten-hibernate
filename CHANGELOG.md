@@ -30,4 +30,6 @@ https://www.markdownguide.org/basic-syntax/
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.ICurrentTenantPreparedStatementSetter
       [6](https://github.com/starnowski/posmulten-hibernate/issues/6)
 
-
+- Create maven project [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
