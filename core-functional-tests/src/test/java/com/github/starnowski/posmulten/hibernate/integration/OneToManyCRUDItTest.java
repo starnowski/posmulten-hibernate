@@ -5,6 +5,7 @@ import com.github.starnowski.posmulten.hibernate.core.model.User;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,6 +19,7 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class OneToManyCRUDItTest extends AbstractBaseItTest {
 
@@ -148,12 +150,10 @@ public class OneToManyCRUDItTest extends AbstractBaseItTest {
             Transaction transaction = session.beginTransaction();
 
             // WHEN
-            int numberOfUpdatedRecords = session.createNativeQuery(String.format("UPDATE posts SET userId = '%s' WHERE text = '%s'", userId, postText)).executeUpdate();
-            session.flush();
-            transaction.commit();
-
-            // THEN
-            assertThat(numberOfUpdatedRecords).isZero();
+            assertThatThrownBy(() ->
+                    session.createNativeQuery(String.format("UPDATE posts SET userId = '%s' WHERE text = '%s'", userId, postText)).executeUpdate()
+            )
+                    .isInstanceOf(javax.persistence.PersistenceException.class).getCause().isInstanceOf(ConstraintViolationException.class);
         }
     }
 
