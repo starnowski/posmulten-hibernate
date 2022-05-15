@@ -78,6 +78,20 @@ https://www.markdownguide.org/basic-syntax/
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
     - Added component com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool
       [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContext
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContextInitiator
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorWrapper
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.schema.SharedSchemaContextSourceInput
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.Properties
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
+    - Added component com.github.starnowski.posmulten.hibernate.core.TenantTable
+      [1](https://github.com/starnowski/posmulten-hibernate/issues/1)
 
 - Add implementation of MultiTenantConnectionProvider type [4](https://github.com/starnowski/posmulten-hibernate/issues/4)
     - Added component com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider
