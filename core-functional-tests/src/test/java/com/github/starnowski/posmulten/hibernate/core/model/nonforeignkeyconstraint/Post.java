@@ -44,6 +44,6 @@ public class Post {
 //    @OneToMany(mappedBy = "post")
 //    private Set<Comment> comments;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "posts")
     private Set<Category> categories;
 }

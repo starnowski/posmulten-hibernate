@@ -23,14 +23,13 @@ import java.util.Set;
 public class Category {
 
     @EmbeddedId
-    @AttributeOverride(name="primaryKey", column=@Column(name="id"))
-    @AttributeOverride(name="tenant", column=@Column(name = "categoryTenantId", insertable = false, updatable = false))
+    @AttributeOverride(name = "primaryKey", column = @Column(name = "id"))
+    @AttributeOverride(name = "tenant", column = @Column(name = "categoryTenantId", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
 
     @Column
     private String text;
 
-    //TODO
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany
     private Set<Post> posts;
 }
