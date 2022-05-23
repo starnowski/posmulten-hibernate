@@ -4,6 +4,8 @@
 * [Basic usage](#basic-usage)
     * [Maven](#maven)
     * [Schema generation](#schema-generation)
+        * [Hibernates SessionFactory for schema creation](#hibernates-sessionfactory-for-schema-creation)
+        * [Hibernates configuration for schema generation](#hibernates-configuration-for-schema-generation)
 * [Properties](#properties)
 
 ## Introduction
@@ -60,6 +62,23 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 ```
 
 #### Hibernates configuration for schema generation
+To hibernate configuration there need to be added few properties.
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <!-- ... -->
+        <property name="hbm2ddl.auto">create-drop</property> <!-- create, create-drop -->
+        <property name="multiTenancy">NONE</property>
+        <property name="schema_management_tool">com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool</property>
+        <property name="posmulten.grantee">posmhib4-user</property>
+        <!-- ... -->
+    </session-factory>
+</hibernate-configuration>
+```
+
+TODO
 
 ## Properties
 | Property name |   Type    |   Required    |   Nullable    |   Description |
