@@ -1,7 +1,9 @@
 # posmulten-hibernate
 
 * [Introduction](#introduction)
-* [Schema generation](#schema-generation)
+* [Basic usage](#basic-usage)
+    * [Maven](#maven)
+    * [Schema generation](#schema-generation)
 * [Properties](#properties)
 
 ## Introduction
@@ -13,9 +15,24 @@ For more information on how the Posmulten helps to achieve this isolation strate
 Generated DDL statement can be executed during integration tests or used by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 The second goal is to help communicate between the database and its client.
 
-## Schema generation
+## Basic usage
+### Maven
+Add project to your pom.xml
+```xml
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.hibernate</groupId>
+            <artifactId>core</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+```
+
+### Schema generation
 
 With the help of the Hibernate ORM framework, the project creates DDL statements that generate Multi-tenant architecture with a shared schema strategy.
+The generated DDL statements can be used during integration tests and by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
+
+#### Hibernates SessionFactory for schema creation
+
 
 ## Properties
 | Property name |   Type    |   Required    |   Nullable    |   Description |
