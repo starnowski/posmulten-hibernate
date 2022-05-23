@@ -52,12 +52,14 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
                 .addInitiator(new PosmultenUtilContextInitiator())
+                .configure("hibernate.schema-creator.cfg.xml")
                 .build();
 
         SessionFactory factory = new MetadataSources(registry)
                 .buildMetadata().buildSessionFactory();
 ```
 
+#### Hibernates configuration for schema generation
 
 ## Properties
 | Property name |   Type    |   Required    |   Nullable    |   Description |
