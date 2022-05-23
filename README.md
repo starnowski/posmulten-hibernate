@@ -33,6 +33,31 @@ The generated DDL statements can be used during integration tests and by tools t
 
 #### Hibernates SessionFactory for schema creation
 
+To create Hibernate session, we need to add few service initiators from project.
+
+```java
+
+import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContextInitiator;
+import com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContextInitiator;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .addInitiator(new SchemaCreatorStrategyContextInitiator())
+                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
+                .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
+                .addInitiator(new PosmultenUtilContextInitiator())
+                .build();
+
+        SessionFactory factory = new MetadataSources(registry)
+                .buildMetadata().buildSessionFactory();
+```
+
 
 ## Properties
 | Property name |   Type    |   Required    |   Nullable    |   Description |
