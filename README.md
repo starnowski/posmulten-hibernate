@@ -13,7 +13,7 @@
 Project is integration of Posmulten and Hibernate libraries.
 The are two main goal for this project.
 The first is to generate DDL statements that create Multi-tenant architecture with a shared schema strategy based on the java model.
-For more information on how the Posmulten helps to achieve this isolation strategy go to [project website](https://github.com/starnowski/posmulten).  
+For more information on how the Posmulten helps achieve this isolation strategy or what are other Multi-tenant architecture strategies, go to [project website](https://github.com/starnowski/posmulten). 
 Generated DDL statement can be executed during integration tests or used by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 The second goal is to help communicate between the database and its client.
 
@@ -70,13 +70,16 @@ To hibernate configuration there need to be added few properties.
     <session-factory>
         <!-- ... -->
         <property name="hbm2ddl.auto">create-drop</property> <!-- create, create-drop -->
-        <property name="multiTenancy">NONE</property>
         <property name="schema_management_tool">com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool</property>
         <property name="posmulten.grantee">posmhib4-user</property>
         <!-- ... -->
     </session-factory>
 </hibernate-configuration>
 ```
+
+The PosmultenSchemaManagementTool type needs to be set as a schema management tool by setting its package name with the property "schema_management_tool".
+The configuration also requires setting the user to which Posmulten will generate constraints that provide the expected isolation level.  
+
 
 TODO
 
