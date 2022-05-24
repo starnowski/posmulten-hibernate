@@ -6,6 +6,7 @@
     * [Schema generation](#schema-generation)
         * [Hibernates SessionFactory for schema creation](#hibernates-sessionfactory-for-schema-creation)
         * [Hibernates configuration for schema generation](#hibernates-configuration-for-schema-generation)
+    * [Client communication with database](#client-communication-with-database)
 * [Properties](#properties)
 
 ## Introduction
@@ -78,12 +79,18 @@ To hibernate configuration there need to be added few properties.
 ```
 
 The PosmultenSchemaManagementTool type needs to be set as a schema management tool by setting its package name with the property "schema_management_tool".
-The configuration also requires setting the user to which Posmulten will generate constraints that provide the expected isolation level.  
+The configuration also requires setting the user to which Posmulten will generate constraints that provide the expected isolation level.
+This should be the same user used by the application for normal [communication](#client-communication-with-database) with the database
 
+TODO Grantee and schema creation user can be the same (database owner)
+
+TODO
+
+### Client communication with database
 
 TODO
 
 ## Properties
-| Property name |   Type    |   Required    |   Nullable    |   Description |
-|---------------|-----------|---------------|---------------|---------------|
-|[default_schema](#default_schema) |    String  |   Yes |   Yes |   Name of the database schema for which changes should be applied. |
+| Property name |   Type    |   Required  |   Description |
+|---------------|-----------|---------------|---------------|
+|posmulten.grantee |    String  |   full |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
