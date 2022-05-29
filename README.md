@@ -84,7 +84,7 @@ The PosmultenSchemaManagementTool type needs to be set as a schema management to
 The configuration also requires setting the user to which Posmulten will generate constraints that provide the expected isolation level.
 This should be the same user used by the application for normal [communication](#client-communication-with-database) with the database
 
-TODO Grantee and schema creation user can be the same (database owner)
+**Grantee and schema creation user can be the same (database owner). There might be a little bit harder with setting data for tests.**
 
 TODO
 
