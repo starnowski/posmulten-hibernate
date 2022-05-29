@@ -67,6 +67,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 #### Hibernates configuration for schema generation
 To hibernate configuration there need to be added few properties.
 
+_hibernate.schema-creator.cfg.xml_
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
@@ -86,9 +87,33 @@ This should be the same user used by the application for normal [communication](
 
 **Grantee and schema creation user can be the same (database owner). There might be a little bit harder with setting data for tests.**
 
-TODO
-
 ### Client communication with database
+
+To create Hibernate session, we need to add few service initiators from project.
+
+```java
+import com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator;
+import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
+                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
+                .configure() // configures settings from hibernate.cfg.xml
+                .build();
+
+        SessionFactory factory = new MetadataSources(registry)
+                .buildMetadata().buildSessionFactory();
+        return factory;
+```
+
+
 
 TODO
 
