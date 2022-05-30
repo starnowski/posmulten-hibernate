@@ -163,11 +163,11 @@ _hibernate.cfg.xml_
 </hibernate-configuration>
 ```
 
-For correct behaviour posmulten integration use "SCHEMA" strategy that is why it is required to specify this value for "hibernate.multiTenancy" property.
-There are two other component that need to be specified:
+For correct behavior, the posmulten integration uses the "SCHEMA" strategy which is why it is required to specify this value for the "hibernate.multiTenancy" property.
+There are two other components that need to be specified:
     -   "com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
     -   "com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
-And last but not least to have less thing to set up we have to specify property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
+And last but not least to have fewer things to set up we have to specify the property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
 By default configuration context used for session factory initialization is ["full"](#full).
 
 TODO
@@ -176,6 +176,7 @@ TODO
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
 |posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
+|posmulten.schema.builder.provider |    String  |   No |   Configuration context used for    |
 
 
 ##### lightweight 
