@@ -3,6 +3,7 @@
 # posmulten-hibernate
 
 * [Introduction](#introduction)
+    * [Difference between hibernate discriminator approach and posmulten](#difference-between-hibernate-discriminator-approach-and-posmulten)
 * [Basic usage](#basic-usage)
     * [Maven](#maven)
     * [Schema generation](#schema-generation)
@@ -30,7 +31,13 @@ For more information on how the Posmulten helps achieve this isolation strategy 
 Generated DDL statement can be executed during integration tests or used by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 The second goal is to help communicate between the database and its client.
 
-TODO Difference between hibernate aporach and posmulten 
+### Difference between hibernate discriminator approach and posmulten 
+
+There is a big difference between the newly added hibernate feature [partitioned (discriminator) data](https://docs.jboss.org/hibernate/stable/orm/userguide/html_single/Hibernate_User_Guide.html#multitenacy-discriminator)  the posmulten library on how shared schema isolation is being achieved.
+Hibernate as ORM framework adds to each statement sent to database condition in which it compares tenant column for the row with tenant values stored in the current session.
+Posmulten is doing it differently. It generates DDL statements that create the Row Level Security Policy for tables that generally check if the tenant which is set for the connection is the same as the database row read or updated by SQL statement.
+
+TODO
 
 ## Basic usage
 ### Maven
