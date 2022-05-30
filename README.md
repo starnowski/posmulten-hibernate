@@ -387,9 +387,10 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 ## Properties
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
-|posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
-|posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
-|posmulten.foreignkey.constraint.ignore |    Boolean  |   No |   For value "true", the library ignores adding this constraint that checks if a foreign key belongs to the current tenant  |
+|hibernate.posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
+|hibernate.posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
+|hibernate.posmulten.foreignkey.constraint.ignore |    Boolean  |   No |   For value "true", the library ignores adding this constraint that checks if a foreign key belongs to the current tenant  |
+|hibernate.posmulten.tenant.id.property |    String  |   No |   Default name of column that stores tenant identifier. |
 
 
 TODO
