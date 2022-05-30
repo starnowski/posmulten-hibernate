@@ -1,3 +1,5 @@
+[![Run tests for posmulten hibernate](https://github.com/starnowski/posmulten-hibernate/actions/workflows/posmulten-hibernate.yml/badge.svg)](https://github.com/starnowski/posmulten-hibernate/actions/workflows/posmulten-hibernate.yml)
+
 # posmulten-hibernate
 
 * [Introduction](#introduction)
