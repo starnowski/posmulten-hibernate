@@ -13,6 +13,7 @@
         * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
         * [Open connection for tenant](#open-connection-for-tenant)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
+    * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
 * [Properties](#properties)
 
 ## Introduction
@@ -239,7 +240,7 @@ public class StringPrimaryKey implements Serializable {
 
     private String tenant;
 
-    // Getters and Setters
+    // Getters, Setters, Equals and HashCode
 }
 ```
 
@@ -253,11 +254,73 @@ public class LongPrimaryKey implements Serializable {
     private Long key;
     private String tenant;
 
+    // Getters, Setters, Equals and HashCode
+}
+```
+
+Below there is an example of two entities with shared tenant column
+
+```java
+import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+
+import javax.persistence.*;
+
+@Table(name = "user_info_nonforeignkeyconstraint")
+@TenantTable(tenantIdColumn = "tenant")
+public class User {
+
+    @EmbeddedId
+    @AttributeOverride(name = "stringKey", column = @Column(name = "user_id"))
+    @AttributeOverride(name = "tenant", column = @Column(name = "tenant", insertable = false, updatable = false))
+    private StringPrimaryKey primaryKey;
+    private String username;
+    private String password;
+
+    @OneToMany(mappedBy = "author", fetch = LAZY)
+    @JoinColumnsOrFormulas(value = {
+            //name --> Post column, referencedColumnName -- User column
+            @JoinColumnOrFormula(column = @JoinColumn(name = "tenant_id", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    })
+    private Set<Post> posts;
+    
     // Getters and Setters
 }
 ```
 
+```java
+import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
 
+import javax.persistence.*;
+
+@Table(name = "posts_nonforeignkeyconstraint")
+@TenantTable
+@IdClass(LongPrimaryKey.class)
+public class Post {
+
+    @Id
+    @GeneratedValue
+    private long key;
+    @Id
+    @Column(name = "tenant_id", insertable = false, updatable = false)
+    private String tenant;
+
+    @ManyToOne
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "tenant_id", referencedColumnName = "tenant")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    })
+    private User author;
+
+    @Column(columnDefinition = "text")
+    private String text;
+}
+```
 
 TODO
 
