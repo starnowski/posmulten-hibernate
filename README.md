@@ -39,7 +39,15 @@ Add project to your pom.xml
             <artifactId>core</artifactId>
             <version>0.1.0</version>
         </dependency>
+
+        <!-- hibernate dependency -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.3.Final</version>
+        </dependency>
 ```
+The project is compatible with hibernate version 5.
 
 ### Schema generation
 
