@@ -36,8 +36,14 @@ The second goal is to help communicate between the database and its client.
 There is a big difference between the newly added hibernate feature [partitioned (discriminator) data](https://docs.jboss.org/hibernate/stable/orm/userguide/html_single/Hibernate_User_Guide.html#multitenacy-discriminator)  the posmulten library on how shared schema isolation is being achieved.
 Hibernate as ORM framework adds to each statement sent to database condition in which it compares tenant column for the row with tenant values stored in the current session.
 Posmulten is doing it differently. It generates DDL statements that create the Row Level Security Policy for tables that generally check if the tenant which is set for the connection is the same as the database row read or updated by SQL statement.
-
-TODO
+Both approaches have cons and pros.
+Hibernate approach's benefit is that it can be used with other database engines.
+Posmulten can only be used for the Postgres engine.
+On the other side Hibernate creates potencial constraint in case when there is more than one project that use database.
+In this situtation other project also need to use Hibernate.
+Posmulten gives flexibility in such situations because it generates security policies on the database level.
+That means that other projects which use the same database do not have to use a posmulten project or even java.
+A developer needs to ensure that the correct session property is being set with the tenant identifier during [connection establishment](https://github.com/starnowski/posmulten#connecting-to-database).
 
 ## Basic usage
 ### Maven
