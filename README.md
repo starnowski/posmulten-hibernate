@@ -342,6 +342,24 @@ ALTER TABLE posts_nonforeignkeyconstraint ADD CONSTRAINT fk_posts_users_author_m
 
 **Important!** There is a plan to add  [features](https://github.com/starnowski/posmulten-hibernate/issues/17) to this project to solve this problem.
 
+#### Hibernates configuration for schema with shared tenant column
+
+Configuration looks almost the same as for basic [use case](#hibernates-configuration-for-schema-generation) with one additional property.
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <!-- ... -->
+        <property name="posmulten.foreignkey.constraint.ignore">true</property>
+        <!-- ... -->
+    </session-factory>
+</hibernate-configuration>
+```
+
+By default, the project adds a constraint that checks if a foreign key belongs to the current tenant.
+In a situation when foreign and primary key shares the same tenant column which is monitored by RLS policy created by posmulten, such constraint is redundant.
+The "posmulten.foreignkey.constraint.ignore" property allows to ignore off adding this constraint for foreign key.
+
 TODO
 
 ## Properties
@@ -350,6 +368,7 @@ TODO
 |posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
 |posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
 
+TODO
 
 ##### lightweight 
 Configuration context without any redundant thing that allows for the application to establish connections to the database
