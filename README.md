@@ -391,6 +391,8 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 |hibernate.posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
 |hibernate.posmulten.foreignkey.constraint.ignore |    Boolean  |   No |   For value "true", the library ignores adding this constraint that checks if a foreign key belongs to the current tenant  |
 |hibernate.posmulten.tenant.id.property |    String  |   No |   Default name of column that stores tenant identifier. |
+|hibernate.posmulten.tenant.id.set.current.as.default |    Boolean  |   No |   Generate a statement that sets a default value for the tenant column in all tables. Default value is "true" |
+|hibernate.posmulten.tenant.id.values.blacklist |    String  |   No |   An array of invalid values for tenant identifier. The array needs to have at least one element. Ids are separated by comma |
 
 
 TODO
