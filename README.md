@@ -15,6 +15,7 @@
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
         * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
+    * [Hibernates configuration for schema with shared tenant column](#hibernates-configuration-for-schema-with-shared-tenant-column)
 * [Properties](#properties)
 
 ## Introduction
@@ -358,15 +359,14 @@ Configuration looks almost the same as for basic [use case](#hibernates-configur
 
 By default, the project adds a constraint that checks if a foreign key belongs to the current tenant.
 In a situation when foreign and primary key shares the same tenant column which is monitored by RLS policy created by posmulten, such constraint is redundant.
-The "posmulten.foreignkey.constraint.ignore" property allows to ignore off adding this constraint for foreign key.
-
-TODO
+The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding this constraint for foreign key.
 
 ## Properties
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
 |posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
 |posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
+|posmulten.foreignkey.constraint.ignore |    Boolean  |   No |   For value "true", the library ignores adding this constraint that checks if a foreign key belongs to the current tenant  |
 
 TODO
 
