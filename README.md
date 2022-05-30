@@ -14,6 +14,7 @@
         * [Open connection for tenant](#open-connection-for-tenant)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
+        * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
 * [Properties](#properties)
 
 ## Introduction
@@ -319,8 +320,16 @@ public class Post {
 
     @Column(columnDefinition = "text")
     private String text;
+
+    // Getters and Setters
 }
 ```
+
+#### Hibernate issue related to overlapping foreign keys
+
+Hibernate has known issue related to [overlapping foreign keys](https://hibernate.atlassian.net/browse/HHH-6221).
+Usage of JoinColumnsOrFormulas annotation is a workaround for this issue but it has some drawbacks.
+
 
 TODO
 
