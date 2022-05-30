@@ -224,6 +224,41 @@ In case when we have such requirements besides the primary key we need to make s
 Foreign keys have to share the tenant column with primary keys.
 Generally, all unique constraints (except for dictionary tables that do not have to be multi-tenant) should be aware of the tenant column.
 
+### Java model with shared tenant column
+
+To better demonstrate the shared tenant column between keys, we will create two classes representing composite keys.
+
+```java
+import javax.persistence.Embeddable;
+import java.io.Serializable;
+
+@Embeddable
+public class StringPrimaryKey implements Serializable {
+
+    private String stringKey;
+
+    private String tenant;
+
+    // Getters and Setters
+}
+```
+
+```java
+import javax.persistence.Embeddable;
+import java.io.Serializable;
+
+@Embeddable
+public class LongPrimaryKey implements Serializable {
+
+    private Long key;
+    private String tenant;
+
+    // Getters and Setters
+}
+```
+
+
+
 TODO
 
 ## Properties
