@@ -337,7 +337,7 @@ We need to add these statements manually in the import.sql file to solve this pr
 ALTER TABLE posts_nonforeignkeyconstraint ADD CONSTRAINT fk_posts_users_author_manual_added FOREIGN KEY (user_id, tenant_id) REFERENCES user_info_nonforeignkeyconstraint;
 ```
 
-**Important!** There is a plan to [feature](https://github.com/starnowski/posmulten-hibernate/issues/17) in this project to solve this problem.
+**Important!** There is a plan to add  [features](https://github.com/starnowski/posmulten-hibernate/issues/17) to this project to solve this problem.
 
 TODO
 
