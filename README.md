@@ -220,7 +220,8 @@ Below there is an example how connect and execute operation for tenant "Ten1".
 The [basic usage](#basic-usage) section described schema example assumes that the tenant discriminator column is not part of the primary key.
 The main disadvantage of this approach might come to light when there will be project requirements for migrating tenant data between databases.
 If there is no such requirement for the project then it is okay to have a primary key without a tenant column and not included it in the unique constraint for the primary key.
-
+In case when we have such requirements besides the primary key we need to make sure that foreign key columns do not contain redundant columns in their reference to the tenant column from a different table.
+Foreign keys have to share the tenant column with primary keys.
 
 TODO
 
