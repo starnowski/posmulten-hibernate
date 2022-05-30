@@ -17,6 +17,8 @@
         * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
     * [Hibernates configuration for schema with shared tenant column](#hibernates-configuration-for-schema-with-shared-tenant-column)
 * [Properties](#properties)
+* [Reporting issues](#reporting-issues)
+* [Project contribution](#project-contribution)
 
 ## Introduction
 
@@ -376,6 +378,7 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 |posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
 |posmulten.foreignkey.constraint.ignore |    Boolean  |   No |   For value "true", the library ignores adding this constraint that checks if a foreign key belongs to the current tenant  |
 
+
 TODO
 
 ##### lightweight 
@@ -384,3 +387,11 @@ Configuration context without any redundant thing that allows for the applicatio
 ##### full 
 Configuration context needed to set up session factory for schema creation. It also can be used by the application to establish connections to the database
 
+# Reporting issues
+* Any new issues please report in [GitHub site](https://github.com/starnowski/posmulten-hibernate/issues)
+
+# Project contribution
+* Look for open issues or create your own
+* Fork repository on Github and start applying your changes to master branch or release branch
+* Follow CONTRIBUTING.md document for coding rules
+* Create pull request
