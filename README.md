@@ -12,6 +12,7 @@
     * [Client communication with database](#client-communication-with-database)
         * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
         * [Open connection for tenant](#open-connection-for-tenant)
+* [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
 * [Properties](#properties)
 
 ## Introduction
@@ -213,6 +214,8 @@ Below there is an example how connect and execute operation for tenant "Ten1".
 
     }
 ```
+
+## Tenant column as part of the primary key in schema design
 
 TODO
 
