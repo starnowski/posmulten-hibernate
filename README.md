@@ -20,6 +20,7 @@
 ## Introduction
 
 Project is integration of Posmulten and Hibernate libraries.
+Posmulten generates DDL statements only for the Postgres database. This means that the project is compatible only with this database engine since version 9.6.
 The are two main goal for this project.
 The first is to generate DDL statements that create Multi-tenant architecture with a shared schema strategy based on the java model.
 For more information on how the Posmulten helps achieve this isolation strategy or what are other Multi-tenant architecture strategies, go to [project website](https://github.com/starnowski/posmulten). 
