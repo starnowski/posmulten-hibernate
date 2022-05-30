@@ -176,7 +176,7 @@ TODO
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
 |posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
-|posmulten.schema.builder.provider |    String  |   No |   Configuration context used for    |
+|posmulten.schema.builder.provider |    String  |   No |   Configuration context used for session factory initialization. By default the ["full"](#full) is being used   |
 
 
 ##### lightweight 
