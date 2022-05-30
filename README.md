@@ -11,6 +11,7 @@
         * [Java model](#java-model)
     * [Client communication with database](#client-communication-with-database)
         * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
+        * [Open connection for tenant](#open-connection-for-tenant)
 * [Properties](#properties)
 
 ## Introduction
