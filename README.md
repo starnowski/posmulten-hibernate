@@ -222,6 +222,7 @@ The main disadvantage of this approach might come to light when there will be pr
 If there is no such requirement for the project then it is okay to have a primary key without a tenant column and not included it in the unique constraint for the primary key.
 In case when we have such requirements besides the primary key we need to make sure that foreign key columns do not contain redundant columns in their reference to the tenant column from a different table.
 Foreign keys have to share the tenant column with primary keys.
+Generally, all unique constraints (except for dictionary tables that do not have to be multi-tenant) should be aware of the tenant column.
 
 TODO
 
