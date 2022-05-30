@@ -6,6 +6,7 @@
     * [Schema generation](#schema-generation)
         * [Hibernates SessionFactory for schema creation](#hibernates-sessionfactory-for-schema-creation)
         * [Hibernates configuration for schema generation](#hibernates-configuration-for-schema-generation)
+        * [Java model](#java-model)
     * [Client communication with database](#client-communication-with-database)
 * [Properties](#properties)
 
@@ -86,6 +87,36 @@ The configuration also requires setting the user to which Posmulten will generat
 This should be the same user used by the application for normal [communication](#client-communication-with-database) with the database
 
 **Grantee and schema creation user can be the same (database owner). There might be a little bit harder with setting data for tests.**
+
+#### Java model
+
+By default, all tables with Hibernate or JPA annotations are treated as non-multitenant.
+That is why each table that is supposed to be multi-tenant should contain the annotation "TenantTable".
+
+```java
+
+import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import javax.persistence.*;
+
+@Table(name = "user_info")
+@TenantTable
+public class User {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "user_id")
+    private UUID userId;
+    private String username;
+    private String password;
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> roles;
+    @OneToMany(mappedBy = "author")
+    private Set<Post> posts;
+}
+
+```
+
+The multi-tenant table can have a relation to the non-multitenant table.
 
 ### Client communication with database
 
