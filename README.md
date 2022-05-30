@@ -394,6 +394,7 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 |hibernate.posmulten.tenant.id.set.current.as.default |    Boolean  |   No |   Generate a statement that sets a default value for the tenant column in all tables. Default value is "true" |
 |hibernate.posmulten.tenant.id.values.blacklist |    String  |   No |   An array of invalid values for tenant identifier. The array needs to have at least one element. Ids are separated by comma |
 |hibernate.posmulten.tenant.column.java.type |    String  |   No |   Java type that represents tenant identifier which is being used in SQL statement that sets a current tenant. Available values are "long", "string" and "custom". The default value is "string". For "custom" there needs to be also "hibernate.posmulten.tenant.column.java.type.custom.resolver" property defined |
+|hibernate.posmulten.tenant.column.java.type.custom.resolver |    String  |   No |   Java type that implements com.github.starnowski.posmulten.hibernate.core.connections.ICurrentTenantPreparedStatementSetter interface which objective is to map correctly passed tenant value in prepared SQL statement |
 
 
 TODO
