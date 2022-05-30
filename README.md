@@ -8,6 +8,7 @@
         * [Hibernates configuration for schema generation](#hibernates-configuration-for-schema-generation)
         * [Java model](#java-model)
     * [Client communication with database](#client-communication-with-database)
+        * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
 * [Properties](#properties)
 
 ## Introduction
@@ -162,10 +163,24 @@ _hibernate.cfg.xml_
 </hibernate-configuration>
 ```
 
+For correct behaviour posmulten integration use "SCHEMA" strategy that is why it is required to specify this value for "hibernate.multiTenancy" property.
+There are two other component that need to be specified:
+    -   "com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
+    -   "com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
+And last but not least to have less thing to set up we have to specify property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
+By default configuration context used for session factory initialization is ["full"](#full).
 
 TODO
 
 ## Properties
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
-|posmulten.grantee |    String  |   full |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
+|posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
+
+
+##### lightweight 
+Configuration context without any redundant thing that allows for the application to establish connections to the database
+
+##### full 
+Configuration context needed to set up session factory for schema creation. It also can be used by the application to establish connections to the database
+
