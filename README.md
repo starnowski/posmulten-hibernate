@@ -217,6 +217,10 @@ Below there is an example how connect and execute operation for tenant "Ten1".
 
 ## Tenant column as part of the primary key in schema design
 
+The [basic usage](#basic-usage) section described schema example assumes that the tenant discriminator column is not part of the primary key.
+The main disadvantage of this approach might come to light when there will be project requirements for migrating tenant data between databases.
+
+
 TODO
 
 ## Properties
