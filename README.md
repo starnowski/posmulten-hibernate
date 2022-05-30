@@ -144,6 +144,23 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
         return factory;
 ```
 
+#### Hibernates configuration for application connection
+For correct client communication with database to hibernate configuration there need to be added few properties.
+
+_hibernate.cfg.xml_
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <!-- ... -->
+        <property name="hibernate.multiTenancy">SCHEMA</property>
+        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider</property>
+        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl</property>
+        <property name="posmulten.schema.builder.provider">lightweight</property>
+        <!-- ... -->
+    </session-factory>
+</hibernate-configuration>
+```
 
 
 TODO
