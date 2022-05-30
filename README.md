@@ -329,6 +329,7 @@ public class Post {
 
 Hibernate has known issue related to [overlapping foreign keys](https://hibernate.atlassian.net/browse/HHH-6221).
 Usage of JoinColumnsOrFormulas annotation is a workaround for this issue but it has some drawbacks.
+One of them is that the hibernate does not generates foreign key constraint for such declaration.
 
 
 TODO
