@@ -135,6 +135,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+    SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
@@ -145,6 +146,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
         SessionFactory factory = new MetadataSources(registry)
                 .buildMetadata().buildSessionFactory();
         return factory;
+    }
 ```
 
 #### Hibernates configuration for application connection
@@ -171,6 +173,45 @@ There are two other components that need to be specified:
     -   "com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
 And last but not least to have fewer things to set up we have to specify the property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
 By default configuration context used for session factory initialization is ["full"](#full).
+
+### Open connection for tenant
+Below there is an example how connect and execute operation for tenant "Ten1".
+
+```java
+
+    private Session openPrimarySession() {
+            return primarySessionFactory.openSession();
+    }
+
+    private User findUserByUsername(Session session, String username) {
+        Query<User> query = session.createQuery("FROM User as user WHERE user.username = :username", User.class);
+        query.setParameter("username", username);
+        return query.uniqueResult();
+    }
+
+    void test() {
+        setCurrentTenant("Ten1");
+        try (Session session = openPrimarySession()) {
+             // WHEN
+            User current =  findUserByUsername(session, "Simon");
+            
+            // THEN
+            assertThat(current).isNotNull();
+            assertThat(current.getUsername()).isEqualTo("Simon");
+        }
+            
+        setCurrentTenant(tt);
+        try (Session session = openPrimarySession()) {
+            Transaction transaction = session.beginTransaction();
+
+            // WHEN
+            int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'YYY' WHERE username = '%s'", "Simon")).executeUpdate();
+            session.flush();
+            transaction.commit();
+        }
+
+    }
+```
 
 TODO
 
