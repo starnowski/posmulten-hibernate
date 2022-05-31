@@ -43,6 +43,11 @@
         </developer>
     </developers>
 
+    <issueManagement>
+        <url>https://github.com/starnowski/posmulten-hibernate/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
