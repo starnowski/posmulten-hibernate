@@ -30,6 +30,10 @@
         <license.dir>${basedir}</license.dir>
     </properties>
 
+    <name>posmulten-hibernate</name>
+    <description>
+        Integration of Posmulten and Hibernate libraries
+    </description>
     <url>https://github.com/starnowski/posmulten-hibernate</url>
 
     <licenses>
