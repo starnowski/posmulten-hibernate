@@ -400,9 +400,7 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 |hibernate.posmulten.function.equalscurrenttenantidentifier.name |    String  |   No |   Name of SQL function that checks if the identifier passed as argument is equal to the current tenant value |
 |hibernate.posmulten.function.tenanthasauthorities.name |    String  |   No |   Name of SQL function that checks if the current tenant for the database session has access to table row based on tenant column  |
 |hibernate.posmulten.metadata.table.additional.enrichers |    String  |   No |   An array of subtypes of com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher interface that will be invoked after default enrichers. The array needs to have at least one element and each element should be a full class name with a package. Types are separated by comma  |
-
-
-TODO
+|hibernate.posmulten.metadata.additional.enrichers |    String  |   No |   An array of subtypes of com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher interface that will be invoked after default enrichers. The array needs to have at least one element and each element should be a full class name with a package. Types are separated by comma  |
 
 ##### lightweight 
 Configuration context without any redundant thing that allows for the application to establish connections to the database
