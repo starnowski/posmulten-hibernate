@@ -397,6 +397,8 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 |hibernate.posmulten.tenant.column.java.type.custom.resolver |    String  |   No |   Java type that implements com.github.starnowski.posmulten.hibernate.core.connections.ICurrentTenantPreparedStatementSetter interface which objective is to map correctly passed tenant value in prepared SQL statement |
 |hibernate.posmulten.function.getcurrenttenant.name |    String  |   No |   Name of SQL function that returns current tenant value |
 |hibernate.posmulten.function.setcurrenttenant.name |    String  |   No |   Name of SQL function that sets current tenant value |
+|hibernate.posmulten.function.equalscurrenttenantidentifier.name |    String  |   No |   Name of SQL function that checks if the identifier passed as argument is equal to the current tenant value |
+|hibernate.posmulten.function.tenanthasauthorities.name |    String  |   No |   Name of SQL function that checks if the current tenant for the database session has access to table row based on tenant column  |
 
 
 TODO
