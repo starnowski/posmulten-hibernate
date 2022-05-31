@@ -30,6 +30,8 @@
         <license.dir>${basedir}</license.dir>
     </properties>
 
+    <url>https://github.com/starnowski/posmulten-hibernate</url>
+
     <licenses>
         <license>
             <name>LGPL 2.1</name>
