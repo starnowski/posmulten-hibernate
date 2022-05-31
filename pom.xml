@@ -36,6 +36,13 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Szymon Tarnowski</name>
+            <url>www.linkedin.com/in/szymon-tarnowski-a104b4150</url>
+        </developer>
+    </developers>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
