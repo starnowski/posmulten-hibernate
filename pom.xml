@@ -29,6 +29,13 @@
         <org.mockito.mockito-inline.version>4.4.0</org.mockito.mockito-inline.version>
     </properties>
 
+    <licenses>
+        <license>
+            <name>LGPL 2.1</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+        </license>
+    </licenses>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
