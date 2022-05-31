@@ -48,6 +48,11 @@
         <system>GitHub Issues</system>
     </issueManagement>
 
+    <scm>
+        <url>https://github.com/starnowski/posmulten-hibernate</url>
+        <connection>scm:git:git://github.com/starnowski/posmulten-hibernate.git</connection>
+    </scm>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
