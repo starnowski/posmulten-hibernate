@@ -29,7 +29,7 @@ public interface IDefaultSharedSchemaContextBuilderMetadataEnricher {
      * Method that initialize component.
      * After invoking this method the return value by {@link #isInitialized()} should be impacted.
      * @param map hibernate configuration
-     * @param serviceRegistryImplementor
+     * @param serviceRegistryImplementor services register
      */
     void initiateService(Map map, ServiceRegistryImplementor serviceRegistryImplementor);
 }
