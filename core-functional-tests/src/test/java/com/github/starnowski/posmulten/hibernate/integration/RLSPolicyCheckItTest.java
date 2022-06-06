@@ -18,7 +18,15 @@ public class RLSPolicyCheckItTest extends AbstractBaseItTest {
                 {"comments"},
                 {"categories"},
                 {"user_role"},
-                {"posts_categories"}
+                {"posts_categories"},
+                {"categories_category_types"} // One of relation table is dictionary table but still RLS policy should be created
+        };
+    }
+
+    @DataProvider(name = "noneTenantTables")
+    protected static Object[][] noneTenantTables() {
+        return new Object[][]{
+                {"category_types_category_type_attributes"} // Both tables are dictionary tables
         };
     }
 

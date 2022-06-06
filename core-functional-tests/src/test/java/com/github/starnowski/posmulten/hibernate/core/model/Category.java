@@ -36,5 +36,5 @@ public class Category {
     private String tenantId;
 
     @ManyToMany
-    private Set<CategoryType> types;
+    private Set<CategoryType> categoryTypes;
 }
