@@ -42,6 +42,16 @@ public class RLSPolicyCheckItTest extends AbstractBaseItTest {
         assertThat(result).isEqualTo(1L);
     }
 
-    //TODO Assert non existed relation for dictionary tables
+    @Test(dataProvider = "noneTenantTables", testName = "should not create RLS policy for table", description = "should not create RLS policy for table")
+    public void shouldNotCreateRLSPolicy(String tableName) {
+        // GIVEN
+        String schemaName = "public";
+
+        // WHEN
+        Long result = schemaCreatorSession.doReturningWork(connection -> selectAndReturnFirstRecordAsLong(connection.createStatement(), format("SELECT COUNT(1) FROM pg_catalog.pg_policy pg, pg_class pc, pg_catalog.pg_namespace pn WHERE pg.polrelid = pc.oid AND pc.relnamespace = pn.oid AND pc.relname = '%1$s' AND pn.nspname = '%2$s';", tableName, schemaName)));
+
+        // THEN
+        assertThat(result).isZero();
+    }
 
 }
