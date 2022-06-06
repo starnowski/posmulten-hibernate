@@ -34,4 +34,6 @@ public class RLSPolicyCheckItTest extends AbstractBaseItTest {
         assertThat(result).isEqualTo(1L);
     }
 
+    //TODO Assert non existed relation for dictionary tables
+
 }

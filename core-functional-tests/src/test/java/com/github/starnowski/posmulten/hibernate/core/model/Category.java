@@ -34,4 +34,7 @@ public class Category {
 
     @Column(name = "categoryTenantId", insertable = false, updatable = false)
     private String tenantId;
+
+    @ManyToMany
+    private Set<CategoryType> types;
 }
