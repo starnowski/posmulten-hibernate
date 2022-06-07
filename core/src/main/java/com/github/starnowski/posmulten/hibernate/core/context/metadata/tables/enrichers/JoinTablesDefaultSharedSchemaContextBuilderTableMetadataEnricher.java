@@ -29,6 +29,7 @@ public class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher im
         if (pCollection == null || persistentClass != null) {
             return builder;
         }
+        this.posmultenUtilContext.getTableUtils().isAnyCollectionComponentIsTenantTable(pCollection, this.posmultenUtilContext.getTenantTablePropertiesResolver());
         TenantTableProperties tenantTableProperties = new TenantTableProperties();
         tenantTableProperties.setTable(table.getName());
         tenantTableProperties.setSchema(table.getSchema());
