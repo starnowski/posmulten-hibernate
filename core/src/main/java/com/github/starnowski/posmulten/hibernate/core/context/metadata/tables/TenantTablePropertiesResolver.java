@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class TenantTablePropertiesResolver {
 
-    public TenantTableProperties resolve(PersistentClass persistentClass, Table table, Metadata metadata) {
-        TenantTable tenantTable = (TenantTable) persistentClass.getMappedClass().getAnnotation(TenantTable.class);
+    public TenantTableProperties resolve(Class clazz, Table table, Metadata metadata) {
+        TenantTable tenantTable = (TenantTable) clazz.getAnnotation(TenantTable.class);
         if (tenantTable == null) {
             return null;
         }
@@ -27,5 +27,9 @@ public class TenantTablePropertiesResolver {
         );
         result.setPrimaryKeysColumnAndTypeMap(primaryKeysColumnAndTypeMap);
         return result;
+    }
+
+    public TenantTableProperties resolve(PersistentClass persistentClass, Table table, Metadata metadata) {
+        return resolve(persistentClass.getMappedClass(), table, metadata);
     }
 }
