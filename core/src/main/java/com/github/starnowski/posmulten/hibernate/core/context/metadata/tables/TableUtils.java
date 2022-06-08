@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables;
 
+import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.*;
 
 import java.util.Iterator;
@@ -17,15 +18,16 @@ public class TableUtils {
         return false;
     }
 
-    public boolean isAnyCollectionComponentIsTenantTable(Collection collection, TenantTablePropertiesResolver tenantTablePropertiesResolver) {
+    public boolean isAnyCollectionComponentIsTenantTable(Collection collection, TenantTablePropertiesResolver tenantTablePropertiesResolver, Table table, Metadata metadata) {
         //TODO Add tests and implementation
         Class clazz = collection.getOwner().getMappedClass();
+        TenantTableProperties tenantProperties = tenantTablePropertiesResolver.resolve(clazz, table, metadata);
         Value value = collection.getElement();
-        if (value.getClass().isAssignableFrom(ToOne.class)) {
+        if (ToOne.class.isAssignableFrom(value.getClass())) {
             ToOne toOne = (ToOne) value;
             try {
                 clazz = Class.forName(toOne.getReferencedEntityName());
-
+                tenantProperties = tenantTablePropertiesResolver.resolve(clazz, table, metadata);
             } catch (ClassNotFoundException e) {
                 return false;
             }
