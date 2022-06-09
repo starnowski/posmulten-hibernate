@@ -22,6 +22,9 @@ public class TableUtils {
         //TODO Add tests and implementation
         Class clazz = collection.getOwner().getMappedClass();
         TenantTableProperties tenantProperties = tenantTablePropertiesResolver.resolve(clazz, table, metadata);
+        if (tenantProperties != null) {
+            return true;
+        }
         Value value = collection.getElement();
         if (ToOne.class.isAssignableFrom(value.getClass())) {
             ToOne toOne = (ToOne) value;
