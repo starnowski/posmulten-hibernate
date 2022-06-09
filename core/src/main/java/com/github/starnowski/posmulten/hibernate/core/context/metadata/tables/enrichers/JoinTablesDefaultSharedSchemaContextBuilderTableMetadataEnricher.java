@@ -29,13 +29,15 @@ public class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher im
         if (pCollection == null || persistentClass != null) {
             return builder;
         }
-        this.posmultenUtilContext.getTableUtils().isAnyCollectionComponentIsTenantTable(pCollection, this.posmultenUtilContext.getTenantTablePropertiesResolver(), table, metadata);
-        TenantTableProperties tenantTableProperties = new TenantTableProperties();
-        tenantTableProperties.setTable(table.getName());
-        tenantTableProperties.setSchema(table.getSchema());
-        tenantTableProperties.setPrimaryKeysColumnAndTypeMap(new HashMap<>());
-        tenantTableProperties.setTenantColumnName(null);
-        this.posmultenUtilContext.getRlsPolicyTableHelper().enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext);
+        boolean collectionContainsAtLeastOneTenantTable = this.posmultenUtilContext.getTableUtils().isAnyCollectionComponentIsTenantTable(pCollection, this.posmultenUtilContext.getTenantTablePropertiesResolver(), table, metadata);
+        if (collectionContainsAtLeastOneTenantTable) {
+            TenantTableProperties tenantTableProperties = new TenantTableProperties();
+            tenantTableProperties.setTable(table.getName());
+            tenantTableProperties.setSchema(table.getSchema());
+            tenantTableProperties.setPrimaryKeysColumnAndTypeMap(new HashMap<>());
+            tenantTableProperties.setTenantColumnName(null);
+            this.posmultenUtilContext.getRlsPolicyTableHelper().enrichBuilderWithTableRLSPolicy(builder, table, tenantTableProperties, posmultenUtilContext);
+        }
         return builder;
     }
 
