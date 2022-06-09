@@ -54,11 +54,11 @@ public class TestUtils {
         return sb.toString();
     }
 
-    public static boolean isTableExists(Statement statement, String tablename, String schema) throws SQLException {
+    public static boolean isTableExists(Statement statement, String tableName, String schema) throws SQLException {
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT 1 FROM pg_catalog.pg_tables ");
+        sb.append("SELECT 1 FROM pg_catalog.pg_tables WHERE ");
         sb.append("tablename = '");
-        sb.append(tablename);
+        sb.append(tableName);
         sb.append("' AND ");
         if (schema == null) {
             sb.append("schemaname = 'public'");

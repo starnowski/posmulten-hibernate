@@ -3,7 +3,7 @@ package com.github.starnowski.posmulten.hibernate.integration;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.isFunctionExists;
+import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.isTableExists;
 import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.selectAndReturnFirstRecordAsLong;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +47,7 @@ public class RLSPolicyCheckItTest extends AbstractBaseItTest {
     public void shouldNotCreateRLSPolicy(String tableName) {
         // GIVEN
         String schemaName = "public";
-        Boolean tableExists = schemaCreatorSession.doReturningWork(connection -> isFunctionExists(connection.createStatement(), tableName, schemaName));
+        Boolean tableExists = schemaCreatorSession.doReturningWork(connection -> isTableExists(connection.createStatement(), tableName, schemaName));
         assertThat(tableExists).isTrue();
 
         // WHEN
