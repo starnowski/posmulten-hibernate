@@ -122,6 +122,31 @@ class TableUtilsTest extends Specification {
             !result
     }
 
+    @Unroll
+    def "should return false when root is not tenant table and collection element class can not be found (invalid)"(){
+        given:
+            // Root
+            Collection collection = Mock(Collection)
+            PersistentClass owner = Mock(PersistentClass)
+            Table table  = Mock(Table)
+            Metadata metadata  = Mock(Metadata)
+            TenantTablePropertiesResolver tablePropertiesResolver = Mock(TenantTablePropertiesResolver)
+            collection.getOwner() >> owner
+            owner.getMappedClass() >> Class1
+            tablePropertiesResolver.resolve(Class1, table, metadata) >> null
+
+            // Element
+            ToOne collectionElement = Mock(ToOne)
+            collectionElement.getReferencedEntityName() >> "posmulten.no.such.class"
+            collection.getElement() >> collectionElement
+
+        when:
+            def result = tested.isAnyCollectionComponentIsTenantTable(collection, tablePropertiesResolver, table, metadata)
+
+        then:
+            !result
+    }
+
     private List<Column> mapColumns(List<String> columnsNames){
         return columnsNames.stream().map({
             Column column = Mock(Column)

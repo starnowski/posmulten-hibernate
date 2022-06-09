@@ -19,7 +19,6 @@ public class TableUtils {
     }
 
     public boolean isAnyCollectionComponentIsTenantTable(Collection collection, TenantTablePropertiesResolver tenantTablePropertiesResolver, Table table, Metadata metadata) {
-        //TODO Add tests and implementation
         Class clazz = collection.getOwner().getMappedClass();
         TenantTableProperties tenantProperties = tenantTablePropertiesResolver.resolve(clazz, table, metadata);
         if (tenantProperties != null) {
