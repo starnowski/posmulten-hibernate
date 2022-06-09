@@ -1,10 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers
 
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyTableHelper
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties
+import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.*
 import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder
 import org.hibernate.boot.Metadata
 import org.hibernate.mapping.Collection
@@ -81,9 +78,13 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
             def posmultenUtilContext = Mock(PosmultenUtilContext)
             def persistentClassResolver = Mock(PersistentClassResolver)
             def collectionResolver = Mock(CollectionResolver)
+            def tenantTablePropertiesResolver = Mock(TenantTablePropertiesResolver)
+            def tableUtils = Mock(TableUtils)
             serviceRegistryImplementor.getService(PosmultenUtilContext) >> posmultenUtilContext
             posmultenUtilContext.getPersistentClassResolver() >> persistentClassResolver
             posmultenUtilContext.getCollectionResolver() >> collectionResolver
+            posmultenUtilContext.getTableUtils() >> tableUtils
+            posmultenUtilContext.getTenantTablePropertiesResolver() >> tenantTablePropertiesResolver
             def builder = Mock(DefaultSharedSchemaContextBuilder)
             def metadata = Mock(Metadata)
             def table = Mock(Table)
@@ -93,6 +94,7 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
             def collection = Mock(Collection)
             persistentClassResolver.resolve(metadata, table) >> null
             collectionResolver.resolve(metadata, table) >> collection
+            tableUtils.isAnyCollectionComponentIsTenantTable(collection, tenantTablePropertiesResolver, table, metadata) >> true
 
             def rlsPolicyHelper = Mock(RLSPolicyTableHelper)
             posmultenUtilContext.getRlsPolicyTableHelper() >> rlsPolicyHelper
@@ -113,6 +115,51 @@ class JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricherTest exten
             tenantTableProperties.getPrimaryKeysColumnAndTypeMap() == [:]
             tenantTableProperties.getSchema() == schemaName
 
+        and: "returned the same object of builder"
+            result.is(builder)
+
+        where:
+            tableName   |   rlsPolicyName   |   schemaName
+            "tabxxx"    |   "policy_x1"     |   null
+            "roles"     |   "rls_policy"    |   "secondary"
+    }
+
+    @Unroll
+    def "should not enrich builder for table #tableName with policy #rlsPolicyName, schema #schema when collection does not contains tenant tables"(){
+        given:
+            def serviceRegistryImplementor = Mock(ServiceRegistryImplementor)
+            def posmultenUtilContext = Mock(PosmultenUtilContext)
+            def persistentClassResolver = Mock(PersistentClassResolver)
+            def collectionResolver = Mock(CollectionResolver)
+            def tenantTablePropertiesResolver = Mock(TenantTablePropertiesResolver)
+            def tableUtils = Mock(TableUtils)
+            serviceRegistryImplementor.getService(PosmultenUtilContext) >> posmultenUtilContext
+            posmultenUtilContext.getPersistentClassResolver() >> persistentClassResolver
+            posmultenUtilContext.getCollectionResolver() >> collectionResolver
+            posmultenUtilContext.getTableUtils() >> tableUtils
+            posmultenUtilContext.getTenantTablePropertiesResolver() >> tenantTablePropertiesResolver
+            def builder = Mock(DefaultSharedSchemaContextBuilder)
+            def metadata = Mock(Metadata)
+            def table = Mock(Table)
+            table.getName() >> tableName
+            table.getSchema() >> schemaName
+
+            def collection = Mock(Collection)
+            persistentClassResolver.resolve(metadata, table) >> null
+            collectionResolver.resolve(metadata, table) >> collection
+            tableUtils.isAnyCollectionComponentIsTenantTable(collection, tenantTablePropertiesResolver, table, metadata) >> false
+
+            def rlsPolicyHelper = Mock(RLSPolicyTableHelper)
+            posmultenUtilContext.getRlsPolicyTableHelper() >> rlsPolicyHelper
+            tested.init(null, serviceRegistryImplementor)
+            TenantTableProperties tenantTableProperties = null
+
+
+        when:
+            def result = tested.enrich(builder, metadata, table)
+
+        then:
+            0 * rlsPolicyHelper.enrichBuilderWithTableRLSPolicy(builder, table, _, posmultenUtilContext)
         and: "returned the same object of builder"
             result.is(builder)
 
