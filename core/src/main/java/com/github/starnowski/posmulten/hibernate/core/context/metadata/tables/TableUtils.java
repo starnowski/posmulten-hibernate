@@ -31,8 +31,11 @@ public class TableUtils {
             try {
                 clazz = Class.forName(toOne.getReferencedEntityName());
                 tenantProperties = tenantTablePropertiesResolver.resolve(clazz, table, metadata);
+                if (tenantProperties != null) {
+                    return true;
+                }
             } catch (ClassNotFoundException e) {
-                return false;
+                // do nothing
             }
 
         }
