@@ -28,6 +28,8 @@ public class RLSPolicyCheckItTest extends AbstractBaseItTest {
     @DataProvider(name = "noneTenantTables")
     protected static Object[][] noneTenantTables() {
         return new Object[][]{
+                {"category_types"}, // Table is dictionary tables
+                {"category_type_attributes"}, // Table is dictionary tables
                 {"category_types_category_type_attributes"}, // Both tables are dictionary tables
                 {"category_types_category_type_attributes_list"} // Both tables are dictionary tables
         };
