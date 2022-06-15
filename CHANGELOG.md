@@ -24,6 +24,8 @@ https://www.markdownguide.org/basic-syntax/
 ### Fixed
 - Create RLS policy for JoinTable only when at least on of reference table is tenant aware table
     [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+  - Fixed method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher#enrich(com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder, org.hibernate.boot.Metadata, org.hibernate.mapping.Table)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
 
 ## [0.1.0] - 2022-05-15
 ### Added
