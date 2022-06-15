@@ -9,10 +9,25 @@ https://keepachangelog.com/en/1.0.0/
 https://www.markdownguide.org/basic-syntax/
 
 * [Unreleased](#unreleased)
+* [0.1.1](#011---2022-06-16)
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
 
+## [0.1.1] - 2022-06-16
+### Added
+- Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils#isAnyCollectionComponentIsTenantTable(org.hibernate.mapping.Collection, com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver, org.hibernate.mappingTable, org.hibernate.boot.Metadata)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+- Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver#resolve(java.lang.Class, org.hibernate.mapping.Table, org.hibernate.boot.Metadata)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+
+### Fixed
+- Create RLS policy for JoinTable only when at least on of reference table is tenant aware table
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+  - Fixed method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher#enrich(com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder, org.hibernate.boot.Metadata, org.hibernate.mapping.Table)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+  - Fixed extracting mapping of primary keys and its types in method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver#resolve(org.hibernate.mapping.PersistentClass, org.hibernate.mapping.Table, org.hibernate.boot.Metadata)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
 
 ## [0.1.0] - 2022-05-15
 ### Added

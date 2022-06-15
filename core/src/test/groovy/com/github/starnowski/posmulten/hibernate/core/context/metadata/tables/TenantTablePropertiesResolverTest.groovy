@@ -94,6 +94,30 @@ class TenantTablePropertiesResolverTest extends Specification {
     }
 
     @Unroll
+    def "should return object with table: #expectedTable, schema #expectedSchema without primary keys map when table does not have primary keys" ()
+    {
+        given:
+            def persistentClass = Mock(PersistentClass)
+            persistentClass.getMappedClass() >> TableWithDefaultTenantTableAnnotation.class
+
+        when:
+            def result = tested.resolve(persistentClass, table, null)
+
+        then:
+            result.getTable() == expectedTable
+            result.getSchema() == expectedSchema
+
+        and: "empty primary key columns map has to be empty"
+            result.getPrimaryKeysColumnAndTypeMap().isEmpty()
+
+        where:
+            table                                                           ||  expectedTable   |   expectedSchema
+            prepareTableWithoutPrimaryKey("user", "non_public_schema")      ||  "user"          | "non_public_schema"
+            prepareTableWithoutPrimaryKey("comments", "public")             ||  "comments"      | "public"
+            prepareTableWithoutPrimaryKey("posts", "secondary_sh")          ||  "posts"         | "secondary_sh"
+    }
+
+    @Unroll
     def "should return object with table: #expectedTable, schema #expectedSchema expected columns for primary keys: #expectedColumns for class object" ()
     {
         when:
@@ -171,6 +195,16 @@ class TenantTablePropertiesResolverTest extends Specification {
         when(table.getName()).thenReturn(name)
         when(table.getSchema()).thenReturn(schema)
         when(primaryKey.getColumnIterator()).thenAnswer({columns.iterator()} )
+        return table
+    }
+
+    private static Table prepareTableWithoutPrimaryKey(String name, String schema)
+    {
+        def table = mock(Table.class)
+        List<Column> columns = new ArrayList<>()
+        when(table.getPrimaryKey()).thenReturn(null)
+        when(table.getName()).thenReturn(name)
+        when(table.getSchema()).thenReturn(schema)
         return table
     }
 
