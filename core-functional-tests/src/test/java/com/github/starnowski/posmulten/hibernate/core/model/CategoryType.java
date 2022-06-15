@@ -29,5 +29,6 @@ public class CategoryType {
     private Set<CategoryTypeAttribute> attributes;
 
     @ManyToMany
+    @JoinTable(name = "category_types_category_type_attributes_list")
     private List<CategoryTypeAttribute> attributesList;
 }

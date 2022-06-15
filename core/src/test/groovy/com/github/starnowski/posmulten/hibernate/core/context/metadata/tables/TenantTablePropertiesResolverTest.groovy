@@ -106,7 +106,9 @@ class TenantTablePropertiesResolverTest extends Specification {
         then:
             result.getTable() == expectedTable
             result.getSchema() == expectedSchema
-            result.getPrimaryKeysColumnAndTypeMap() == null
+
+        and: "empty primary key columns map has to be empty"
+            result.getPrimaryKeysColumnAndTypeMap().isEmpty()
 
         where:
             table                                                           ||  expectedTable   |   expectedSchema
