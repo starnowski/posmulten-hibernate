@@ -9,10 +9,19 @@ https://keepachangelog.com/en/1.0.0/
 https://www.markdownguide.org/basic-syntax/
 
 * [Unreleased](#unreleased)
+* [0.1.1](#011---2022-06-16)
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
 
+## [0.1.1] - 2022-06-16
+### Added
+-   Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils#isAnyCollectionComponentIsTenantTable(org.hibernate.mapping.Collection, com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver, org.hibernate.mappingTable, org.hibernate.boot.Metadata)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+
+### Fixed
+- Create RLS policy for JoinTable only when at least on of reference table is tenant aware table
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
 
 ## [0.1.0] - 2022-05-15
 ### Added
