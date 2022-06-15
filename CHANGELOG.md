@@ -26,6 +26,8 @@ https://www.markdownguide.org/basic-syntax/
     [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
   - Fixed method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.JoinTablesDefaultSharedSchemaContextBuilderTableMetadataEnricher#enrich(com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSchemaContextBuilder, org.hibernate.boot.Metadata, org.hibernate.mapping.Table)
     [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+  - Fixed extracting mapping of primary keys and its types in method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver#resolve(org.hibernate.mapping.PersistentClass, org.hibernate.mapping.Table, org.hibernate.boot.Metadata)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
 
 ## [0.1.0] - 2022-05-15
 ### Added
