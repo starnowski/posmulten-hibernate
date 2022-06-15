@@ -13,7 +13,7 @@ https://www.markdownguide.org/basic-syntax/
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
-
+ 
 ## [0.1.1] - 2022-06-16
 ### Added
 - Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils#isAnyCollectionComponentIsTenantTable(org.hibernate.mapping.Collection, com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver, org.hibernate.mappingTable, org.hibernate.boot.Metadata)
