@@ -20,14 +20,16 @@ public class RLSPolicyCheckItTest extends AbstractBaseItTest {
                 {"categories"},
                 {"user_role"},
                 {"posts_categories"},
-                {"categories_category_types"} // One of relation table is dictionary table but still RLS policy should be created
+                {"categories_category_types"}, // One of relation table is dictionary table but still RLS policy should be created
+                {"posts_category_types"} // One of relation table is dictionary table but still RLS policy should be created
         };
     }
 
     @DataProvider(name = "noneTenantTables")
     protected static Object[][] noneTenantTables() {
         return new Object[][]{
-                {"category_types_category_type_attributes"} // Both tables are dictionary tables
+                {"category_types_category_type_attributes"}, // Both tables are dictionary tables
+                {"category_types_category_type_attributes_list"} // Both tables are dictionary tables
         };
     }
 

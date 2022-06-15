@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,4 +27,7 @@ public class CategoryType {
 
     @ManyToMany
     private Set<CategoryTypeAttribute> attributes;
+
+    @ManyToMany
+    private List<CategoryTypeAttribute> attributesList;
 }
