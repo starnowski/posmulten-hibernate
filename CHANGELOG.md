@@ -16,7 +16,9 @@ https://www.markdownguide.org/basic-syntax/
 
 ## [0.1.1] - 2022-06-16
 ### Added
--   Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils#isAnyCollectionComponentIsTenantTable(org.hibernate.mapping.Collection, com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver, org.hibernate.mappingTable, org.hibernate.boot.Metadata)
+- Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils#isAnyCollectionComponentIsTenantTable(org.hibernate.mapping.Collection, com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver, org.hibernate.mappingTable, org.hibernate.boot.Metadata)
+    [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
+- Added method com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver#resolve(java.lang.Class, org.hibernate.mapping.Table, org.hibernate.boot.Metadata)
     [23](https://github.com/starnowski/posmulten-hibernate/issues/23)
 
 ### Fixed
