@@ -19,7 +19,7 @@ class TenantTablePropertiesResolverTest extends Specification {
     def tested = new TenantTablePropertiesResolver()
 
     @Unroll
-    def "should return null if type does not have correct annotation" ()
+    def "should return null if mapped type does not have correct annotation" ()
     {
         given:
             def persistentClass = Mock(PersistentClass)
@@ -33,6 +33,19 @@ class TenantTablePropertiesResolverTest extends Specification {
 
         where:
             table << [null, prepareTable("posts", null), prepareTable("comment", [:]), prepareTable("user", ["id": "numeric"])]
+    }
+
+    @Unroll
+    def "should return null if type does not have correct annotation" ()
+    {
+        when:
+        def result = tested.resolve(TableWithoutTenantTableAnnotation.class, table, null)
+
+        then:
+        result == null
+
+        where:
+        table << [null, prepareTable("posts", null), prepareTable("comment", [:]), prepareTable("user", ["id": "numeric"])]
     }
 
     @Unroll
@@ -64,6 +77,51 @@ class TenantTablePropertiesResolverTest extends Specification {
 
         when:
             def result = tested.resolve(persistentClass, table, null)
+
+        then:
+            result.getTable() == expectedTable
+            result.getSchema() == expectedSchema
+            result.getPrimaryKeysColumnAndTypeMap() == expectedColumns
+
+        where:
+            table                                                                                   ||  expectedTable   |   expectedSchema  |  expectedColumns
+            prepareTable("user", ["id": "numeric"])                                                 ||  "user"    | null    |  ["id": "numeric"]
+            prepareTable("comments", ["comment_id": "long"])                                        ||  "comments"  | null    |   ["comment_id": "long"]
+            prepareTable("posts", ["user_id": "numeric", "post_uuid" : "UUID"])                     ||  "posts"   | null    |   ["user_id": "numeric", "post_uuid" : "UUID"]
+            prepareTable("user", "non_public_schema", ["id": "numeric"])                            ||  "user"    | "non_public_schema"    |  ["id": "numeric"]
+            prepareTable("comments", "public", ["comment_id": "long"])                              ||  "comments"  | "public"    |   ["comment_id": "long"]
+            prepareTable("posts", "secondary_sh",  ["user_id": "numeric", "post_uuid" : "UUID"])    ||  "posts"   | "secondary_sh"    |   ["user_id": "numeric", "post_uuid" : "UUID"]
+    }
+
+    @Unroll
+    def "should return object with table: #expectedTable, schema #expectedSchema without primary keys map when table does not have primary keys" ()
+    {
+        given:
+            def persistentClass = Mock(PersistentClass)
+            persistentClass.getMappedClass() >> TableWithDefaultTenantTableAnnotation.class
+
+        when:
+            def result = tested.resolve(persistentClass, table, null)
+
+        then:
+            result.getTable() == expectedTable
+            result.getSchema() == expectedSchema
+
+        and: "empty primary key columns map has to be empty"
+            result.getPrimaryKeysColumnAndTypeMap().isEmpty()
+
+        where:
+            table                                                           ||  expectedTable   |   expectedSchema
+            prepareTableWithoutPrimaryKey("user", "non_public_schema")      ||  "user"          | "non_public_schema"
+            prepareTableWithoutPrimaryKey("comments", "public")             ||  "comments"      | "public"
+            prepareTableWithoutPrimaryKey("posts", "secondary_sh")          ||  "posts"         | "secondary_sh"
+    }
+
+    @Unroll
+    def "should return object with table: #expectedTable, schema #expectedSchema expected columns for primary keys: #expectedColumns for class object" ()
+    {
+        when:
+            def result = tested.resolve(TableWithDefaultTenantTableAnnotation.class, table, null)
 
         then:
             result.getTable() == expectedTable
@@ -137,6 +195,16 @@ class TenantTablePropertiesResolverTest extends Specification {
         when(table.getName()).thenReturn(name)
         when(table.getSchema()).thenReturn(schema)
         when(primaryKey.getColumnIterator()).thenAnswer({columns.iterator()} )
+        return table
+    }
+
+    private static Table prepareTableWithoutPrimaryKey(String name, String schema)
+    {
+        def table = mock(Table.class)
+        List<Column> columns = new ArrayList<>()
+        when(table.getPrimaryKey()).thenReturn(null)
+        when(table.getName()).thenReturn(name)
+        when(table.getSchema()).thenReturn(schema)
         return table
     }
 

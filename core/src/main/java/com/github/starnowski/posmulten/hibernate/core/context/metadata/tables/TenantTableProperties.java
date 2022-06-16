@@ -18,7 +18,7 @@ public class TenantTableProperties {
     }
 
     public Map<String, String> getPrimaryKeysColumnAndTypeMap() {
-        return new HashMap<>(primaryKeysColumnAndTypeMap);
+        return primaryKeysColumnAndTypeMap == null ? new HashMap<>() : new HashMap<>(primaryKeysColumnAndTypeMap);
     }
 
     public void setPrimaryKeysColumnAndTypeMap(Map<String, String> primaryKeysColumnAndTypeMap) {
