@@ -54,6 +54,22 @@ public class TestUtils {
         return sb.toString();
     }
 
+    public static boolean isTableExists(Statement statement, String tableName, String schema) throws SQLException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT 1 FROM pg_catalog.pg_tables WHERE ");
+        sb.append("tablename = '");
+        sb.append(tableName);
+        sb.append("' AND ");
+        if (schema == null) {
+            sb.append("schemaname = 'public'");
+        } else {
+            sb.append("schemaname = '");
+            sb.append(schema);
+            sb.append("'");
+        }
+        return isAnyRecordExists(statement, sb.toString());
+    }
+
     public static boolean isConstraintExists(Statement statement, String schema, String table, String constraintName) throws SQLException {
         String template = "SELECT 1\n" +
                 "\t\tFROM information_schema.table_constraints\n" +

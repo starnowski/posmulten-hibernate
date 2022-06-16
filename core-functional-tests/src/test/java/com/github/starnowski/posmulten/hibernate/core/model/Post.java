@@ -8,6 +8,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -35,4 +36,7 @@ public class Post {
 
     @ManyToMany
     private Set<Category> categories;
+
+    @ManyToMany
+    private List<CategoryType> categoryTypes;
 }

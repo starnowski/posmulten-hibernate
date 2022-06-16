@@ -21,5 +21,7 @@
         <mapping class="com.github.starnowski.posmulten.hibernate.core.model.Tenant" />
         <mapping class="com.github.starnowski.posmulten.hibernate.core.model.User" />
         <mapping class="com.github.starnowski.posmulten.hibernate.core.model.UserRole" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.CategoryType" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.core.model.CategoryTypeAttribute" />
     </session-factory>
 </hibernate-configuration>
