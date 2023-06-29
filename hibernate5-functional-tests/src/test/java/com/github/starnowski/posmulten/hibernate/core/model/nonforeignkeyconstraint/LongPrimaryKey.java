@@ -1,6 +1,5 @@
 package com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Embeddable;
@@ -8,17 +7,17 @@ import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
-public class PrimaryKey<K> implements Serializable {
+public class LongPrimaryKey implements Serializable {
 
-    protected K primaryKey;
-    protected String tenant;
+    private Long key;
+    private String tenant;
 
-    public K getPrimaryKey() {
-        return primaryKey;
+    public Long getKey() {
+        return key;
     }
 
-    public void setPrimaryKey(K primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getTenant() {

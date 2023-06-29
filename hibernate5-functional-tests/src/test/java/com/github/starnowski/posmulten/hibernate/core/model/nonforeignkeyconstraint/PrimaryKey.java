@@ -3,22 +3,21 @@ package com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstr
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
 import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
-public class LongPrimaryKey implements Serializable {
+public class PrimaryKey<K> implements Serializable {
 
-    private Long key;
-    private String tenant;
+    protected K primaryKey;
+    protected String tenant;
 
-    public Long getKey() {
-        return key;
+    public K getPrimaryKey() {
+        return primaryKey;
     }
 
-    public void setKey(Long key) {
-        this.key = key;
+    public void setPrimaryKey(K primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
     public String getTenant() {

@@ -10,7 +10,7 @@
     <modules>
         <module>hibernate5</module>
         <module>test-utils</module>
-        <module>core-functional-tests</module>
+        <module>hibernate5-functional-tests</module>
         <module>common</module>
     </modules>
     <packaging>pom</packaging>

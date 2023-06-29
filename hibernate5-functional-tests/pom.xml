@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>core-functional-tests</artifactId>
+    <artifactId>hibernate5-functional-tests</artifactId>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
