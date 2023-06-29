@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables;
+package com.github.starnowski.posmulten.hibernate.common.context.metadata.tables;
 
 import java.util.HashMap;
 import java.util.Map;
