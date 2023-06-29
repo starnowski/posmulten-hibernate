@@ -8,7 +8,7 @@
     <artifactId>parent</artifactId>
     <version>0.2.0-SNAPSHOT</version>
     <modules>
-        <module>core</module>
+        <module>hibernate5</module>
         <module>test-utils</module>
         <module>core-functional-tests</module>
         <module>common</module>
