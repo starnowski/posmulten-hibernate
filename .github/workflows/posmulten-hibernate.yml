@@ -79,7 +79,7 @@ jobs:
         run: export PGPASSWORD=postgres && psql -f 'test-utils/src/main/resources/grant-access-to-user.sql' -U postgres -h 127.0.0.1
 
       - name: Run tests
-        run: ./mvnw -DskipTests --quiet clean install && ./mvnw -pl :core-functional-tests -P !unit-tests,integration-tests test
+        run: ./mvnw -DskipTests --quiet clean install && ./mvnw -pl :hibernate5-functional-tests -P !unit-tests,integration-tests test
   publish:
     runs-on: ubuntu-latest
     name: "Publish to the Maven Central Repository"
