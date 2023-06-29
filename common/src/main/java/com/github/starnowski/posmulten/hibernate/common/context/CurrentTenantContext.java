@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.core.context;
+package com.github.starnowski.posmulten.hibernate.common.context;
 
 public class CurrentTenantContext {
 

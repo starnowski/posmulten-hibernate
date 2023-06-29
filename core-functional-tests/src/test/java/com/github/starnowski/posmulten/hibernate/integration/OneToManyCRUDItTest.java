@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.util.HashSet;
 
-import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
+import static com.github.starnowski.posmulten.hibernate.common.context.CurrentTenantContext.setCurrentTenant;
 import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.selectAndReturnFirstRecordAsLong;
 import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.selectAndReturnFirstRecordAsString;
 import static java.lang.String.format;

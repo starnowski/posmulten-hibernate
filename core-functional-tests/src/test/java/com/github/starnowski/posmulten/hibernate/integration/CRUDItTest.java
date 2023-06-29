@@ -7,7 +7,7 @@ import org.hibernate.query.Query;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext.setCurrentTenant;
+import static com.github.starnowski.posmulten.hibernate.common.context.CurrentTenantContext.setCurrentTenant;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CRUDItTest extends AbstractBaseItTest {
