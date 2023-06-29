@@ -1,7 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.integration.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.StringPrimaryKey;
-import com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint.User;
+import com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.StringPrimaryKey;
+import com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
-import com.github.starnowski.posmulten.hibernate.core.model.User;
+import com.github.starnowski.posmulten.hibernate.hibernate5.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

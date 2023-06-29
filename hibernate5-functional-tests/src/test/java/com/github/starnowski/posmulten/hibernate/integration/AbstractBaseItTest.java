@@ -1,11 +1,11 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
-import com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator;
-import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContextInitiator;
-import com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContextInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.connections.CurrentTenantPreparedStatementSetterInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.DefaultSharedSchemaContextBuilderProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.PosmultenUtilContextInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.schema.SchemaCreatorStrategyContextInitiator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

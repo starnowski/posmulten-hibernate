@@ -76,10 +76,10 @@ To create Hibernate session, we need to add few service initiators from project.
 
 ```java
 
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
-import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContextInitiator;
-import com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContextInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.DefaultSharedSchemaContextBuilderProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.PosmultenUtilContextInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.schema.SchemaCreatorStrategyContextInitiator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -88,29 +88,32 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 //...
 
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .addInitiator(new SchemaCreatorStrategyContextInitiator())
-                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
-                .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
-                .addInitiator(new PosmultenUtilContextInitiator())
-                .configure("hibernate.schema-creator.cfg.xml")
-                .build();
+final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
+        .addInitiator(new SchemaCreatorStrategyContextInitiator())
+        .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
+        .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
+        .addInitiator(new PosmultenUtilContextInitiator())
+        .configure("hibernate.schema-creator.cfg.xml")
+        .build();
 
-        SessionFactory factory = new MetadataSources(registry)
-                .buildMetadata().buildSessionFactory();
+        SessionFactory factory=new MetadataSources(registry)
+        .buildMetadata().buildSessionFactory();
 ```
 
 #### Hibernates configuration for schema generation
 To hibernate configuration there need to be added few properties.
 
 _hibernate.schema-creator.cfg.xml_
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
     <session-factory>
         <!-- ... -->
         <property name="hbm2ddl.auto">create-drop</property> <!-- create, create-drop -->
-        <property name="schema_management_tool">com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool</property>
+        <property name="schema_management_tool">
+            com.github.starnowski.posmulten.hibernate.hibernate5.schema.PosmultenSchemaManagementTool
+        </property>
         <property name="posmulten.grantee">posmhib4-user</property>
         <!-- ... -->
     </session-factory>
@@ -130,7 +133,8 @@ That is why each table that is supposed to be multi-tenant should contain the an
 
 ```java
 
-import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import com.github.starnowski.posmulten.hibernate.hibernate5.TenantTable;
+
 import javax.persistence.*;
 
 @Table(name = "user_info")
@@ -158,41 +162,46 @@ The multi-tenant table can have a relation to the non-multitenant table.
 To create Hibernate session, we need to add few service initiators from project.
 
 ```java
-import com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator;
-import com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaConnectionProviderInitiatorAdapter;
-import com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.connections.CurrentTenantPreparedStatementSetterInitiator;
+import com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.DefaultSharedSchemaContextBuilderProviderInitiator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-    SessionFactory getPrimarySessionFactory() {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
-                .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
-                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
-                .configure() // configures settings from hibernate.cfg.xml
-                .build();
+    SessionFactory getPrimarySessionFactory(){
+final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
+        .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+        .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
+        .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
+        .configure() // configures settings from hibernate.cfg.xml
+        .build();
 
-        SessionFactory factory = new MetadataSources(registry)
-                .buildMetadata().buildSessionFactory();
+        SessionFactory factory=new MetadataSources(registry)
+        .buildMetadata().buildSessionFactory();
         return factory;
-    }
+        }
 ```
 
 #### Hibernates configuration for application connection
 For correct client communication with database to hibernate configuration there need to be added few properties.
 
 _hibernate.cfg.xml_
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
     <session-factory>
         <!-- ... -->
         <property name="hibernate.multiTenancy">SCHEMA</property>
-        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider</property>
-        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl</property>
+        <property name="hibernate.multi_tenant_connection_provider">
+            com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider
+        </property>
+        <property name="hibernate.tenant_identifier_resolver">
+            com.github.starnowski.posmulten.hibernate.hibernate5.CurrentTenantIdentifierResolverImpl
+        </property>
         <property name="posmulten.schema.builder.provider">lightweight</property>
         <!-- ... -->
     </session-factory>
@@ -201,8 +210,8 @@ _hibernate.cfg.xml_
 
 For correct behavior, the posmulten integration uses the "SCHEMA" strategy which is why it is required to specify this value for the "hibernate.multiTenancy" property.
 There are two other components that need to be specified:
-    -   "com.github.starnowski.posmulten.hibernate.core.connections.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
-    -   "com.github.starnowski.posmulten.hibernate.core.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
+    -   "com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
+    -   "com.github.starnowski.posmulten.hibernate.hibernate5.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
 And last but not least to have fewer things to set up we have to specify the property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
 By default configuration context used for session factory initialization is ["full"](#full).
 
@@ -290,7 +299,7 @@ public class LongPrimaryKey implements Serializable {
 Below there is an example of two entities with shared tenant column
 
 ```java
-import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import com.github.starnowski.posmulten.hibernate.hibernate5.TenantTable;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 
@@ -314,13 +323,13 @@ public class User {
             @JoinColumnOrFormula(column = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     })
     private Set<Post> posts;
-    
+
     // Getters and Setters
 }
 ```
 
 ```java
-import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import com.github.starnowski.posmulten.hibernate.hibernate5.TenantTable;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
@@ -395,13 +404,13 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 |hibernate.posmulten.tenant.id.set.current.as.default |    Boolean  |   No |   Generate a statement that sets a default value for the tenant column in all tables. Default value is "true" |
 |hibernate.posmulten.tenant.id.values.blacklist |    String  |   No |   An array of invalid values for tenant identifier. The array needs to have at least one element. Ids are separated by comma |
 |hibernate.posmulten.tenant.column.java.type |    String  |   No |   Java type that represents tenant identifier which is being used in SQL statement that sets a current tenant. Available values are "long", "string" and "custom". The default value is "string". For "custom" there needs to be also "hibernate.posmulten.tenant.column.java.type.custom.resolver" property defined |
-|hibernate.posmulten.tenant.column.java.type.custom.resolver |    String  |   No |   Java type that implements com.github.starnowski.posmulten.hibernate.core.connections.ICurrentTenantPreparedStatementSetter interface which objective is to map correctly passed tenant value in prepared SQL statement |
+|hibernate.posmulten.tenant.column.java.type.custom.resolver |    String  |   No |   Java type that implements com.github.starnowski.posmulten.hibernate.hibernate5.connections.ICurrentTenantPreparedStatementSetter interface which objective is to map correctly passed tenant value in prepared SQL statement |
 |hibernate.posmulten.function.getcurrenttenant.name |    String  |   No |   Name of SQL function that returns current tenant value |
 |hibernate.posmulten.function.setcurrenttenant.name |    String  |   No |   Name of SQL function that sets current tenant value |
 |hibernate.posmulten.function.equalscurrenttenantidentifier.name |    String  |   No |   Name of SQL function that checks if the identifier passed as argument is equal to the current tenant value |
 |hibernate.posmulten.function.tenanthasauthorities.name |    String  |   No |   Name of SQL function that checks if the current tenant for the database session has access to table row based on tenant column  |
-|hibernate.posmulten.metadata.table.additional.enrichers |    String  |   No |   An array of subtypes of com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher interface that will be invoked after default enrichers. The array needs to have at least one element and each element should be a full class name with a package. Types are separated by comma  |
-|hibernate.posmulten.metadata.additional.enrichers |    String  |   No |   An array of subtypes of com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher interface that will be invoked after default enrichers. The array needs to have at least one element and each element should be a full class name with a package. Types are separated by comma  |
+|hibernate.posmulten.metadata.table.additional.enrichers |    String  |   No |   An array of subtypes of com.github.starnowski.posmulten.hibernate.hibernate5.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher interface that will be invoked after default enrichers. The array needs to have at least one element and each element should be a full class name with a package. Types are separated by comma  |
+|hibernate.posmulten.metadata.additional.enrichers |    String  |   No |   An array of subtypes of com.github.starnowski.posmulten.hibernate.hibernate5.context.IDefaultSharedSchemaContextBuilderMetadataEnricher interface that will be invoked after default enrichers. The array needs to have at least one element and each element should be a full class name with a package. Types are separated by comma  |
 
 ##### lightweight 
 Configuration context without any redundant thing that allows for the application to establish connections to the database

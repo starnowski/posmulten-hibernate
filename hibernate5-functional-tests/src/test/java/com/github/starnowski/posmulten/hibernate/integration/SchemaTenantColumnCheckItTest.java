@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.integration;
 
-import com.github.starnowski.posmulten.hibernate.core.model.*;
+import com.github.starnowski.posmulten.hibernate.hibernate5.model.*;
 import com.github.starnowski.posmulten.hibernate.test.utils.ReflectionUtils;
 import com.github.starnowski.posmulten.hibernate.test.utils.TestUtils;
 import org.hibernate.jdbc.ReturningWork;

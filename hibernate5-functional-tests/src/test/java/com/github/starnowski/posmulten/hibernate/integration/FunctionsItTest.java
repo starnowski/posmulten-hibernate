@@ -3,7 +3,7 @@ package com.github.starnowski.posmulten.hibernate.integration;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.github.starnowski.posmulten.hibernate.core.util.NameUtils.generateNameForPrefixAndTableName;
+import static com.github.starnowski.posmulten.hibernate.hibernate5.util.NameUtils.generateNameForPrefixAndTableName;
 import static com.github.starnowski.posmulten.hibernate.test.utils.TestUtils.isFunctionExists;
 import static org.assertj.core.api.Assertions.assertThat;
 
