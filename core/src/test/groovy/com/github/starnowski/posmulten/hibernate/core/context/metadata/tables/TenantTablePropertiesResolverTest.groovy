@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables
 
-import com.github.starnowski.posmulten.hibernate.core.TenantTable
+import com.github.starnowski.posmulten.hibernate.common.TenantTable
 import org.hibernate.boot.Metadata
 import org.hibernate.boot.model.relational.Database
 import org.hibernate.dialect.Dialect

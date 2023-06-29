@@ -1,7 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables;
 
+import com.github.starnowski.posmulten.hibernate.common.TenantTable;
 import com.github.starnowski.posmulten.hibernate.common.context.metadata.tables.TenantTableProperties;
-import com.github.starnowski.posmulten.hibernate.core.TenantTable;
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.PrimaryKey;

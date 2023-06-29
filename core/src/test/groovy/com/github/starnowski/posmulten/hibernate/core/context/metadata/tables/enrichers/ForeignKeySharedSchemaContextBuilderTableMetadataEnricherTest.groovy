@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers
 
-import com.github.starnowski.posmulten.hibernate.core.TenantTable
+import com.github.starnowski.posmulten.hibernate.common.TenantTable
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper
 import com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator

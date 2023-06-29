@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.core.model.nonforeignkeyconstraint;
 
-import com.github.starnowski.posmulten.hibernate.core.TenantTable;
+import com.github.starnowski.posmulten.hibernate.common.TenantTable;
 import com.github.starnowski.posmulten.hibernate.core.util.RoleEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
