@@ -12,6 +12,7 @@
         <module>test-utils</module>
         <module>hibernate5-functional-tests</module>
         <module>common</module>
+        <module>hibernate6</module>
     </modules>
     <packaging>pom</packaging>
 
