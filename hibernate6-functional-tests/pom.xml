@@ -2,35 +2,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>parent</artifactId>
         <groupId>com.github.starnowski.posmulten.hibernate</groupId>
+        <artifactId>parent</artifactId>
         <version>0.2.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.starnowski.posmulten.hibernate</groupId>
-    <artifactId>hibernate5</artifactId>
+    <artifactId>hibernate6-functional-tests</artifactId>
 
     <properties>
-        <license.dir>${project.parent.basedir}</license.dir>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.hibernate.hibernate.core.version>6.2.5.Final</org.hibernate.hibernate.core.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.github.starnowski.posmulten.hibernate</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>hibernate6</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+            <version>${org.hibernate.hibernate.core.version}</version>
             <optional>true</optional>
-        </dependency>
-        <!-- tests dependencies -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.starnowski.posmulten.hibernate</groupId>
@@ -39,12 +42,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -53,10 +52,6 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.objenesis</groupId>
-            <artifactId>objenesis</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
@@ -67,9 +62,9 @@
 
     <profiles>
         <profile>
-            <id>unit-tests</id>
+            <id>integration-tests</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <plugins>
@@ -91,65 +86,29 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.22.1</version>
                         <configuration>
-                            <excludes>
-                                <exclude>**/*ItTest.java</exclude>
-                            </excludes>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng.nonforeignkeyconstraint.xml</suiteXmlFile>
+                            </suiteXmlFiles>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
         <profile>
-            <id>pitest</id>
+            <id>unit-tests</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-maven</artifactId>
-                        <version>1.5.1</version>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.22.1</version>
                         <configuration>
-                            <mutators>
-                                <!-- default group -->
-                                <mutator>CONSTRUCTOR_CALLS</mutator>
-                                <mutator>FALSE_RETURNS</mutator>
-                                <mutator>TRUE_RETURNS</mutator>
-                                <mutator>CONDITIONALS_BOUNDARY</mutator>
-                                <mutator>EMPTY_RETURNS</mutator>
-                                <mutator>INCREMENTS</mutator>
-                                <mutator>INVERT_NEGS</mutator>
-                                <mutator>MATH</mutator>
-                                <mutator>NEGATE_CONDITIONALS</mutator>
-                                <mutator>NULL_RETURNS</mutator>
-                                <mutator>PRIMITIVE_RETURNS</mutator>
-                                <mutator>VOID_METHOD_CALLS</mutator>
-                                <!-- extended -->
-                                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
-                                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
-                            </mutators>
-                            <excludedTestClasses>
-                                <param>**.*ItTest</param>
-                            </excludedTestClasses>
+                            <skipTests>true</skipTests>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>cobertura</id>
-            <activation>
-                <property>
-                    <name>cobertura.active</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
@@ -169,7 +128,7 @@
                         <configuration>
                             <toolchains>
                                 <jdk>
-                                    <version>8</version>
+                                    <version>11</version>
                                 </jdk>
                             </toolchains>
                         </configuration>
@@ -178,27 +137,28 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
