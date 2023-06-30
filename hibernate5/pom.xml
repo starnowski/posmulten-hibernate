@@ -27,10 +27,6 @@
             <artifactId>hibernate-core</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.github.starnowski.posmulten</groupId>
-            <artifactId>postgresql-core</artifactId>
-        </dependency>
         <!-- tests dependencies -->
         <dependency>
             <groupId>org.projectlombok</groupId>

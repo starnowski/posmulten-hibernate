@@ -18,4 +18,11 @@
         <license.dir>${project.parent.basedir}</license.dir>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.starnowski.posmulten</groupId>
+            <artifactId>postgresql-core</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
