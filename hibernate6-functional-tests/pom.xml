@@ -58,6 +58,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.configuration</groupId>
+            <artifactId>configuration-yaml-interpreter</artifactId>
+            <version>0.7.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

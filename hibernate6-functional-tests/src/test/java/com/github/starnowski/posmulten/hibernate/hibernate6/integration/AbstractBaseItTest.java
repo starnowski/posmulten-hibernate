@@ -1,5 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.hibernate6.integration;
 
+import com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter;
 import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator;
 import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder;
 import com.github.starnowski.posmulten.postgresql.core.context.decorator.DefaultDecoratorContext;
@@ -21,8 +22,8 @@ public class AbstractBaseItTest {
 
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-//                .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
-                .addInitiator(new SharedSchemaContextProviderInitiator("integration-tests-configuration.yaml", DefaultDecoratorContext.builder()
+                .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+                .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
                         .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", null)
                                 .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
 //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
@@ -36,12 +37,9 @@ public class AbstractBaseItTest {
 
     protected SessionFactory getSchemaCreatorSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-//                .addInitiator(new SchemaCreatorStrategyContextInitiator())
-                .addInitiator(new SharedSchemaContextProviderInitiator("integration-tests-configuration.yaml", DefaultDecoratorContext.builder()
+                .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
                         .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", null)
                                 .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
-//                .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
-//                .addInitiator(new PosmultenUtilContextInitiator())
                 .configure("hibernate.schema-creator.cfg.xml")
                 .build();
 
