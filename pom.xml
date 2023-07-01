@@ -94,6 +94,11 @@
                 <artifactId>postgresql-core</artifactId>
                 <version>${com.github.starnowski.posmulten.postgresql.core.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.starnowski.posmulten.configuration</groupId>
+                <artifactId>configuration</artifactId>
+                <version>${com.github.starnowski.posmulten.postgresql.core.version}</version>
+            </dependency>
             <!-- tests dependencies -->
             <dependency>
                 <groupId>org.projectlombok</groupId>

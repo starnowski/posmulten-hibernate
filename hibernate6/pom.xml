@@ -32,6 +32,10 @@
             <version>${org.hibernate.hibernate.core.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.configuration</groupId>
+            <artifactId>configuration</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
