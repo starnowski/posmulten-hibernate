@@ -4,8 +4,8 @@ import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchema
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
 import com.github.starnowski.posmulten.postgresql.core.rls.function.ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.hibernate.service.spi.ServiceRegistryAwareService;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
@@ -13,10 +13,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantConnectionProvider, ServiceRegistryAwareService {
+public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider implements ServiceRegistryAwareService {
 
     private ConnectionProvider connectionProvider;
     private ISharedSchemaContext context;
+
+    @Override
+    protected ConnectionProvider getAnyConnectionProvider() {
+        return connectionProvider;
+    }
+
+    @Override
+    protected ConnectionProvider selectConnectionProvider(String s) {
+        return connectionProvider;
+    }
 
     public Connection getAnyConnection() throws SQLException {
         return connectionProvider.getConnection();

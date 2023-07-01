@@ -24,7 +24,7 @@ public class AbstractBaseItTest {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
                 .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
-                        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", null)
+                        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
                                 .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
 //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
@@ -38,7 +38,7 @@ public class AbstractBaseItTest {
     protected SessionFactory getSchemaCreatorSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
-                        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", null)
+                        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
                                 .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
                 .configure("hibernate.schema-creator.cfg.xml")
                 .build();
