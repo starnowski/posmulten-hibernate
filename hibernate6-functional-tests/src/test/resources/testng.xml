@@ -2,32 +2,32 @@
 <suite name="Integration tests" verbose="1">
     <test name="Tenant's columns creation">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.integration.SchemaTenantColumnCheckItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.SchemaTenantColumnCheckItTest" />
         </classes>
     </test>
     <test name="RLS policy creation">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.integration.RLSPolicyCheckItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.RLSPolicyCheckItTest" />
         </classes>
     </test>
     <test name="should create default function">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.integration.FunctionsItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.FunctionsItTest" />
         </classes>
     </test>
     <test name="should create constraint">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.integration.ConstraintItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.ConstraintItTest" />
         </classes>
     </test>
     <test name="should execute operation per tenants">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.integration.CRUDItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.CRUDItTest" />
         </classes>
     </test>
     <test name="should execute operation per tenants for many-to-many relations">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.integration.OneToManyCRUDItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.OneToManyCRUDItTest" />
         </classes>
     </test>
 </suite>

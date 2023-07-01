@@ -10,18 +10,18 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.multiTenancy">SCHEMA</property>
-        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider</property>
-        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate5.CurrentTenantIdentifierResolverImpl</property>
+        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider</property>
+        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl</property>
         <property name="archive.autodetection">class</property>
         <property name="posmulten.schema.builder.provider">lightweight</property>
 
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.Category" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.Comment" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.Post" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.Tenant" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.User" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.UserRole" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.CategoryType" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.CategoryTypeAttribute" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.UserRole" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.CategoryType" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.CategoryTypeAttribute" />
     </session-factory>
 </hibernate-configuration>

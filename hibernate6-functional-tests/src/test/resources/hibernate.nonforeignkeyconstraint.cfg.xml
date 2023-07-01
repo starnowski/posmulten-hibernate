@@ -10,16 +10,16 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.multiTenancy">SCHEMA</property>
-        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider</property>
-        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate5.CurrentTenantIdentifierResolverImpl</property>
+        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider</property>
+        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl</property>
         <property name="archive.autodetection">class</property>
         <property name="posmulten.schema.builder.provider">lightweight</property>
 
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.integration.model.nonforeignkeyconstraint.Category" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.integration.model.nonforeignkeyconstraint.Comment" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.integration.model.nonforeignkeyconstraint.Post" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.integration.model.nonforeignkeyconstraint.Tenant" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.integration.model.nonforeignkeyconstraint.User" />
-        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.integration.model.nonforeignkeyconstraint.UserRole" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.nonforeignkeyconstraint.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.nonforeignkeyconstraint.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.nonforeignkeyconstraint.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.nonforeignkeyconstraint.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.nonforeignkeyconstraint.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.nonforeignkeyconstraint.UserRole" />
     </session-factory>
 </hibernate-configuration>
