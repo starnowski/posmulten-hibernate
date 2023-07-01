@@ -1,6 +1,8 @@
 package com.github.starnowski.posmulten.hibernate.hibernate6.integration;
 
 import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.decorator.DefaultDecoratorContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -20,7 +22,9 @@ public class AbstractBaseItTest {
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 //                .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
-                .addInitiator(new SharedSchemaContextProviderInitiator())
+                .addInitiator(new SharedSchemaContextProviderInitiator("integration-tests-configuration.yaml", DefaultDecoratorContext.builder()
+                        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", null)
+                                .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
 //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
@@ -33,7 +37,9 @@ public class AbstractBaseItTest {
     protected SessionFactory getSchemaCreatorSessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
 //                .addInitiator(new SchemaCreatorStrategyContextInitiator())
-                .addInitiator(new SharedSchemaContextProviderInitiator())
+                .addInitiator(new SharedSchemaContextProviderInitiator("integration-tests-configuration.yaml", DefaultDecoratorContext.builder()
+                        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", null)
+                                .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
 //                .addInitiator(new DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator())
 //                .addInitiator(new PosmultenUtilContextInitiator())
                 .configure("hibernate.schema-creator.cfg.xml")
