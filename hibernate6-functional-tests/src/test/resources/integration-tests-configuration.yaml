@@ -16,7 +16,7 @@ valid_tenant_value_constraint:
     - invalid_tenant
     - "Some strange tenant ID"
 tables:
-  - name: users
+  - name: user_info
     rls_policy:
       name: users_table_rls_policy
       tenant_column:  tenant_id
@@ -62,21 +62,6 @@ tables:
         foreign_key_primary_key_columns_mappings:
           parent_comment_id:  id
           parent_comment_user_id:  user_id
-  - name: notifications
-    rls_policy:
-      name: notifications_table_rls_policy
-      tenant_column:  tenant
-      create_tenant_column_for_table: true
-      valid_tenant_value_constraint_name: "is_tenant_id_valid"
-      primary_key_definition:
-        name_for_function_that_checks_if_record_exists_in_table: "is_notification_exists"
-        pk_columns_name_to_type:
-          uuid: uuid
-    foreign_keys:
-      - constraint_name:  "notifications_users_tenant_constraint"
-        table_name: users
-        foreign_key_primary_key_columns_mappings:
-          user_id:  id
   - name: groups
     rls_policy:
       name: "groups_table_rls_policy"
