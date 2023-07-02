@@ -18,6 +18,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static com.github.starnowski.posmulten.postgresql.core.db.DatabaseOperationType.*;
@@ -28,7 +29,7 @@ public class AbstractBaseItTest {
     private static SessionFactory schemaCreatorSessionFactory;
     protected Session schemaCreatorSession;
     protected Session primarySession;
-    private DatabaseOperationExecutor databaseOperationExecutor = new DatabaseOperationExecutor();
+    private final DatabaseOperationExecutor databaseOperationExecutor = new DatabaseOperationExecutor();
     private ISharedSchemaContext sharedSchemaContext;
 
     protected SessionFactory getPrimarySessionFactory() {
@@ -77,9 +78,12 @@ public class AbstractBaseItTest {
                 .getServiceRegistry()
                 .getService(SharedSchemaContextProvider.class);
         sharedSchemaContext = sharedSchemaContextProvider.getSharedSchemaContext();
-        this.databaseOperationExecutor.execute(connectionProvider.getConnection(), sharedSchemaContext.getSqlDefinitions(), LOG_ALL);
-        this.databaseOperationExecutor.execute(connectionProvider.getConnection(), sharedSchemaContext.getSqlDefinitions(), CREATE);
-        this.databaseOperationExecutor.execute(connectionProvider.getConnection(), sharedSchemaContext.getSqlDefinitions(), VALIDATE);
+        try (Connection connection = connectionProvider.getConnection()) {
+            this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), LOG_ALL);
+            this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), CREATE);
+            connection.commit();
+//        this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), VALIDATE);
+        }
     }
 
     protected Session openPrimarySession() {
@@ -87,14 +91,15 @@ public class AbstractBaseItTest {
     }
 
     @AfterClass
-    public void dropRLSPolicy(){
-        if (sharedSchemaContext != null){
-            try {
-                ConnectionProvider connectionProvider = schemaCreatorSessionFactory.getSessionFactoryOptions()
-                        .getServiceRegistry()
-                        .getService(ConnectionProvider.class);
-                this.databaseOperationExecutor.execute(connectionProvider.getConnection(), sharedSchemaContext.getSqlDefinitions(), DROP);
-                this.databaseOperationExecutor.execute(connectionProvider.getConnection(), sharedSchemaContext.getSqlDefinitions(), LOG_ALL);
+    public void dropRLSPolicy() {
+        if (sharedSchemaContext != null) {
+            ConnectionProvider connectionProvider = schemaCreatorSessionFactory.getSessionFactoryOptions()
+                    .getServiceRegistry()
+                    .getService(ConnectionProvider.class);
+            try (Connection connection = connectionProvider.getConnection()) {
+                this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), DROP);
+                this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), LOG_ALL);
+                connection.commit();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (ValidationDatabaseOperationsException e) {
