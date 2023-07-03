@@ -24,7 +24,7 @@ tables:
       primary_key_definition:
         name_for_function_that_checks_if_record_exists_in_table: "is_user_exists"
         pk_columns_name_to_type:
-          id: bigint
+          user_id: uuid
   - name: user_role
     rls_policy:
       name: "user_role_table_rls_policy"
@@ -34,6 +34,20 @@ tables:
         name_for_function_that_checks_if_record_exists_in_table: "is_user_role_exists"
         pk_columns_name_to_type:
           id: bigint
+  - name: posts
+    rls_policy:
+      name: "posts_table_rls_policy"
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_posts_exists"
+        pk_columns_name_to_type:
+          id: bigint
+    foreign_keys:
+      - constraint_name:  "user_info_tenant_constraint"
+        table_name: user_info
+        foreign_key_primary_key_columns_mappings:
+          userId:  user_id
 #  - name: groups
 #    rls_policy:
 #      name: "groups_table_rls_policy"
