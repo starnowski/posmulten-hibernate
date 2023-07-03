@@ -96,6 +96,15 @@ tables:
         table_name: "categories"
         foreign_key_primary_key_columns_mappings:
           Category_id:  id
+  - name: posts_category_types
+    rls_policy:
+      name: "posts_category_types_table_rls_policy"
+      create_tenant_column_for_table: true
+    foreign_keys:
+      - constraint_name:  "posts_tenant_constraint"
+        table_name: "posts"
+        foreign_key_primary_key_columns_mappings:
+          post_id:  id
 #  - name: groups
 #    rls_policy:
 #      name: "groups_table_rls_policy"
