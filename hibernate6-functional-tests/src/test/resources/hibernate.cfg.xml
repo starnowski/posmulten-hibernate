@@ -5,7 +5,7 @@
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/posmulten_hibernate</property>
         <property name="hibernate.connection.username">posmhib4-user</property>
         <property name="hibernate.connection.password">posmhib4-user</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgresPlusDialect</property>
         <property name="hibernate.hbm2ddl.auto">none</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
