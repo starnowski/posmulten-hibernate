@@ -19,7 +19,7 @@
 
     <properties>
         <org.hibernate.hibernate.core.version>5.6.3.Final</org.hibernate.hibernate.core.version>
-        <com.github.starnowski.posmulten.postgresql.core.version>0.7.1</com.github.starnowski.posmulten.postgresql.core.version>
+        <com.github.starnowski.posmulten.postgresql.core.version>0.7.2</com.github.starnowski.posmulten.postgresql.core.version>
         <org.projectlombok.lombok.version>1.18.28</org.projectlombok.lombok.version>
         <org.codehaus.groovy.groovy-all.version>2.4.12</org.codehaus.groovy.groovy-all.version>
         <spock.core.version>1.1-groovy-2.4</spock.core.version>

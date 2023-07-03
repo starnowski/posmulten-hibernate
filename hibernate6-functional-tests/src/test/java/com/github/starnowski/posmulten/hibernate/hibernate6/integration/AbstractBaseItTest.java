@@ -81,8 +81,8 @@ public class AbstractBaseItTest {
         try (Connection connection = connectionProvider.getConnection()) {
             this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), LOG_ALL);
             this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), CREATE);
+            this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), VALIDATE);
             connection.commit();
-//        this.databaseOperationExecutor.execute(connection, sharedSchemaContext.getSqlDefinitions(), VALIDATE);
         }
     }
 
