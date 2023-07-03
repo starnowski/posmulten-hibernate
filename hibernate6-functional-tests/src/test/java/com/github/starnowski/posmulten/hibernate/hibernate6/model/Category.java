@@ -32,7 +32,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Post> posts;
 
-    @Column(name = "categoryTenantId", insertable = false, updatable = false)
+    @Column(name = "category_tenant_id", insertable = false, updatable = false)
     private String tenantId;
 
     @ManyToMany
