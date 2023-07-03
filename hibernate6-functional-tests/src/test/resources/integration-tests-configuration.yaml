@@ -48,6 +48,24 @@ tables:
         table_name: user_info
         foreign_key_primary_key_columns_mappings:
           userId:  user_id
+  - name: comments
+    rls_policy:
+      name: "comments_table_rls_policy"
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_comments_exists"
+        pk_columns_name_to_type:
+          id: bigint
+    foreign_keys:
+      - constraint_name:  "user_info_tenant_constraint"
+        table_name: user_info
+        foreign_key_primary_key_columns_mappings:
+          userId:  user_id
+      - constraint_name:  "posts_tenant_constraint"
+        table_name: posts
+        foreign_key_primary_key_columns_mappings:
+          post_id:  id
 #  - name: groups
 #    rls_policy:
 #      name: "groups_table_rls_policy"
