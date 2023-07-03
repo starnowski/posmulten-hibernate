@@ -51,7 +51,7 @@ tables:
   - name: comments
     rls_policy:
       name: "comments_table_rls_policy"
-      tenant_column:  tenant_id
+      tenant_column:  comment_tenant_id
       create_tenant_column_for_table: true
       primary_key_definition:
         name_for_function_that_checks_if_record_exists_in_table: "is_comments_exists"
@@ -69,7 +69,7 @@ tables:
   - name: categories
     rls_policy:
       name: "categories_table_rls_policy"
-      tenant_column:  "category_tenant_id"
+      tenant_column:  "categorytenantid"
       primary_key_definition:
         name_for_function_that_checks_if_record_exists_in_table: "is_categories_exists"
         pk_columns_name_to_type:

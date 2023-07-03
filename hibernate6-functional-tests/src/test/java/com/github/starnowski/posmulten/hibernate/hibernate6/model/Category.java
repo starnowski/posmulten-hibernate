@@ -19,7 +19,7 @@ import java.util.Set;
 @Table(name = "categories")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@TenantTable(tenantIdColumn = "categoryTenantId")
+@TenantTable(tenantIdColumn = "categorytenantid")
 public class Category {
 
     @Id
@@ -32,7 +32,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Post> posts;
 
-    @Column(name = "category_tenant_id", insertable = false, updatable = false)
+    @Column(name = "categorytenantid", insertable = false, updatable = false)
     private String tenantId;
 
     @ManyToMany
