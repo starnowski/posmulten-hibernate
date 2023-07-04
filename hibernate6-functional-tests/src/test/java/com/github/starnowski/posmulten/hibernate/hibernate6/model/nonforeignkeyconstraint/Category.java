@@ -19,12 +19,12 @@ import java.util.Set;
 @Table(name = "categories_nonforeignkeyconstraint")
 @NoArgsConstructor
 @EqualsAndHashCode(of = "primaryKey.primaryKey")
-@TenantTable(tenantIdColumn = "categoryTenantId")
+@TenantTable(tenantIdColumn = "categorytenantid")
 public class Category {
 
     @EmbeddedId
     @AttributeOverride(name = "primaryKey", column = @Column(name = "id"))
-    @AttributeOverride(name = "tenant", column = @Column(name = "categoryTenantId", insertable = false, updatable = false))
+    @AttributeOverride(name = "tenant", column = @Column(name = "categorytenantid", insertable = false, updatable = false))
     private PrimaryKey<Long> primaryKey;
 
     @Column
