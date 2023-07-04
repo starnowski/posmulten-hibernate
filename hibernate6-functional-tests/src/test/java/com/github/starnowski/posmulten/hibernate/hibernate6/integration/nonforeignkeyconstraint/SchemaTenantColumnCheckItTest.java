@@ -72,7 +72,7 @@ public class SchemaTenantColumnCheckItTest extends AbstractBaseNonForeignKeyCons
         // WHEN
         String result = schemaCreatorSession.doReturningWork(new ReturningWork<String>() {
             public String execute(Connection connection) throws SQLException {
-                return TestUtils.selectAndReturnFirstRecordAsString(connection.createStatement(), TestUtils.statementThatReturnsColumnNameAndType("posts_categories", "tenant_id", "public", "posmulten_hibernate"));
+                return TestUtils.selectAndReturnFirstRecordAsString(connection.createStatement(), TestUtils.statementThatReturnsColumnNameAndType("posts_categories_nonforeignkeyconstraint", "tenant_id", "public", "posmulten_hibernate"));
             }
         });
 

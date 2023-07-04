@@ -65,7 +65,7 @@ tables:
         pk_columns_name_to_type:
           id: bigint
           categorytenantid: "VARCHAR(255)"
-  - name: posts_nonforeignkeyconstraint_categories_nonforeignkeyconstraint
+  - name: posts_categories_nonforeignkeyconstraint
     rls_policy:
       name: "posts_categories_table_rls_policy"
       create_tenant_column_for_table: true
@@ -77,3 +77,7 @@ tables:
     rls_policy:
       name: "posts_category_types_table_rls_policy"
       create_tenant_column_for_table: true
+sql_definitions_validation:
+  identifier_max_length:  30
+  identifier_min_length:  5
+  disabled: false
