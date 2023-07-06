@@ -18,18 +18,28 @@ public class SharedSchemaContextProviderInitiator implements StandardServiceInit
 
     private final String configurationPath;
     private final DefaultDecoratorContext decoratorContext;
+    private final DefaultSharedSchemaContextBuilderFactoryResolver defaultSharedSchemaContextBuilderFactoryResolver;
 
     public SharedSchemaContextProviderInitiator() {
         this(null, null);
     }
+
     public SharedSchemaContextProviderInitiator(String configurationPath, DefaultDecoratorContext decoratorContext) {
+        this(configurationPath, decoratorContext, new DefaultSharedSchemaContextBuilderFactoryResolver());
+    }
+
+    public SharedSchemaContextProviderInitiator(String configurationPath, DefaultDecoratorContext decoratorContext, DefaultSharedSchemaContextBuilderFactoryResolver defaultSharedSchemaContextBuilderFactoryResolver) {
         this.configurationPath = configurationPath;
         this.decoratorContext = decoratorContext;
+        this.defaultSharedSchemaContextBuilderFactoryResolver = defaultSharedSchemaContextBuilderFactoryResolver;
+    }
+
+    DefaultSharedSchemaContextBuilderFactoryResolver getDefaultSharedSchemaContextBuilderFactoryResolver() {
+        return defaultSharedSchemaContextBuilderFactoryResolver;
     }
 
     @Override
     public SharedSchemaContextProvider initiateService(Map<String, Object> map, ServiceRegistryImplementor serviceRegistryImplementor) {
-        DefaultSharedSchemaContextBuilderFactoryResolver defaultSharedSchemaContextBuilderFactoryResolver = new DefaultSharedSchemaContextBuilderFactoryResolver();
         IDefaultSharedSchemaContextBuilderFactory factory = null;
         DefaultSharedSchemaContextBuilder builder = null;
         ISharedSchemaContext defaultContext = null;
