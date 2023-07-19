@@ -39,6 +39,9 @@ https://www.markdownguide.org/basic-syntax/
   - Move type com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.context.LightweightDefaultSharedSchemaContextBuilderProvider to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContextInitiator to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.enrichers.DefaultSharedSchemaContextBuilderMetadataEnricher to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.enrichers[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.CollectionResolver to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
 
  
 ## [0.1.1] - 2022-06-16
