@@ -68,6 +68,7 @@ https://www.markdownguide.org/basic-syntax/
     - Added type com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
     - Added type com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
     - Added type com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+    - Added type com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
  
 ## [0.1.1] - 2022-06-16
 ### Added
