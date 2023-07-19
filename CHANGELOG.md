@@ -34,6 +34,11 @@ https://www.markdownguide.org/basic-syntax/
   - Move type com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProvider to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.context.DefaultSharedSchemaContextBuilderProviderInitiator to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricher to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderMetadataEnricherProvider to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderProvider to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.IDefaultSharedSchemaContextBuilderTableMetadataEnricher to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.LightweightDefaultSharedSchemaContextBuilderProvider to package com.github.starnowski.posmulten.hibernate.hibernate5.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.PosmultenUtilContext to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
 
  
 ## [0.1.1] - 2022-06-16
