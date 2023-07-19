@@ -25,6 +25,8 @@ https://www.markdownguide.org/basic-syntax/
   - Move type com.github.starnowski.posmulten.hibernate.core.Properties to package com.github.starnowski.posmulten.hibernate.hibernate5[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterForLong to package com.github.starnowski.posmulten.hibernate.hibernate5.connections[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterForString to package com.github.starnowski.posmulten.hibernate.hibernate5.connections[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.connections.CurrentTenantPreparedStatementSetterInitiator to package com.github.starnowski.posmulten.hibernate.hibernate5.connections[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.connections.ICurrentTenantPreparedStatementSetter to package com.github.starnowski.posmulten.hibernate.hibernate5.connections[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
 
  
 ## [0.1.1] - 2022-06-16
