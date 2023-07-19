@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/posmulten_hibernate</property>
+        <property name="hbm2ddl.import_files">import_nonforeignkeyconstraint.sql</property>
+        <property name="connection.username">posmhib4-owner</property>
+        <property name="connection.password">posmhib4-owner</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="multiTenancy">NONE</property>
+        <property name="schema_management_tool">com.github.starnowski.posmulten.hibernate.hibernate5.schema.PosmultenSchemaManagementTool</property>
+        <property name="archive.autodetection">class</property>
+        <property name="posmulten.grantee">posmhib4-user</property>
+        <property name="posmulten.foreignkey.constraint.ignore">true</property>
+
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate5.model.nonforeignkeyconstraint.UserRole" />
+    </session-factory>
+</hibernate-configuration>

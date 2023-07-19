@@ -8,16 +8,19 @@
     <artifactId>parent</artifactId>
     <version>0.2.0-SNAPSHOT</version>
     <modules>
-        <module>core</module>
+        <module>hibernate5</module>
         <module>test-utils</module>
-        <module>core-functional-tests</module>
+        <module>hibernate5-functional-tests</module>
+        <module>common</module>
+        <module>hibernate6</module>
+        <module>hibernate6-functional-tests</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
         <org.hibernate.hibernate.core.version>5.6.3.Final</org.hibernate.hibernate.core.version>
-        <com.github.starnowski.posmulten.postgresql.core.version>0.5.3</com.github.starnowski.posmulten.postgresql.core.version>
-        <org.projectlombok.lombok.version>1.16.20</org.projectlombok.lombok.version>
+        <com.github.starnowski.posmulten.postgresql.core.version>0.7.2</com.github.starnowski.posmulten.postgresql.core.version>
+        <org.projectlombok.lombok.version>1.18.28</org.projectlombok.lombok.version>
         <org.codehaus.groovy.groovy-all.version>2.4.12</org.codehaus.groovy.groovy-all.version>
         <spock.core.version>1.1-groovy-2.4</spock.core.version>
         <org.postgresql.postgresql.version>42.3.3</org.postgresql.postgresql.version>
@@ -89,6 +92,11 @@
             <dependency>
                 <groupId>com.github.starnowski.posmulten</groupId>
                 <artifactId>postgresql-core</artifactId>
+                <version>${com.github.starnowski.posmulten.postgresql.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.starnowski.posmulten.configuration</groupId>
+                <artifactId>configuration</artifactId>
                 <version>${com.github.starnowski.posmulten.postgresql.core.version}</version>
             </dependency>
             <!-- tests dependencies -->
@@ -294,6 +302,27 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                        <configuration>
+                            <toolchains>
+                                <jdk>
+                                    <version>8</version>
+                                </jdk>
+                            </toolchains>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/posmulten_hibernate</property>
+        <property name="connection.username">posmhib4-owner</property>
+        <property name="connection.password">posmhib4-owner</property>
+        <property name="dialect">org.hibernate.dialect.PostgresPlusDialect</property>
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="multiTenancy">NONE</property>
+        <property name="archive.autodetection">class</property>
+        <property name="posmulten.grantee">posmhib4-user</property>
+
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Category" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Comment" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Post" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Tenant" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.User" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.UserRole" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.CategoryType" />
+        <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.CategoryTypeAttribute" />
+    </session-factory>
+</hibernate-configuration>
