@@ -33,7 +33,7 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         SharedSchemaContextProvider sscp = mock(SharedSchemaContextProvider.class);
         Mockito.when(serviceRegistryImplementor.getService(SharedSchemaContextProvider.class)).thenReturn(sscp);
         Mockito.when(serviceRegistryImplementor.getService(ConnectionProvider.class)).thenReturn(connectionProvider);
-        Mockito.when(sscp.getSharedSchemaContext()).thenReturn(Mockito.mock(ISharedSchemaContext.class));
+        Mockito.when(sscp.getSharedSchemaContext()).thenReturn(sharedSchemaContext);
         provider.injectServices(serviceRegistryImplementor);
 
         when(sharedSchemaContext.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory())
