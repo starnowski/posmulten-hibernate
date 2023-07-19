@@ -13,6 +13,13 @@ https://www.markdownguide.org/basic-syntax/
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
+
+### Changed
+- Hibernate 6 support [29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.TenantTable to package com.github.starnowski.posmulten.hibernate.common[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.CurrentTenantContext to package com.github.starnowski.posmulten.hibernate.common.context[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTableProperties to package com.github.starnowski.posmulten.hibernate.common.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - 
  
 ## [0.1.1] - 2022-06-16
 ### Added
