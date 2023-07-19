@@ -58,7 +58,16 @@ https://www.markdownguide.org/basic-syntax/
   - Move type com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorWrapper to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.schema.SharedSchemaContextSourceInput to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.schema.SourceDescriptorFactory to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.schema.SourceDescriptorInitiator to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.schema.strategy.ISchemaCreatorStrategy to package com.github.starnowski.posmulten.hibernate.hibernate5.schema.strategy[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.schema.strategy.MetadataSchemaCreatorStrategy to package com.github.starnowski.posmulten.hibernate.hibernate5.schema.strategy[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
 
+### Added
+- Hibernate 6 support [29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+    - Added type com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+    - Added type com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+    - Added type com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+    - Added type com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
  
 ## [0.1.1] - 2022-06-16
 ### Added
