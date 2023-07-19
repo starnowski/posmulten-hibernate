@@ -55,6 +55,9 @@ https://www.markdownguide.org/basic-syntax/
   - Move type com.github.starnowski.posmulten.hibernate.core.schema.PosmultenSchemaManagementTool to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContext to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorStrategyContextInitiator to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.schema.SchemaCreatorWrapper to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.schema.SharedSchemaContextSourceInput to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.schema.SourceDescriptorFactory to package com.github.starnowski.posmulten.hibernate.hibernate5.schema[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
 
  
 ## [0.1.1] - 2022-06-16
