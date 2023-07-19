@@ -45,6 +45,11 @@ https://www.markdownguide.org/basic-syntax/
   - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.ForeignKeySharedSchemaContextBuilderTableMetadataEnricherHelper to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.NameGenerator to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
   - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.PersistentClassResolver to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.RLSPolicyTableHelper to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TableUtils to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.TenantTablePropertiesResolver to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.CheckerFunctionNamesSharedSchemaContextBuilderTableMetadataEnricher to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables.enrichers[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
+  - Move type com.github.starnowski.posmulten.hibernate.core.context.metadata.tables.enrichers.ForeignKeySharedSchemaContextBuilderTableMetadataEnricher to package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata.tables.enrichers[29](https://github.com/starnowski/posmulten-hibernate/issues/29)
 
  
 ## [0.1.1] - 2022-06-16
