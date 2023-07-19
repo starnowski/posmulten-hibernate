@@ -16,8 +16,8 @@ import java.sql.SQLException;
 public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider implements ServiceRegistryAwareService {
 
     private ConnectionProvider connectionProvider;
-    private ISharedSchemaContext context;
 
+    private ISharedSchemaContext context;
     @Override
     protected ConnectionProvider getAnyConnectionProvider() {
         return connectionProvider;
@@ -58,7 +58,6 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
     }
 
     public void releaseConnection(String tenant, Connection connection) throws SQLException {
-        ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
         connection.close();
     }
 
@@ -81,5 +80,13 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
         }
         SharedSchemaContextProvider sharedSchemaContextProvider = serviceRegistry.getService(SharedSchemaContextProvider.class);
         this.context = sharedSchemaContextProvider.getSharedSchemaContext();
+    }
+
+    ConnectionProvider getConnectionProvider() {
+        return connectionProvider;
+    }
+
+    ISharedSchemaContext getContext() {
+        return context;
     }
 }
