@@ -6,9 +6,19 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class SharedSchemaConnectionProviderInitiatorAdapter extends ConnectionProviderInitiator {
 
+    private final Supplier<DriverManagerConnectionProviderImpl> driverManagerConnectionProviderSupplier;
+
+    public SharedSchemaConnectionProviderInitiatorAdapter() {
+        this(DriverManagerConnectionProviderImpl::new);
+    }
+
+    public SharedSchemaConnectionProviderInitiatorAdapter(Supplier<DriverManagerConnectionProviderImpl> driverManagerConnectionProviderSupplier) {
+        this.driverManagerConnectionProviderSupplier = driverManagerConnectionProviderSupplier;
+    }
 
     @Override
     public Class<ConnectionProvider> getServiceInitiated() {
@@ -17,7 +27,7 @@ public class SharedSchemaConnectionProviderInitiatorAdapter extends ConnectionPr
 
     @Override
     public ConnectionProvider initiateService(Map configurationValues, ServiceRegistryImplementor registry) {
-        DriverManagerConnectionProviderImpl connectionProvider = new DriverManagerConnectionProviderImpl();
+        DriverManagerConnectionProviderImpl connectionProvider = driverManagerConnectionProviderSupplier.get();
         connectionProvider.configure(configurationValues);
         return connectionProvider;
     }
