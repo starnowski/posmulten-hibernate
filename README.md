@@ -8,8 +8,8 @@
 * [Basic usage](#basic-usage)
     * [Maven](#maven)
     * [Schema generation](#schema-generation)
-        * [Hibernates SessionFactory for schema creation](#hibernates-sessionfactory-for-schema-creation)
-        * [Hibernates configuration for schema generation](#hibernates-configuration-for-schema-generation)
+        * [Hibernates SessionFactory for schema creation for Hibernate 5](#hibernates-sessionfactory-for-schema-creation-for-hibernate-5)
+        * [Hibernates configuration for schema generation for Hibernate 5](#hibernates-configuration-for-schema-generation-for-hibernate-5)
         * [Java model](#java-model)
     * [Client communication with database](#client-communication-with-database)
         * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
@@ -85,7 +85,7 @@ For Hibernate 6 add project to your pom.xml
 With the help of the Hibernate ORM framework, the project creates DDL statements that generate Multi-tenant architecture with a shared schema strategy.
 The generated DDL statements can be used during integration tests and by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 
-#### Hibernates SessionFactory for schema creation
+#### Hibernates SessionFactory for schema creation for Hibernate 5
 
 For Hibernate 5 use below code:
 
@@ -117,7 +117,7 @@ final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
         .buildMetadata().buildSessionFactory();
 ```
 
-#### Hibernates configuration for schema generation
+#### Hibernates configuration for schema generation for Hibernate 5
 To hibernate configuration there need to be added few properties.
 
 _hibernate.schema-creator.cfg.xml_
