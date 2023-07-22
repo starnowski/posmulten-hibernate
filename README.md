@@ -11,7 +11,7 @@
         * [Hibernates SessionFactory for schema creation for Hibernate 5](#hibernates-sessionfactory-for-schema-creation-for-hibernate-5)
         * [Hibernates configuration for schema generation for Hibernate 5](#hibernates-configuration-for-schema-generation-for-hibernate-5)
         * [Java model](#java-model)
-    * [Client communication with database](#client-communication-with-database)
+    * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
         * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
         * [Open connection for tenant](#open-connection-for-tenant)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
@@ -41,7 +41,7 @@ Both approaches have cons and pros.
 Hibernate approach's benefit is that it can be used with other database engines.
 Posmulten can only be used for the Postgres engine.
 On the other side Hibernate creates potencial constraint in case when there is more than one project that use database.
-In this situtation other project also need to use Hibernate.
+In this situation other project also need to use Hibernate.
 Posmulten gives flexibility in such situations because it generates security policies on the database level.
 That means that other projects which use the same database do not have to use a posmulten project or even java.
 A developer needs to ensure that the correct session property is being set with the tenant identifier during [connection establishment](https://github.com/starnowski/posmulten#connecting-to-database).
@@ -141,7 +141,7 @@ The PosmultenSchemaManagementTool type needs to be set as a schema management to
 The configuration also requires setting the user to which Posmulten will generate constraints that provide the expected isolation level.
 This should be the same user used by the application for normal [communication](#client-communication-with-database) with the database
 
-**Grantee and schema creation user can be the same (database owner). There might be a little bit harder with setting data for tests.**
+**Grantee and schema creation user can be the same (database owner). There might be a little harder with setting data for tests.**
 
 #### Java model
 
@@ -174,7 +174,7 @@ public class User {
 
 The multi-tenant table can have a relation to the non-multitenant table.
 
-### Client communication with database
+### Client communication with database for Hibernate 5
 
 To create Hibernate session, we need to add few service initiators from project.
 
