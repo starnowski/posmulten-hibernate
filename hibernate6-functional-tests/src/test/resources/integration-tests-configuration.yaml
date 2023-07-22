@@ -105,23 +105,3 @@ tables:
         table_name: "posts"
         foreign_key_primary_key_columns_mappings:
           post_id:  id
-#  - name: groups
-#    rls_policy:
-#      name: "groups_table_rls_policy"
-#      tenant_column:  tenant_id
-#      primary_key_definition:
-#        name_for_function_that_checks_if_record_exists_in_table: "is_groups_exists"
-#        pk_columns_name_to_type:
-#          uuid: uuid
-#  - name: users_groups
-#    rls_policy:
-#      name: groups_table_rls_policy
-#    foreign_keys:
-#      - constraint_name:  "users_tenant_constraint"
-#        table_name: "users"
-#        foreign_key_primary_key_columns_mappings:
-#          user_id:  id
-#      - constraint_name:  "groups_tenant_constraint"
-#        table_name: "groups"
-#        foreign_key_primary_key_columns_mappings:
-#          group_id:  uuid
