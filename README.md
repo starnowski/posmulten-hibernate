@@ -12,8 +12,8 @@
         * [Hibernates configuration for schema generation for Hibernate 5](#hibernates-configuration-for-schema-generation-for-hibernate-5)
         * [Java model](#java-model)
     * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
-        * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
-        * [Open connection for tenant](#open-connection-for-tenant)
+        * [Hibernates configuration for application connection for Hibernate 5](#hibernates-configuration-for-application-connection-for-hibernate-5)
+        * [Open connection for tenant for Hibernate 5](#open-connection-for-tenant-for-hibernate-5)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
         * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
@@ -202,7 +202,7 @@ final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
         }
 ```
 
-#### Hibernates configuration for application connection
+#### Hibernates configuration for application connection for Hibernate 5
 For correct client communication with database to hibernate configuration there need to be added few properties.
 
 _hibernate.cfg.xml_
@@ -232,7 +232,7 @@ There are two other components that need to be specified:
 And last but not least to have fewer things to set up we have to specify the property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
 By default configuration context used for session factory initialization is ["full"](#full).
 
-### Open connection for tenant
+### Open connection for tenant for Hibernate 5
 Below there is an example how connect and execute operation for tenant "Ten1".
 
 ```java
