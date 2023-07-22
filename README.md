@@ -27,7 +27,7 @@
 Project is integration of Posmulten and Hibernate libraries.
 **Posmulten generates DDL statements only for the Postgres database. This means that the project is compatible only with this database engine since version 9.6.
 The are two main goal for this project.**
-The first is to generate DDL statements that create Multi-tenant architecture with a shared schema strategy based on the java model.
+The first is to generate DDL statements that create Multi-tenant architecture with a shared schema strategy based on the java model (currently available only for Hibernate 5).
 For more information on how the Posmulten helps achieve this isolation strategy or what are other Multi-tenant architecture strategies, go to [project website](https://github.com/starnowski/posmulten). 
 Generated DDL statement can be executed during integration tests or used by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 The second goal is to help communicate between the database and its client.
