@@ -48,12 +48,12 @@ A developer needs to ensure that the correct session property is being set with 
 
 ## Basic usage
 ### Maven
-Add project to your pom.xml
+For Hibernate 5 add project to your pom.xml
 ```xml
         <dependency>
             <groupId>com.github.starnowski.posmulten.hibernate</groupId>
-            <artifactId>core</artifactId>
-            <version>0.1.0</version>
+            <artifactId>hibernate5</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
         </dependency>
 
         <!-- hibernate dependency -->
@@ -63,7 +63,22 @@ Add project to your pom.xml
             <version>5.6.3.Final</version>
         </dependency>
 ```
-The project is compatible with hibernate version 5.
+
+For Hibernate 6 add project to your pom.xml
+```xml
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.hibernate</groupId>
+            <artifactId>hibernate6</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- hibernate dependency -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.5.Final</version>
+        </dependency>
+```
 
 ### Schema generation
 
@@ -71,6 +86,8 @@ With the help of the Hibernate ORM framework, the project creates DDL statements
 The generated DDL statements can be used during integration tests and by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 
 #### Hibernates SessionFactory for schema creation
+
+For Hibernate 5 use below code:
 
 To create Hibernate session, we need to add few service initiators from project.
 
