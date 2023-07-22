@@ -174,6 +174,44 @@ public class User {
 
 The multi-tenant table can have a relation to the non-multitenant table.
 
+#### Hibernates SessionFactory for schema creation for Hibernate 6
+
+Important! Module for integration with Hibernate 6 does not have implemented generation of DDL statements based on Java model right now.
+Instead of that it required to attach configuration file that 
+
+For Hibernate 6 use below code:
+
+To create Hibernate session, we need to add few service initiators from project.
+
+```java
+
+import com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
+import com.github.starnowski.posmulten.postgresql.core.context.decorator.DefaultDecoratorContext;
+import com.github.starnowski.posmulten.postgresql.core.db.DatabaseOperationExecutor;
+import com.github.starnowski.posmulten.postgresql.core.db.operations.exceptions.ValidationDatabaseOperationsException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+//...
+
+final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+        .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
+        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
+        .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
+        .configure("hibernate.schema-creator.cfg.xml")
+        .build();
+
+        SessionFactory factory = new MetadataSources(registry)
+        .buildMetadata().buildSessionFactory();
+```
+
 ### Client communication with database for Hibernate 5
 
 To create Hibernate session, we need to add few service initiators from project.
