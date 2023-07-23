@@ -9,10 +9,13 @@ https://keepachangelog.com/en/1.0.0/
 https://www.markdownguide.org/basic-syntax/
 
 * [Unreleased](#unreleased)
+* [0.2.0](#020---2023-07-23)
 * [0.1.1](#011---2022-06-16)
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
+
+## [0.2.0] - 2023-07-23
 
 ### Changed
 - Hibernate 6 support [29](https://github.com/starnowski/posmulten-hibernate/issues/29)
