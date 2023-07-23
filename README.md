@@ -8,12 +8,15 @@
 * [Basic usage](#basic-usage)
     * [Maven](#maven)
     * [Schema generation](#schema-generation)
-        * [Hibernates SessionFactory for schema creation](#hibernates-sessionfactory-for-schema-creation)
-        * [Hibernates configuration for schema generation](#hibernates-configuration-for-schema-generation)
+        * [Hibernates SessionFactory for schema creation for Hibernate 5](#hibernates-sessionfactory-for-schema-creation-for-hibernate-5)
+        * [Hibernates configuration for schema generation for Hibernate 5](#hibernates-configuration-for-schema-generation-for-hibernate-5)
         * [Java model](#java-model)
-    * [Client communication with database](#client-communication-with-database)
-        * [Hibernates configuration for application connection](#hibernates-configuration-for-application-connection)
-        * [Open connection for tenant](#open-connection-for-tenant)
+        * [Hibernates SessionFactory for schema creation for Hibernate 6](#hibernates-sessionfactory-for-schema-creation-for-hibernate-6)
+    * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
+        * [Hibernates configuration for application connection for Hibernate 5](#hibernates-configuration-for-application-connection-for-hibernate-5)
+    * [Client communication with database for Hibernate 6](#client-communication-with-database-for-hibernate-6)
+        * [Hibernates configuration for application connection for Hibernate 6](#hibernates-configuration-for-application-connection-for-hibernate-6)
+    * [Open connection for tenant for Hibernate](#open-connection-for-tenant-for-hibernate)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
         * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
@@ -27,7 +30,7 @@
 Project is integration of Posmulten and Hibernate libraries.
 **Posmulten generates DDL statements only for the Postgres database. This means that the project is compatible only with this database engine since version 9.6.
 The are two main goal for this project.**
-The first is to generate DDL statements that create Multi-tenant architecture with a shared schema strategy based on the java model.
+The first is to generate DDL statements that create Multi-tenant architecture with a shared schema strategy based on the java model (currently available only for Hibernate 5).
 For more information on how the Posmulten helps achieve this isolation strategy or what are other Multi-tenant architecture strategies, go to [project website](https://github.com/starnowski/posmulten). 
 Generated DDL statement can be executed during integration tests or used by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 The second goal is to help communicate between the database and its client.
@@ -41,19 +44,19 @@ Both approaches have cons and pros.
 Hibernate approach's benefit is that it can be used with other database engines.
 Posmulten can only be used for the Postgres engine.
 On the other side Hibernate creates potencial constraint in case when there is more than one project that use database.
-In this situtation other project also need to use Hibernate.
+In this situation other project also need to use Hibernate.
 Posmulten gives flexibility in such situations because it generates security policies on the database level.
 That means that other projects which use the same database do not have to use a posmulten project or even java.
 A developer needs to ensure that the correct session property is being set with the tenant identifier during [connection establishment](https://github.com/starnowski/posmulten#connecting-to-database).
 
 ## Basic usage
 ### Maven
-Add project to your pom.xml
+For Hibernate 5 add project to your pom.xml
 ```xml
         <dependency>
             <groupId>com.github.starnowski.posmulten.hibernate</groupId>
-            <artifactId>core</artifactId>
-            <version>0.1.0</version>
+            <artifactId>hibernate5</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
         </dependency>
 
         <!-- hibernate dependency -->
@@ -63,14 +66,31 @@ Add project to your pom.xml
             <version>5.6.3.Final</version>
         </dependency>
 ```
-The project is compatible with hibernate version 5.
+
+For Hibernate 6 add project to your pom.xml
+```xml
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.hibernate</groupId>
+            <artifactId>hibernate6</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- hibernate dependency -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.5.Final</version>
+        </dependency>
+```
 
 ### Schema generation
 
 With the help of the Hibernate ORM framework, the project creates DDL statements that generate Multi-tenant architecture with a shared schema strategy.
 The generated DDL statements can be used during integration tests and by tools that apply changes to the database, like [Liquibase](https://www.liquibase.org/) or [Flyway](https://flywaydb.org/).
 
-#### Hibernates SessionFactory for schema creation
+#### Hibernates SessionFactory for schema creation for Hibernate 5
+
+For Hibernate 5 use below code:
 
 To create Hibernate session, we need to add few service initiators from project.
 
@@ -100,7 +120,7 @@ final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
         .buildMetadata().buildSessionFactory();
 ```
 
-#### Hibernates configuration for schema generation
+#### Hibernates configuration for schema generation for Hibernate 5
 To hibernate configuration there need to be added few properties.
 
 _hibernate.schema-creator.cfg.xml_
@@ -124,7 +144,7 @@ The PosmultenSchemaManagementTool type needs to be set as a schema management to
 The configuration also requires setting the user to which Posmulten will generate constraints that provide the expected isolation level.
 This should be the same user used by the application for normal [communication](#client-communication-with-database) with the database
 
-**Grantee and schema creation user can be the same (database owner). There might be a little bit harder with setting data for tests.**
+**Grantee and schema creation user can be the same (database owner). There might be a little harder with setting data for tests.**
 
 #### Java model
 
@@ -157,7 +177,107 @@ public class User {
 
 The multi-tenant table can have a relation to the non-multitenant table.
 
-### Client communication with database
+#### Hibernates SessionFactory for schema creation for Hibernate 6
+
+Important! Module for integration with Hibernate 6 does not have implemented generation of DDL statements based on Java model right now.
+Instead of that it required to attach configuration file that below:
+```yaml
+default_schema: "{{template_schema_value}}"
+current_tenant_id_property_type:  "VARCHAR(255)"
+current_tenant_id_property: "pos.c.ten"
+get_current_tenant_id_function_name: "get_ten_id"
+set_current_tenant_id_function_name: "set_tenant"
+equals_current_tenant_identifier_function_name: "equals_cur_tenant"
+tenant_has_authorities_function_name: "_tenant_hast_auth"
+force_row_level_security_for_table_owner: false
+default_tenant_id_column: "tenant_id"
+grantee: "{{template_user_grantee}}"
+set_current_tenant_identifier_as_default_value_for_tenant_column_in_all_tables: true
+valid_tenant_value_constraint:
+  is_tenant_valid_function_name:  is_t_valid
+  is_tenant_valid_constraint_name:  "is_tenant_valid_constraint_sdfa"
+  tenant_identifiers_blacklist:
+    - invalid_tenant
+    - "Some strange tenant ID"
+tables:
+  - name: user_info
+    rls_policy:
+      name: users_table_rls_policy
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_user_exists"
+        pk_columns_name_to_type:
+          user_id: uuid
+  - name: user_role
+    rls_policy:
+      name: "user_role_table_rls_policy"
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_user_role_exists"
+        pk_columns_name_to_type:
+          id: bigint
+  - name: posts
+    rls_policy:
+      name: "posts_table_rls_policy"
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_posts_exists"
+        pk_columns_name_to_type:
+          id: bigint
+    foreign_keys:
+      - constraint_name:  "user_info_tenant_constraint"
+        table_name: user_info
+        foreign_key_primary_key_columns_mappings:
+          userId:  user_id
+//...
+```
+To see full configuration go to [link](./hibernate6-functional-tests/src/test/resources/integration-tests-configuration.yaml)
+Besides that you need to add maven dependency as below:
+
+```xml
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.configuration</groupId>
+            <artifactId>configuration-yaml-interpreter</artifactId>
+            <version>0.7.2</version>
+            <scope>test</scope>
+        </dependency>
+```
+
+To create Hibernate session, we need to add few service initiators from project.
+
+```java
+
+import com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
+import com.github.starnowski.posmulten.postgresql.core.context.decorator.DefaultDecoratorContext;
+import com.github.starnowski.posmulten.postgresql.core.db.DatabaseOperationExecutor;
+import com.github.starnowski.posmulten.postgresql.core.db.operations.exceptions.ValidationDatabaseOperationsException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+//...
+
+final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+        .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
+        .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
+        .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
+        .configure("hibernate.schema-creator.cfg.xml")
+        .build();
+
+        SessionFactory factory = new MetadataSources(registry)
+        .buildMetadata().buildSessionFactory();
+```
+
+### Client communication with database for Hibernate 5
 
 To create Hibernate session, we need to add few service initiators from project.
 
@@ -185,7 +305,7 @@ final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
         }
 ```
 
-#### Hibernates configuration for application connection
+#### Hibernates configuration for application connection for Hibernate 5
 For correct client communication with database to hibernate configuration there need to be added few properties.
 
 _hibernate.cfg.xml_
@@ -215,7 +335,65 @@ There are two other components that need to be specified:
 And last but not least to have fewer things to set up we have to specify the property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
 By default configuration context used for session factory initialization is ["full"](#full).
 
-### Open connection for tenant
+### Client communication with database for Hibernate 6
+
+To create Hibernate session, we need to add few service initiators from project.
+
+```java
+import com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
+import com.github.starnowski.posmulten.postgresql.core.context.decorator.DefaultDecoratorContext;
+import com.github.starnowski.posmulten.postgresql.core.db.DatabaseOperationExecutor;
+import com.github.starnowski.posmulten.postgresql.core.db.operations.exceptions.ValidationDatabaseOperationsException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+ SessionFactory getPrimarySessionFactory() {
+    final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+            .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+            .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
+            .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
+            .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
+    //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
+            .configure() // configures settings from hibernate.cfg.xml
+            .build();
+    
+            SessionFactory factory = new MetadataSources(registry)
+            .buildMetadata().buildSessionFactory();
+            return factory;
+        }
+```
+
+#### Hibernates configuration for application connection for Hibernate 6
+For correct client communication with database to hibernate configuration there need to be added few properties.
+
+_hibernate.cfg.xml_
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <!-- ... -->
+        <property name="hibernate.multiTenancy">SCHEMA</property>
+        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider</property>
+        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl</property>
+        <!-- ... -->
+    </session-factory>
+</hibernate-configuration>
+```
+
+For correct behavior, the posmulten integration uses the "SCHEMA" strategy which is why it is required to specify this value for the "hibernate.multiTenancy" property.
+There are two other components that need to be specified:
+-   "com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
+-   "com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
+
+### Open connection for tenant for Hibernate
 Below there is an example how connect and execute operation for tenant "Ten1".
 
 ```java
@@ -395,6 +573,9 @@ In a situation when foreign and primary key shares the same tenant column which 
 The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding this constraint for foreign key.
 
 ## Properties
+
+**Important! Below properties currently are only available for module that integrates with Hibernate 5**
+
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
 |hibernate.posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
