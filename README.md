@@ -15,6 +15,8 @@
     * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
         * [Hibernates configuration for application connection for Hibernate 5](#hibernates-configuration-for-application-connection-for-hibernate-5)
         * [Open connection for tenant for Hibernate 5](#open-connection-for-tenant-for-hibernate-5)
+  * [Client communication with database for Hibernate 6](#client-communication-with-database-for-hibernate-6)
+        * [Hibernates configuration for application connection for Hibernate 6](#hibernates-configuration-for-application-connection-for-hibernate-6)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
         * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
@@ -406,6 +408,29 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
             return factory;
         }
 ```
+
+#### Hibernates configuration for application connection for Hibernate 6
+For correct client communication with database to hibernate configuration there need to be added few properties.
+
+_hibernate.cfg.xml_
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <!-- ... -->
+        <property name="hibernate.multiTenancy">SCHEMA</property>
+        <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider</property>
+        <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl</property>
+        <!-- ... -->
+    </session-factory>
+</hibernate-configuration>
+```
+
+For correct behavior, the posmulten integration uses the "SCHEMA" strategy which is why it is required to specify this value for the "hibernate.multiTenancy" property.
+There are two other components that need to be specified:
+-   "com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
+-   "com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
 
 ## Tenant column as part of the primary key in schema design
 
