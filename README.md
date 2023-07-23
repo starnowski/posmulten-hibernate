@@ -56,7 +56,7 @@ For Hibernate 5 add project to your pom.xml
         <dependency>
             <groupId>com.github.starnowski.posmulten.hibernate</groupId>
             <artifactId>hibernate5</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
 
         <!-- hibernate dependency -->
@@ -72,7 +72,7 @@ For Hibernate 6 add project to your pom.xml
         <dependency>
             <groupId>com.github.starnowski.posmulten.hibernate</groupId>
             <artifactId>hibernate6</artifactId>
-            <version>0.2.0-SNAPSHOT</version>
+            <version>0.2.0</version>
         </dependency>
 
         <!-- hibernate dependency -->
