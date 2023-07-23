@@ -14,9 +14,9 @@
         * [Hibernates SessionFactory for schema creation for Hibernate 6](#hibernates-sessionfactory-for-schema-creation-for-hibernate-6)
     * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
         * [Hibernates configuration for application connection for Hibernate 5](#hibernates-configuration-for-application-connection-for-hibernate-5)
-        * [Open connection for tenant for Hibernate 5](#open-connection-for-tenant-for-hibernate-5)
     * [Client communication with database for Hibernate 6](#client-communication-with-database-for-hibernate-6)
         * [Hibernates configuration for application connection for Hibernate 6](#hibernates-configuration-for-application-connection-for-hibernate-6)
+    * [Open connection for tenant for Hibernate](#open-connection-for-tenant-for-hibernate)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
         * [Hibernate issue related to overlapping foreign keys](#hibernate-issue-related-to-overlapping-foreign-keys)
@@ -335,45 +335,6 @@ There are two other components that need to be specified:
 And last but not least to have fewer things to set up we have to specify the property "posmulten.schema.builder.provider" with value ["lightweight"](#lightweight).
 By default configuration context used for session factory initialization is ["full"](#full).
 
-### Open connection for tenant for Hibernate 5
-Below there is an example how connect and execute operation for tenant "Ten1".
-
-```java
-
-    private Session openPrimarySession() {
-            return primarySessionFactory.openSession();
-    }
-
-    private User findUserByUsername(Session session, String username) {
-        Query<User> query = session.createQuery("FROM User as user WHERE user.username = :username", User.class);
-        query.setParameter("username", username);
-        return query.uniqueResult();
-    }
-
-    void test() {
-        setCurrentTenant("Ten1");
-        try (Session session = openPrimarySession()) {
-             // WHEN
-            User current =  findUserByUsername(session, "Simon");
-            
-            // THEN
-            assertThat(current).isNotNull();
-            assertThat(current.getUsername()).isEqualTo("Simon");
-        }
-            
-        setCurrentTenant(tt);
-        try (Session session = openPrimarySession()) {
-            Transaction transaction = session.beginTransaction();
-
-            // WHEN
-            int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'YYY' WHERE username = '%s'", "Simon")).executeUpdate();
-            session.flush();
-            transaction.commit();
-        }
-
-    }
-```
-
 ### Client communication with database for Hibernate 6
 
 To create Hibernate session, we need to add few service initiators from project.
@@ -431,6 +392,45 @@ For correct behavior, the posmulten integration uses the "SCHEMA" strategy which
 There are two other components that need to be specified:
 -   "com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider" as "hibernate.multi_tenant_connection_provider"
 -   "com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl" as "hibernate.tenant_identifier_resolver"
+
+### Open connection for tenant for Hibernate
+Below there is an example how connect and execute operation for tenant "Ten1".
+
+```java
+
+    private Session openPrimarySession() {
+            return primarySessionFactory.openSession();
+    }
+
+    private User findUserByUsername(Session session, String username) {
+        Query<User> query = session.createQuery("FROM User as user WHERE user.username = :username", User.class);
+        query.setParameter("username", username);
+        return query.uniqueResult();
+    }
+
+    void test() {
+        setCurrentTenant("Ten1");
+        try (Session session = openPrimarySession()) {
+             // WHEN
+            User current =  findUserByUsername(session, "Simon");
+            
+            // THEN
+            assertThat(current).isNotNull();
+            assertThat(current.getUsername()).isEqualTo("Simon");
+        }
+            
+        setCurrentTenant(tt);
+        try (Session session = openPrimarySession()) {
+            Transaction transaction = session.beginTransaction();
+
+            // WHEN
+            int numberOfDeleteRecords = session.createNativeQuery(String.format("UPDATE user_info SET password = 'YYY' WHERE username = '%s'", "Simon")).executeUpdate();
+            session.flush();
+            transaction.commit();
+        }
+
+    }
+```
 
 ## Tenant column as part of the primary key in schema design
 
