@@ -177,7 +177,61 @@ The multi-tenant table can have a relation to the non-multitenant table.
 #### Hibernates SessionFactory for schema creation for Hibernate 6
 
 Important! Module for integration with Hibernate 6 does not have implemented generation of DDL statements based on Java model right now.
-Instead of that it required to attach configuration file that 
+Instead of that it required to attach configuration file that below:
+```yaml
+default_schema: "{{template_schema_value}}"
+current_tenant_id_property_type:  "VARCHAR(255)"
+current_tenant_id_property: "pos.c.ten"
+get_current_tenant_id_function_name: "get_ten_id"
+set_current_tenant_id_function_name: "set_tenant"
+equals_current_tenant_identifier_function_name: "equals_cur_tenant"
+tenant_has_authorities_function_name: "_tenant_hast_auth"
+force_row_level_security_for_table_owner: false
+default_tenant_id_column: "tenant_id"
+grantee: "{{template_user_grantee}}"
+set_current_tenant_identifier_as_default_value_for_tenant_column_in_all_tables: true
+valid_tenant_value_constraint:
+  is_tenant_valid_function_name:  is_t_valid
+  is_tenant_valid_constraint_name:  "is_tenant_valid_constraint_sdfa"
+  tenant_identifiers_blacklist:
+    - invalid_tenant
+    - "Some strange tenant ID"
+tables:
+  - name: user_info
+    rls_policy:
+      name: users_table_rls_policy
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_user_exists"
+        pk_columns_name_to_type:
+          user_id: uuid
+  - name: user_role
+    rls_policy:
+      name: "user_role_table_rls_policy"
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_user_role_exists"
+        pk_columns_name_to_type:
+          id: bigint
+  - name: posts
+    rls_policy:
+      name: "posts_table_rls_policy"
+      tenant_column:  tenant_id
+      create_tenant_column_for_table: true
+      primary_key_definition:
+        name_for_function_that_checks_if_record_exists_in_table: "is_posts_exists"
+        pk_columns_name_to_type:
+          id: bigint
+    foreign_keys:
+      - constraint_name:  "user_info_tenant_constraint"
+        table_name: user_info
+        foreign_key_primary_key_columns_mappings:
+          userId:  user_id
+```
+To see full configuration go to [link](./hibernate6-functional-tests/src/test/resources/integration-tests-configuration.yaml)
+Besides that you need to 
 
 For Hibernate 6 use below code:
 
