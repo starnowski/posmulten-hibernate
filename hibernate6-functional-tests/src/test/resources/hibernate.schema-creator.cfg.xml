@@ -10,7 +10,6 @@
         <property name="format_sql">true</property>
         <property name="multiTenancy">NONE</property>
         <property name="archive.autodetection">class</property>
-        <property name="posmulten.grantee">posmhib4-user</property>
 
         <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Category" />
         <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Comment" />
