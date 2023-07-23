@@ -372,6 +372,41 @@ Below there is an example how connect and execute operation for tenant "Ten1".
     }
 ```
 
+### Client communication with database for Hibernate 6
+
+To create Hibernate session, we need to add few service initiators from project.
+
+```java
+import com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProviderInitiator;
+import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder;
+import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
+import com.github.starnowski.posmulten.postgresql.core.context.decorator.DefaultDecoratorContext;
+import com.github.starnowski.posmulten.postgresql.core.db.DatabaseOperationExecutor;
+import com.github.starnowski.posmulten.postgresql.core.db.operations.exceptions.ValidationDatabaseOperationsException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+ SessionFactory getPrimarySessionFactory() {
+    final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+            .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+            .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
+            .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
+            .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
+    //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
+            .configure() // configures settings from hibernate.cfg.xml
+            .build();
+    
+            SessionFactory factory = new MetadataSources(registry)
+            .buildMetadata().buildSessionFactory();
+            return factory;
+        }
+```
+
 ## Tenant column as part of the primary key in schema design
 
 The [basic usage](#basic-usage) section described schema example assumes that the tenant discriminator column is not part of the primary key.
