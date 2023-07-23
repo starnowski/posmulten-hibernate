@@ -15,7 +15,7 @@
     * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
         * [Hibernates configuration for application connection for Hibernate 5](#hibernates-configuration-for-application-connection-for-hibernate-5)
         * [Open connection for tenant for Hibernate 5](#open-connection-for-tenant-for-hibernate-5)
-  * [Client communication with database for Hibernate 6](#client-communication-with-database-for-hibernate-6)
+    * [Client communication with database for Hibernate 6](#client-communication-with-database-for-hibernate-6)
         * [Hibernates configuration for application connection for Hibernate 6](#hibernates-configuration-for-application-connection-for-hibernate-6)
 * [Tenant column as part of the primary key in schema design](#tenant-column-as-part-of-the-primary-key-in-schema-design)
     * [Java model with shared tenant column](#java-model-with-shared-tenant-column)
