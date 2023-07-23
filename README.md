@@ -229,9 +229,19 @@ tables:
         table_name: user_info
         foreign_key_primary_key_columns_mappings:
           userId:  user_id
+//...
 ```
 To see full configuration go to [link](./hibernate6-functional-tests/src/test/resources/integration-tests-configuration.yaml)
-Besides that you need to 
+Besides that you need to add maven dependency as below:
+
+```xml
+        <dependency>
+            <groupId>com.github.starnowski.posmulten.configuration</groupId>
+            <artifactId>configuration-yaml-interpreter</artifactId>
+            <version>0.7.2</version>
+            <scope>test</scope>
+        </dependency>
+```
 
 For Hibernate 6 use below code:
 
