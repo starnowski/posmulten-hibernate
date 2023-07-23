@@ -11,6 +11,7 @@
         * [Hibernates SessionFactory for schema creation for Hibernate 5](#hibernates-sessionfactory-for-schema-creation-for-hibernate-5)
         * [Hibernates configuration for schema generation for Hibernate 5](#hibernates-configuration-for-schema-generation-for-hibernate-5)
         * [Java model](#java-model)
+        * [Hibernates SessionFactory for schema creation for Hibernate 6](#hibernates-configuration-for-schema-generation-for-hibernate-6)
     * [Client communication with database for Hibernate 5](#client-communication-with-database-for-hibernate-5)
         * [Hibernates configuration for application connection for Hibernate 5](#hibernates-configuration-for-application-connection-for-hibernate-5)
         * [Open connection for tenant for Hibernate 5](#open-connection-for-tenant-for-hibernate-5)
@@ -242,8 +243,6 @@ Besides that you need to add maven dependency as below:
             <scope>test</scope>
         </dependency>
 ```
-
-For Hibernate 6 use below code:
 
 To create Hibernate session, we need to add few service initiators from project.
 
