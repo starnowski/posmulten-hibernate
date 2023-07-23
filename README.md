@@ -573,6 +573,9 @@ In a situation when foreign and primary key shares the same tenant column which 
 The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding this constraint for foreign key.
 
 ## Properties
+
+**Important! Below properties currently are only available for module that integrates with Hibernate 5**
+
 | Property name |   Type    |   Required  |   Description |
 |---------------|-----------|---------------|---------------|
 |hibernate.posmulten.grantee |    String  |   [full](#full) |   Database user to which Posmulten will generate constraints that provide the expected isolation level. This should be the same user used by the application for normal communication with the database   |
