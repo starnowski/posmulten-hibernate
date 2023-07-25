@@ -28,6 +28,7 @@ public class SharedSchemaConnectionProviderInitiatorAdapter extends ConnectionPr
     @Override
     public ConnectionProvider initiateService(Map configurationValues, ServiceRegistryImplementor registry) {
         DriverManagerConnectionProviderImpl connectionProvider = driverManagerConnectionProviderSupplier.get();
+        connectionProvider.injectServices(registry);
         connectionProvider.configure(configurationValues);
         return connectionProvider;
     }
