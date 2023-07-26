@@ -2,6 +2,7 @@ package com.github.starnowski.posmulten.hibernate.hibernate6.connection;
 
 import org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,10 +38,12 @@ public class SharedSchemaConnectionProviderInitiatorAdapterTest {
         Map<String, Object> configurationValues = new HashMap<>();
         configurationValues.put("key1", "value1");
         configurationValues.put("key2", "value2");
+        ServiceRegistryImplementor registry = Mockito.mock(ServiceRegistryImplementor.class);
 
-        ConnectionProvider result = initiator.initiateService(configurationValues, null);
+        ConnectionProvider result = initiator.initiateService(configurationValues, registry);
 
         assertEquals(DriverManagerConnectionProviderImpl.class, result.getClass());
         verify(driverManagerConnectionProvider, times(1)).configure(configurationValues);
+        verify(driverManagerConnectionProvider, times(1)).injectServices(registry);
     }
 }
