@@ -75,7 +75,6 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             def factory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
             defaultSharedSchemaContextBuilder.build() >> context
             context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> factory
-            factory.returnPreparedStatementThatSetCurrentTenant() >> preparedStatement
 
             serviceRegistry.getService(ConnectionProvider) >> connectionProvider
             serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider

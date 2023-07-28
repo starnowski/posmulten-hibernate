@@ -25,7 +25,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
     }
 
     public void releaseAnyConnection(Connection connection) throws SQLException {
-        connection.close();
+        connectionProvider.closeConnection(connection);
     }
 
     public Connection getConnection(String tenant) throws SQLException {
