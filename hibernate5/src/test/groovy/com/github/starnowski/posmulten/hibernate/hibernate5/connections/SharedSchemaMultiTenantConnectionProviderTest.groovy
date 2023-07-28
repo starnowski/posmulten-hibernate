@@ -56,4 +56,36 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             "7SDFA-IUDAF"   |   "some query"
             "some_id"       |   "proceduer(?)"
     }
+
+    def "should close connection by connectionProvider"()
+    {
+        given:
+            def serviceRegistry = Mock(ServiceRegistryImplementor)
+            def connectionProvider = Mock(ConnectionProvider)
+            def defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
+            def defaultSharedSchemaContextBuilder = Mock(DefaultSharedSchemaContextBuilder)
+            def currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            defaultSharedSchemaContextBuilderProvider.get() >> defaultSharedSchemaContextBuilder
+
+            def connection = Mock(Connection)
+            connectionProvider.getConnection() >> connection
+
+            def statement = Mock(PreparedStatement)
+            def context = Mock(ISharedSchemaContext)
+            def factory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            defaultSharedSchemaContextBuilder.build() >> context
+            context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> factory
+            factory.returnPreparedStatementThatSetCurrentTenant() >> preparedStatement
+
+            serviceRegistry.getService(ConnectionProvider) >> connectionProvider
+            serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+            serviceRegistry.getService(ICurrentTenantPreparedStatementSetter) >> currentTenantPreparedStatementSetter
+            tested.injectServices(serviceRegistry)
+
+        when:
+            tested.releaseAnyConnection(connection)
+
+        then:
+            1 * connectionProvider.closeConnection(connection)
+    }
 }
