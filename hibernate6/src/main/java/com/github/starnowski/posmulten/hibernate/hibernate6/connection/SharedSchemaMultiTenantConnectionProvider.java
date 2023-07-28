@@ -33,7 +33,7 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
     }
 
     public void releaseAnyConnection(Connection connection) throws SQLException {
-        connection.close();
+        connectionProvider.closeConnection(connection);
     }
 
     public Connection getConnection(String tenant) throws SQLException {
@@ -58,7 +58,7 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
     }
 
     public void releaseConnection(String tenant, Connection connection) throws SQLException {
-        connection.close();
+        connectionProvider.closeConnection(connection);
     }
 
     public boolean supportsAggressiveRelease() {
