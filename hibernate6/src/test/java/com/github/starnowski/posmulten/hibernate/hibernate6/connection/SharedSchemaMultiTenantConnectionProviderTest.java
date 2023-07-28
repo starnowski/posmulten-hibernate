@@ -81,7 +81,7 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         provider.releaseAnyConnection(connection);
 
         // Perform assertions or verify the behavior using Mockito
-        verify(connection).close();
+        verify(connectionProvider).closeConnection(connection);
     }
 
     @Test
@@ -111,7 +111,7 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         provider.releaseConnection(tenant, connection);
 
         // Perform assertions or verify the behavior using Mockito
-        verify(connection).close();
+        verify(connectionProvider).closeConnection(connection);
     }
 
     @Test

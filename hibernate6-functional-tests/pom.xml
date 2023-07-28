@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.starnowski.posmulten.hibernate</groupId>
         <artifactId>parent</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>hibernate6-functional-tests</artifactId>
