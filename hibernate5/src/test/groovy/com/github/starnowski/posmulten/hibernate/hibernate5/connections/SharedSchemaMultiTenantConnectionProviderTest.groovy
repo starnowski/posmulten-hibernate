@@ -87,4 +87,39 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
         then:
             1 * connectionProvider.closeConnection(connection)
     }
+
+    @Unroll
+    def "should close connection by connectionProvider for any tenant: #tenant"()
+    {
+        given:
+            def serviceRegistry = Mock(ServiceRegistryImplementor)
+            def connectionProvider = Mock(ConnectionProvider)
+            def defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
+            def defaultSharedSchemaContextBuilder = Mock(DefaultSharedSchemaContextBuilder)
+            def currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            defaultSharedSchemaContextBuilderProvider.get() >> defaultSharedSchemaContextBuilder
+
+            def connection = Mock(Connection)
+            connectionProvider.getConnection() >> connection
+
+            def statement = Mock(PreparedStatement)
+            def context = Mock(ISharedSchemaContext)
+            def factory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            defaultSharedSchemaContextBuilder.build() >> context
+            context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> factory
+
+            serviceRegistry.getService(ConnectionProvider) >> connectionProvider
+            serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+            serviceRegistry.getService(ICurrentTenantPreparedStatementSetter) >> currentTenantPreparedStatementSetter
+            tested.injectServices(serviceRegistry)
+
+        when:
+            tested.releaseConnection(tenant, connection)
+
+        then:
+            1 * connectionProvider.closeConnection(connection)
+
+        where:
+            tenant << ["t1", "some_cus"]
+    }
 }
