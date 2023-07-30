@@ -122,4 +122,32 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
         where:
             tenant << ["t1", "some_cus"]
     }
+
+    @Unroll
+    def "should get connection by connectionProvider and set default tenant id #defaultTenantId"()
+    {
+        given:
+            Connection connection = Mock(Connection)
+            ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory setCurrentTenantIdFunctionPreparedStatementInvocationFactory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            String statement = "XXX"
+            PreparedStatement preparedStatement = Mock(PreparedStatement)
+            ConnectionProvider connectionProvider = Mock(ConnectionProvider)
+            ISharedSchemaContext context = Mock(ISharedSchemaContext)
+            ICurrentTenantPreparedStatementSetter currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            tested = new SharedSchemaMultiTenantConnectionProvider(connectionProvider: connectionProvider, context: context, currentTenantPreparedStatementSetter: currentTenantPreparedStatementSetter, defaultTenantId: defaultTenantId)
+
+        when:
+            def result = tested.getAnyConnection()
+
+        then:
+            1 * connectionProvider.getConnection() >> connection
+            1 * context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> setCurrentTenantIdFunctionPreparedStatementInvocationFactory
+            1 * setCurrentTenantIdFunctionPreparedStatementInvocationFactory.returnPreparedStatementThatSetCurrentTenant() >> statement
+            1 * connection.prepareStatement(statement) >> preparedStatement
+            1 * currentTenantPreparedStatementSetter.setup(preparedStatement, defaultTenantId)
+            1 * preparedStatement.execute()
+
+        where:
+            defaultTenantId << ["t1", "some_cus"]
+    }
 }

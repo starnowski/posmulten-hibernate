@@ -8,9 +8,12 @@ public class HibernateContext {
         this.defaultTenantId = defaultTenantId;
     }
 
-    public static HibernateContextBuilder builder()
-    {
+    public static HibernateContextBuilder builder() {
         return new HibernateContextBuilder();
+    }
+
+    public String getDefaultTenantId() {
+        return defaultTenantId;
     }
 
     public static class HibernateContextBuilder {

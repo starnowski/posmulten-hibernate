@@ -1,5 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.hibernate5.connections;
 
+import com.github.starnowski.posmulten.hibernate.common.context.HibernateContext;
+import com.github.starnowski.posmulten.hibernate.hibernate5.context.Hibernate5ContextSupplier;
 import com.github.starnowski.posmulten.hibernate.hibernate5.context.IDefaultSharedSchemaContextBuilderProvider;
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
 import com.github.starnowski.posmulten.postgresql.core.context.exceptions.SharedSchemaContextBuilderException;
@@ -19,9 +21,25 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
     private ConnectionProvider connectionProvider;
     private ISharedSchemaContext context;
     private ICurrentTenantPreparedStatementSetter currentTenantPreparedStatementSetter;
+    private String defaultTenantId;
 
     public Connection getAnyConnection() throws SQLException {
-        return connectionProvider.getConnection();
+        Connection connection = connectionProvider.getConnection();
+        if (defaultTenantId != null){
+            ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
+            try {
+                PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
+                currentTenantPreparedStatementSetter.setup(statement, defaultTenantId);
+                statement.execute();
+            } catch (SQLException e) {
+                //TODO sanitize message with tenant id
+                throw new HibernateException(
+                        "Could not alter JDBC connection to specified (default) tenant",
+                        e
+                );
+            }
+        }
+        return connection;
     }
 
     public void releaseAnyConnection(Connection connection) throws SQLException {
@@ -36,11 +54,7 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
             currentTenantPreparedStatementSetter.setup(statement, tenant);
             statement.execute();
         } catch (SQLException e) {
-            //TODO sanitize message
-//            throw new HibernateException(
-//                    "Could not alter JDBC connection to specified tenant [" + tenant + "]",
-//                    e
-//            );
+            //TODO sanitize message with tenant id
             throw new HibernateException(
                     "Could not alter JDBC connection to specified tenant",
                     e
@@ -67,7 +81,6 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
 
     public void injectServices(ServiceRegistryImplementor serviceRegistry) {
         ConnectionProvider connectionProvider = serviceRegistry.getService(ConnectionProvider.class);
-        //TODO init default tenant (tenant for any)
         if (connectionProvider != null) {
             this.connectionProvider = connectionProvider;
         }
@@ -78,6 +91,10 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
             throw new RuntimeException(e);
         }
         this.currentTenantPreparedStatementSetter = serviceRegistry.getService(ICurrentTenantPreparedStatementSetter.class);
-        //TODO Resolve dummy tenant id
+        Hibernate5ContextSupplier hibernate5ContextSupplier = serviceRegistry.getService(Hibernate5ContextSupplier.class);
+        if (hibernate5ContextSupplier != null){
+            HibernateContext hibernateContext = hibernate5ContextSupplier.get();
+            defaultTenantId = hibernateContext.getDefaultTenantId();
+        }
     }
 }
