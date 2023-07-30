@@ -146,6 +146,7 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             1 * connection.prepareStatement(statement) >> preparedStatement
             1 * currentTenantPreparedStatementSetter.setup(preparedStatement, defaultTenantId)
             1 * preparedStatement.execute()
+            connection == result
 
         where:
             defaultTenantId << ["t1", "some_cus"]
