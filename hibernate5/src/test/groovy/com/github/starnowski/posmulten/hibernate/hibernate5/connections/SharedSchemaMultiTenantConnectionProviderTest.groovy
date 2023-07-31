@@ -173,7 +173,7 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             0 * setCurrentTenantIdFunctionPreparedStatementInvocationFactory._
             0 * connection._
             0 * currentTenantPreparedStatementSetter._
-            0 * preparedStatement.execute()
+            0 * preparedStatement._
             connection == result
     }
 }
