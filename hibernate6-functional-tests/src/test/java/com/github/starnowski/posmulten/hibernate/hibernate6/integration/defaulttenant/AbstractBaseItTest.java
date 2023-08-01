@@ -41,7 +41,8 @@ public class AbstractBaseItTest {
                 .addInitiator(new Hibernate6ContextSupplierInitiator(HibernateContext.builder().withDefaultTenantId(INVALID_TENANT).build()))
                 .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
                         .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
-                                .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
+                                .put("{{template_user_grantee}}", "posmhib4-user")
+                                .put("{{invalid_tenant}}", INVALID_TENANT).build()).build()))
 //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
@@ -55,7 +56,9 @@ public class AbstractBaseItTest {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
                         .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
-                                .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
+                                .put("{{template_user_grantee}}", "posmhib4-user")
+                                .put("{{invalid_tenant}}", INVALID_TENANT)
+                                .build()).build()))
                 .configure("hibernate.schema-creator.cfg.xml")
                 .build();
 
