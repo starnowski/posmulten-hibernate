@@ -8,6 +8,8 @@ import com.github.starnowski.posmulten.postgresql.core.rls.function.ISetCurrentT
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.service.Service;
+import org.hibernate.service.UnknownServiceException;
 import org.hibernate.service.spi.ServiceRegistryAwareService;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
@@ -102,7 +104,7 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
         }
         SharedSchemaContextProvider sharedSchemaContextProvider = serviceRegistry.getService(SharedSchemaContextProvider.class);
         this.context = sharedSchemaContextProvider.getSharedSchemaContext();
-        Hibernate6ContextSupplier hibernate5ContextSupplier = serviceRegistry.getService(Hibernate6ContextSupplier.class);
+        Hibernate6ContextSupplier hibernate5ContextSupplier = getServiceOrNullIfNotExists(serviceRegistry, Hibernate6ContextSupplier.class);
         if (hibernate5ContextSupplier != null) {
             HibernateContext hibernateContext = hibernate5ContextSupplier.get();
             defaultTenantId = hibernateContext.getDefaultTenantId();
@@ -123,5 +125,13 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
 
     void setContext(ISharedSchemaContext context) {
         this.context = context;
+    }
+
+    private <R extends Service> R getServiceOrNullIfNotExists(ServiceRegistryImplementor serviceRegistry, Class<R> serviceClass) {
+        try {
+            return serviceRegistry.getService(serviceClass);
+        } catch (UnknownServiceException unknownServiceException) {
+            return null;
+        }
     }
 }
