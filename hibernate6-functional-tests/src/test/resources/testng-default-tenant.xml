@@ -2,7 +2,7 @@
 <suite name="Integration tests" verbose="1">
     <test name="should execute operation per tenants">
         <classes>
-            <class name="com.github.starnowski.posmulten.hibernate.integration.defaulttenant.CRUDItTest" />
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.CRUDItTest" />
         </classes>
     </test>
 </suite>
