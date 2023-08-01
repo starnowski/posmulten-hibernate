@@ -9,6 +9,8 @@ import com.github.starnowski.posmulten.postgresql.core.rls.function.ISetCurrentT
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
+import org.hibernate.service.Service;
+import org.hibernate.service.UnknownServiceException;
 import org.hibernate.service.spi.ServiceRegistryAwareService;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
@@ -91,10 +93,18 @@ public class SharedSchemaMultiTenantConnectionProvider implements MultiTenantCon
             throw new RuntimeException(e);
         }
         this.currentTenantPreparedStatementSetter = serviceRegistry.getService(ICurrentTenantPreparedStatementSetter.class);
-        Hibernate5ContextSupplier hibernate5ContextSupplier = serviceRegistry.getService(Hibernate5ContextSupplier.class);
+        Hibernate5ContextSupplier hibernate5ContextSupplier = getServiceOrNullIfNotExists(serviceRegistry, Hibernate5ContextSupplier.class);
         if (hibernate5ContextSupplier != null){
             HibernateContext hibernateContext = hibernate5ContextSupplier.get();
             defaultTenantId = hibernateContext.getDefaultTenantId();
+        }
+    }
+
+    private <R extends Service> R getServiceOrNullIfNotExists(ServiceRegistryImplementor serviceRegistry, Class<R> serviceClass){
+        try {
+            return serviceRegistry.getService(serviceClass);
+        } catch (UnknownServiceException unknownServiceException){
+            return null;
         }
     }
 }
