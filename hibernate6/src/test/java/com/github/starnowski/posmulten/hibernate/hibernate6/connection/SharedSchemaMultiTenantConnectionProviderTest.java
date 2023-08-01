@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class SharedSchemaMultiTenantConnectionProviderTest {
@@ -185,6 +186,27 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         assertSame(result, connection);
         verify(preparedStatement, times(1)).setString(1, defaultTenantId);
         verify(preparedStatement, times(1)).execute();
+    }
+
+    @Test
+    void testGetAnyConnectionWithoutSettingTenantWhenNoneDefaultTenantIdIsSpecified() throws SQLException {
+        // GIVEN
+        provider = new SharedSchemaMultiTenantConnectionProvider();
+        provider.setDefaultTenantId(null);
+        provider.setConnectionProvider(connectionProvider);
+        provider.setContext(sharedSchemaContext);
+        Connection connection = mock(Connection.class);
+        when(connectionProvider.getConnection()).thenReturn(connection);
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+
+        // WHEN
+        Connection result = provider.getAnyConnection();
+
+        // THEN
+        assertSame(result, connection);
+        verify(connection, times(0)).prepareStatement(anyString());
     }
 
     private static class SomeClass {
