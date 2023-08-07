@@ -574,6 +574,15 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 
 ## Properties
 
+**General properties**
+
+Below properties can be applied in both modules for hibernate 5 and hibernate 6
+
+| Property name | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|---------------|---------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|hibernate.posmulten.tenant.id.default.id | Boolean | No       | Default tenant id which is going to be set when acquiring database connection. It is not necessary to set this property because the connection at the end is going to be set for the correct tenant. It is worth to set passed value together with hibernate.posmulten.tenant.id.values.blacklist or [list of invalid tenant identifier values](https://github.com/starnowski/posmulten/tree/master/configuration-parent/configuration-yaml-interpreter#setting-a-list-of-invalid-tenant-identifier-values) |
+
+
 **Important! Below properties currently are only available for module that integrates with Hibernate 5**
 
 | Property name |   Type    |   Required  |   Description |
