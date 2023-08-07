@@ -2,11 +2,17 @@ package com.github.starnowski.posmulten.hibernate.common.context;
 
 import java.util.Map;
 
-public class PropertiesHibernateContextFactory {
-    //TODO
+import static com.github.starnowski.posmulten.hibernate.common.Properties.DEFAULT_TENANT_ID;
 
-    public HibernateContext build(Map map)
-    {
-        return null;
+public class PropertiesHibernateContextFactory {
+
+    public HibernateContext build(Map map) {
+        HibernateContext.HibernateContextBuilder builder = HibernateContext.builder();
+        if (map != null) {
+            if (map.containsKey(DEFAULT_TENANT_ID)) {
+                builder.withDefaultTenantId((String) map.get(DEFAULT_TENANT_ID));
+            }
+        }
+        return builder.build();
     }
 }

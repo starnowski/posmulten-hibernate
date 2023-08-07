@@ -1,11 +1,11 @@
 package com.github.starnowski.posmulten.hibernate.common.context
 
-import com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder
+
 import spock.lang.Unroll
 
-class PropertiesHibernateContextFactoryTest extends spock.lang.Specification {
+import static com.github.starnowski.posmulten.hibernate.test.utils.MapBuilder.mapBuilder
 
-    //hibernate.posmulten.tenant.id.default.id
+class PropertiesHibernateContextFactoryTest extends spock.lang.Specification {
 
     @Unroll
     def "should set correct default tenant id #defaultTenant for map: #map"(){
@@ -19,7 +19,9 @@ class PropertiesHibernateContextFactoryTest extends spock.lang.Specification {
             result.getDefaultTenantId() == defaultTenant
 
         where:
-            map || defaultTenant
-        MapBuilder.mapBuilder().put("")
+            map                                                                             || defaultTenant
+            mapBuilder().put("hibernate.posmulten.tenant.id.default.id", "XXX").build()     || "XXX"
+            mapBuilder().put("hibernate.posmulten.tenant.id.default.id", "test1").build()   || "test1"
+            mapBuilder().build()                                                            || null
     }
 }
