@@ -1,6 +1,7 @@
 package com.github.starnowski.posmulten.hibernate.hibernate5.context
 
 import com.github.starnowski.posmulten.hibernate.common.context.HibernateContext
+import com.github.starnowski.posmulten.hibernate.common.context.PropertiesHibernateContextFactory
 import org.hibernate.service.spi.ServiceRegistryImplementor
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -40,5 +41,21 @@ class Hibernate5ContextSupplierInitiatorSpec extends Specification {
 
         then:
             serviceInitiated == Hibernate5ContextSupplier
+    }
+
+    def "test should return hibernate context created based on properties"()
+    {
+        given:
+            Map<String, Object> map = new HashMap<>()
+            HibernateContext hibernateContext = HibernateContext.builder().build()
+            PropertiesHibernateContextFactory propertiesHibernateContextFactory = Mock(PropertiesHibernateContextFactory)
+            Hibernate5ContextSupplierInitiator tested = new Hibernate5ContextSupplierInitiator(null, propertiesHibernateContextFactory)
+
+        when:
+            Hibernate5ContextSupplier result = tested.initiateService(map, null)
+
+        then:
+            1 * propertiesHibernateContextFactory.build(map) >> hibernateContext
+            hibernateContext == result.get()
     }
 }
