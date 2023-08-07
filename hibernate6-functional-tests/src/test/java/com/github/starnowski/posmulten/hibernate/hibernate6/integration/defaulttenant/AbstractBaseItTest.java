@@ -1,6 +1,5 @@
 package com.github.starnowski.posmulten.hibernate.hibernate6.integration.defaulttenant;
 
-import com.github.starnowski.posmulten.hibernate.common.context.HibernateContext;
 import com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaConnectionProviderInitiatorAdapter;
 import com.github.starnowski.posmulten.hibernate.hibernate6.context.Hibernate6ContextSupplierInitiator;
 import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider;
@@ -38,13 +37,13 @@ public class AbstractBaseItTest {
     protected SessionFactory getPrimarySessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
-                .addInitiator(new Hibernate6ContextSupplierInitiator(HibernateContext.builder().withDefaultTenantId(INVALID_TENANT).build()))
+                .addInitiator(new Hibernate6ContextSupplierInitiator())
                 .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
                         .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
                                 .put("{{template_user_grantee}}", "posmhib4-user")
                                 .put("{{invalid_tenant}}", INVALID_TENANT).build()).build()))
 //                .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
-                .configure() // configures settings from hibernate.cfg.xml
+                .configure("hibernate-default-tenant.cfg.xml")
                 .build();
 
         SessionFactory factory = new MetadataSources(registry)
