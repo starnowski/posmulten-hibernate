@@ -1,10 +1,12 @@
 package com.github.starnowski.posmulten.hibernate.hibernate6.context;
 
 import com.github.starnowski.posmulten.hibernate.common.context.HibernateContext;
+import com.github.starnowski.posmulten.hibernate.common.context.PropertiesHibernateContextFactory;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
@@ -48,6 +50,23 @@ public class Hibernate6ContextSupplierInitiatorTest {
 
         // THEN
         assertEquals(Hibernate6ContextSupplier.class, serviceInitiated);
+    }
+
+    @Test
+    public void testShouldReturnHibernateContextCreatedBasedOnProperties()
+    {
+        // GIVEN
+        Map<String, Object> map = new HashMap<>();
+        HibernateContext hibernateContext = HibernateContext.builder().build();
+        PropertiesHibernateContextFactory propertiesHibernateContextFactory = Mockito.mock(PropertiesHibernateContextFactory.class);
+        initiator = new Hibernate6ContextSupplierInitiator(null, propertiesHibernateContextFactory);
+        Mockito.when(propertiesHibernateContextFactory.build(map)).thenReturn(hibernateContext);
+
+        // WHEN
+        Hibernate6ContextSupplier result = initiator.initiateService(map, null);
+
+        // THEN
+        assertEquals(hibernateContext, result.get());
     }
 }
 
