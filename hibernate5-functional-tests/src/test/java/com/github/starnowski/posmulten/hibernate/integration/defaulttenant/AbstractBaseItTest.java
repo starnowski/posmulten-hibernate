@@ -1,6 +1,5 @@
 package com.github.starnowski.posmulten.hibernate.integration.defaulttenant;
 
-import com.github.starnowski.posmulten.hibernate.common.context.HibernateContext;
 import com.github.starnowski.posmulten.hibernate.hibernate5.connections.CurrentTenantPreparedStatementSetterInitiator;
 import com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaConnectionProviderInitiatorAdapter;
 import com.github.starnowski.posmulten.hibernate.hibernate5.context.DefaultSharedSchemaContextBuilderMetadataEnricherProviderInitiator;
@@ -30,8 +29,8 @@ public class AbstractBaseItTest {
                 .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
                 .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
                 .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
-                .addInitiator(new Hibernate5ContextSupplierInitiator(HibernateContext.builder().withDefaultTenantId(INVALID_TENANT).build()))
-                .configure() // configures settings from hibernate.cfg.xml
+                .addInitiator(new Hibernate5ContextSupplierInitiator())
+                .configure("hibernate-default-tenant.cfg.xml")
                 .build();
 
         SessionFactory factory = new MetadataSources(registry)
