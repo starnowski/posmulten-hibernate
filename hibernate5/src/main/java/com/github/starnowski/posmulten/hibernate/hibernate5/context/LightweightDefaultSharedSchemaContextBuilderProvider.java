@@ -8,7 +8,7 @@ import com.github.starnowski.posmulten.postgresql.core.context.enrichers.SetCurr
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.*;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.*;
 
 public class LightweightDefaultSharedSchemaContextBuilderProvider implements IDefaultSharedSchemaContextBuilderProvider {
 

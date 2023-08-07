@@ -14,7 +14,7 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.IGNORE_FOREIGN_KEY_CONSTRAINT;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.IGNORE_FOREIGN_KEY_CONSTRAINT;
 
 public class ForeignKeySharedSchemaContextBuilderTableMetadataEnricher implements IDefaultSharedSchemaContextBuilderTableMetadataEnricher {
 

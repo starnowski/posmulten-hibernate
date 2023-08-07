@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.hibernate5;
+package com.github.starnowski.posmulten.hibernate.common;
 
 public class Properties {
     public static final int MAXIMUM_IDENTIFIER_LENGTH = 63;

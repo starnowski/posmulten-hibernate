@@ -1,6 +1,6 @@
 package com.github.starnowski.posmulten.hibernate.hibernate5.context
 
-
+import com.github.starnowski.posmulten.hibernate.common.Properties
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -71,7 +71,7 @@ class DefaultSharedSchemaContextBuilderProviderTest extends Specification {
 
         where:
             map                                                                                         ||  maxLength
-            new HashMap<>()                                                                             ||  com.github.starnowski.posmulten.hibernate.hibernate5.Properties.MAXIMUM_IDENTIFIER_LENGTH
+            new HashMap<>()                                                                             ||  Properties.MAXIMUM_IDENTIFIER_LENGTH
             mapBuilder().put("hibernate.posmulten.maximum.identifier.length", "13").build()             ||  13
             mapBuilder().put("hibernate.posmulten.maximum.identifier.length", "176").build()            ||  176
     }
