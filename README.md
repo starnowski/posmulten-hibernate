@@ -296,6 +296,7 @@ final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
         .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
         .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
         .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
+        .addInitiator(new Hibernate5ContextSupplierInitiator()) // Not required
         .configure() // configures settings from hibernate.cfg.xml
         .build();
 
@@ -357,6 +358,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  SessionFactory getPrimarySessionFactory() {
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+            .addInitiator(new Hibernate6ContextSupplierInitiator())//No required
             .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
             .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
             .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
@@ -576,7 +578,8 @@ The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding
 
 **General properties**
 
-Below properties can be applied in both modules for hibernate 5 and hibernate 6
+Below properties can be applied in both modules for hibernate 5 and hibernate 6.
+It is required to add object Hibernate5ContextSupplierInitiator (hibernate5) or Hibernate6ContextSupplierInitiator (hibernate6) during initialization object of type StandardServiceRegistry
 
 | Property name | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 |---------------|---------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
