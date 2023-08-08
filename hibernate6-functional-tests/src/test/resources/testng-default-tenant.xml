@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Integration tests" verbose="1">
+    <test name="should execute operation per tenants">
+        <classes>
+            <class name="com.github.starnowski.posmulten.hibernate.hibernate6.integration.CRUDItTest" />
+        </classes>
+    </test>
+</suite>

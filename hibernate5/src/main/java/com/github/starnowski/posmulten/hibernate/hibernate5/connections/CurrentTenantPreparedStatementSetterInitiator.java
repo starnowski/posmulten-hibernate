@@ -5,8 +5,8 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.TENANT_COLUMN_JAVA_TYPE;
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.TENANT_COLUMN_JAVA_TYPE;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER;
 
 public class CurrentTenantPreparedStatementSetterInitiator implements StandardServiceInitiator<ICurrentTenantPreparedStatementSetter> {
     @Override

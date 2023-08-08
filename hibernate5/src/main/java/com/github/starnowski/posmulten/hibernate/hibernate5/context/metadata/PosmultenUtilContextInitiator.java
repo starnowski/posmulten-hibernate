@@ -6,8 +6,8 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.MAXIMUM_IDENTIFIER_LENGTH;
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.MAXIMUM_IDENTIFIER_LENGTH;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.POSMULTEN_MAXIMUM_IDENTIFIER_LENGTH;
 
 public class PosmultenUtilContextInitiator implements StandardServiceInitiator<PosmultenUtilContext> {
     @Override

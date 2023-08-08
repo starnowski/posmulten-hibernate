@@ -4,7 +4,7 @@ import com.github.starnowski.posmulten.postgresql.core.context.DefaultSharedSche
 
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.*;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.*;
 import static java.util.Arrays.asList;
 
 public class DefaultSharedSchemaContextBuilderProvider implements IDefaultSharedSchemaContextBuilderProvider {
