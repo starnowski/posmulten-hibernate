@@ -5,7 +5,7 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.SCHEMA_BUILDER_PROVIDER;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.SCHEMA_BUILDER_PROVIDER;
 
 public class DefaultSharedSchemaContextBuilderProviderInitiator implements StandardServiceInitiator<IDefaultSharedSchemaContextBuilderProvider> {
     @Override

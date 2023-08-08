@@ -296,6 +296,7 @@ final StandardServiceRegistry registry=new StandardServiceRegistryBuilder()
         .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
         .addInitiator(new DefaultSharedSchemaContextBuilderProviderInitiator())
         .addInitiator(new CurrentTenantPreparedStatementSetterInitiator())
+        .addInitiator(new Hibernate5ContextSupplierInitiator()) // Not required
         .configure() // configures settings from hibernate.cfg.xml
         .build();
 
@@ -357,6 +358,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  SessionFactory getPrimarySessionFactory() {
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .addInitiator(new SharedSchemaConnectionProviderInitiatorAdapter())
+            .addInitiator(new Hibernate6ContextSupplierInitiator())//No required
             .addInitiator(new SharedSchemaContextProviderInitiator(this.getClass().getResource("/integration-tests-configuration.yaml").getPath(), DefaultDecoratorContext.builder()
             .withReplaceCharactersMap(MapBuilder.mapBuilder().put("{{template_schema_value}}", "public")
             .put("{{template_user_grantee}}", "posmhib4-user").build()).build()))
@@ -573,6 +575,16 @@ In a situation when foreign and primary key shares the same tenant column which 
 The "posmulten.foreignkey.constraint.ignore" property allows to ignore of adding this constraint for foreign key.
 
 ## Properties
+
+**General properties**
+
+Below properties can be applied in both modules for hibernate 5 and hibernate 6.
+It is required to add object Hibernate5ContextSupplierInitiator (hibernate5) or Hibernate6ContextSupplierInitiator (hibernate6) during initialization object of type StandardServiceRegistry
+
+| Property name | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|---------------|---------|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|hibernate.posmulten.tenant.id.default.id | Boolean | No       | Default tenant id which is going to be set when acquiring database connection. It is not necessary to set this property because the connection at the end is going to be set for the correct tenant. It is worth to set passed value together with hibernate.posmulten.tenant.id.values.blacklist or [list of invalid tenant identifier values](https://github.com/starnowski/posmulten/tree/master/configuration-parent/configuration-yaml-interpreter#setting-a-list-of-invalid-tenant-identifier-values) |
+
 
 **Important! Below properties currently are only available for module that integrates with Hibernate 5**
 

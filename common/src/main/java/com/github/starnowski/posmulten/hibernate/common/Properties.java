@@ -1,4 +1,4 @@
-package com.github.starnowski.posmulten.hibernate.hibernate5;
+package com.github.starnowski.posmulten.hibernate.common;
 
 public class Properties {
     public static final int MAXIMUM_IDENTIFIER_LENGTH = 63;
@@ -9,6 +9,7 @@ public class Properties {
     public static final String TENANT_ID_INVALID_VALUES = "hibernate.posmulten.tenant.id.values.blacklist";
     //TODO Use dummy value when it was passed and check if value is one of TENANT_ID_INVALID_VALUES values
     public static final String TENANT_ID_DUMMY_VALUE = "hibernate.posmulten.tenant.id.value.dummy";
+    public static final String DEFAULT_TENANT_ID = "hibernate.posmulten.tenant.id.default.id";
     public static final String TENANT_COLUMN_JAVA_TYPE = "hibernate.posmulten.tenant.column.java.type";
     public static final String TENANT_COLUMN_JAVA_TYPE_CUSTOM_RESOLVER = "hibernate.posmulten.tenant.column.java.type.custom.resolver";
     public static final String SCHEMA_BUILDER_PROVIDER = "hibernate.posmulten.schema.builder.provider";
