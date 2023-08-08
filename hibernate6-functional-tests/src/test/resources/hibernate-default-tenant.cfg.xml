@@ -12,6 +12,7 @@
         <property name="hibernate.multi_tenant_connection_provider">com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider</property>
         <property name="hibernate.tenant_identifier_resolver">com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl</property>
         <property name="archive.autodetection">class</property>
+        <property name="posmulten.tenant.id.default.id">invalid_tenant_1</property>
 
         <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Category" />
         <mapping class="com.github.starnowski.posmulten.hibernate.hibernate6.model.Comment" />

@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class SharedSchemaMultiTenantConnectionProviderTest {
@@ -31,9 +32,9 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         factory = mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory.class);
         ServiceRegistryImplementor serviceRegistryImplementor = mock(ServiceRegistryImplementor.class);
         SharedSchemaContextProvider sscp = mock(SharedSchemaContextProvider.class);
-        Mockito.when(serviceRegistryImplementor.getService(SharedSchemaContextProvider.class)).thenReturn(sscp);
-        Mockito.when(serviceRegistryImplementor.getService(ConnectionProvider.class)).thenReturn(connectionProvider);
-        Mockito.when(sscp.getSharedSchemaContext()).thenReturn(sharedSchemaContext);
+        when(serviceRegistryImplementor.getService(SharedSchemaContextProvider.class)).thenReturn(sscp);
+        when(serviceRegistryImplementor.getService(ConnectionProvider.class)).thenReturn(connectionProvider);
+        when(sscp.getSharedSchemaContext()).thenReturn(sharedSchemaContext);
         provider.injectServices(serviceRegistryImplementor);
 
         when(sharedSchemaContext.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory())
@@ -81,7 +82,7 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         provider.releaseAnyConnection(connection);
 
         // Perform assertions or verify the behavior using Mockito
-        verify(connection).close();
+        verify(connectionProvider).closeConnection(connection);
     }
 
     @Test
@@ -111,7 +112,7 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         provider.releaseConnection(tenant, connection);
 
         // Perform assertions or verify the behavior using Mockito
-        verify(connection).close();
+        verify(connectionProvider).closeConnection(connection);
     }
 
     @Test
@@ -160,6 +161,52 @@ class SharedSchemaMultiTenantConnectionProviderTest {
         // Perform assertions or verify the behavior using Mockito
         assertEquals(cp, provider.getConnectionProvider());
         assertEquals(context, provider.getContext());
+    }
+
+    @Test
+    void testGetAnyConnectionWhenDefaultTenantIdIsSpecified() throws SQLException {
+        // GIVEN
+        String defaultTenantId = "testXXX";
+        provider = new SharedSchemaMultiTenantConnectionProvider();
+        provider.setDefaultTenantId(defaultTenantId);
+        provider.setConnectionProvider(connectionProvider);
+        provider.setContext(sharedSchemaContext);
+        Connection connection = mock(Connection.class);
+        when(connectionProvider.getConnection()).thenReturn(connection);
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        String statement = "SELECT for test ...";
+        when(factory.returnPreparedStatementThatSetCurrentTenant()).thenReturn(statement);
+        when(connection.prepareStatement(statement)).thenReturn(preparedStatement);
+
+
+        // WHEN
+        Connection result = provider.getAnyConnection();
+
+        // THEN
+        assertSame(result, connection);
+        verify(preparedStatement, times(1)).setString(1, defaultTenantId);
+        verify(preparedStatement, times(1)).execute();
+    }
+
+    @Test
+    void testGetAnyConnectionWithoutSettingTenantWhenNoneDefaultTenantIdIsSpecified() throws SQLException {
+        // GIVEN
+        provider = new SharedSchemaMultiTenantConnectionProvider();
+        provider.setDefaultTenantId(null);
+        provider.setConnectionProvider(connectionProvider);
+        provider.setContext(sharedSchemaContext);
+        Connection connection = mock(Connection.class);
+        when(connectionProvider.getConnection()).thenReturn(connection);
+        PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
+        when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+
+        // WHEN
+        Connection result = provider.getAnyConnection();
+
+        // THEN
+        assertSame(result, connection);
+        verify(connection, times(0)).prepareStatement(anyString());
     }
 
     private static class SomeClass {

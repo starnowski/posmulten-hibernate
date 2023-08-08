@@ -56,4 +56,124 @@ class SharedSchemaMultiTenantConnectionProviderTest extends Specification {
             "7SDFA-IUDAF"   |   "some query"
             "some_id"       |   "proceduer(?)"
     }
+
+    def "should close connection by connectionProvider"()
+    {
+        given:
+            def serviceRegistry = Mock(ServiceRegistryImplementor)
+            def connectionProvider = Mock(ConnectionProvider)
+            def defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
+            def defaultSharedSchemaContextBuilder = Mock(DefaultSharedSchemaContextBuilder)
+            def currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            defaultSharedSchemaContextBuilderProvider.get() >> defaultSharedSchemaContextBuilder
+
+            def connection = Mock(Connection)
+            connectionProvider.getConnection() >> connection
+
+            def statement = Mock(PreparedStatement)
+            def context = Mock(ISharedSchemaContext)
+            def factory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            defaultSharedSchemaContextBuilder.build() >> context
+            context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> factory
+
+            serviceRegistry.getService(ConnectionProvider) >> connectionProvider
+            serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+            serviceRegistry.getService(ICurrentTenantPreparedStatementSetter) >> currentTenantPreparedStatementSetter
+            tested.injectServices(serviceRegistry)
+
+        when:
+            tested.releaseAnyConnection(connection)
+
+        then:
+            1 * connectionProvider.closeConnection(connection)
+    }
+
+    @Unroll
+    def "should close connection by connectionProvider for any tenant: #tenant"()
+    {
+        given:
+            def serviceRegistry = Mock(ServiceRegistryImplementor)
+            def connectionProvider = Mock(ConnectionProvider)
+            def defaultSharedSchemaContextBuilderProvider = Mock(IDefaultSharedSchemaContextBuilderProvider)
+            def defaultSharedSchemaContextBuilder = Mock(DefaultSharedSchemaContextBuilder)
+            def currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            defaultSharedSchemaContextBuilderProvider.get() >> defaultSharedSchemaContextBuilder
+
+            def connection = Mock(Connection)
+            connectionProvider.getConnection() >> connection
+
+            def statement = Mock(PreparedStatement)
+            def context = Mock(ISharedSchemaContext)
+            def factory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            defaultSharedSchemaContextBuilder.build() >> context
+            context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> factory
+
+            serviceRegistry.getService(ConnectionProvider) >> connectionProvider
+            serviceRegistry.getService(IDefaultSharedSchemaContextBuilderProvider) >> defaultSharedSchemaContextBuilderProvider
+            serviceRegistry.getService(ICurrentTenantPreparedStatementSetter) >> currentTenantPreparedStatementSetter
+            tested.injectServices(serviceRegistry)
+
+        when:
+            tested.releaseConnection(tenant, connection)
+
+        then:
+            1 * connectionProvider.closeConnection(connection)
+
+        where:
+            tenant << ["t1", "some_cus"]
+    }
+
+    @Unroll
+    def "should get connection by connectionProvider and set default tenant id #defaultTenantId"()
+    {
+        given:
+            Connection connection = Mock(Connection)
+            ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory setCurrentTenantIdFunctionPreparedStatementInvocationFactory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            String statement = "XXX"
+            PreparedStatement preparedStatement = Mock(PreparedStatement)
+            ConnectionProvider connectionProvider = Mock(ConnectionProvider)
+            ISharedSchemaContext context = Mock(ISharedSchemaContext)
+            ICurrentTenantPreparedStatementSetter currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            tested = new SharedSchemaMultiTenantConnectionProvider(connectionProvider: connectionProvider, context: context, currentTenantPreparedStatementSetter: currentTenantPreparedStatementSetter, defaultTenantId: defaultTenantId)
+
+        when:
+            def result = tested.getAnyConnection()
+
+        then:
+            1 * connectionProvider.getConnection() >> connection
+            1 * context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory() >> setCurrentTenantIdFunctionPreparedStatementInvocationFactory
+            1 * setCurrentTenantIdFunctionPreparedStatementInvocationFactory.returnPreparedStatementThatSetCurrentTenant() >> statement
+            1 * connection.prepareStatement(statement) >> preparedStatement
+            1 * currentTenantPreparedStatementSetter.setup(preparedStatement, defaultTenantId)
+            1 * preparedStatement.execute()
+            connection == result
+
+        where:
+            defaultTenantId << ["t1", "some_cus"]
+    }
+
+    def "should get connection by connectionProvider and not to set default tenant id when none is specified"()
+    {
+        given:
+            Connection connection = Mock(Connection)
+            ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory setCurrentTenantIdFunctionPreparedStatementInvocationFactory = Mock(ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory)
+            String statement = "XXX"
+            PreparedStatement preparedStatement = Mock(PreparedStatement)
+            ConnectionProvider connectionProvider = Mock(ConnectionProvider)
+            ISharedSchemaContext context = Mock(ISharedSchemaContext)
+            ICurrentTenantPreparedStatementSetter currentTenantPreparedStatementSetter = Mock(ICurrentTenantPreparedStatementSetter)
+            tested = new SharedSchemaMultiTenantConnectionProvider(connectionProvider: connectionProvider, context: context, currentTenantPreparedStatementSetter: currentTenantPreparedStatementSetter, defaultTenantId: null)
+
+        when:
+            def result = tested.getAnyConnection()
+
+        then:
+            1 * connectionProvider.getConnection() >> connection
+            0 * context._
+            0 * setCurrentTenantIdFunctionPreparedStatementInvocationFactory._
+            0 * connection._
+            0 * currentTenantPreparedStatementSetter._
+            0 * preparedStatement._
+            connection == result
+    }
 }

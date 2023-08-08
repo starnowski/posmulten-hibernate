@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.METADATA_TABLE_ADDITIONAL_ENRICHERS;
+import static com.github.starnowski.posmulten.hibernate.common.Properties.METADATA_TABLE_ADDITIONAL_ENRICHERS;
 
 public class DefaultSharedSchemaContextBuilderMetadataEnricher implements IDefaultSharedSchemaContextBuilderMetadataEnricher {
 

@@ -3,7 +3,7 @@ package com.github.starnowski.posmulten.hibernate.hibernate5.context.metadata
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.github.starnowski.posmulten.hibernate.hibernate5.Properties.MAXIMUM_IDENTIFIER_LENGTH
+import static com.github.starnowski.posmulten.hibernate.common.Properties.MAXIMUM_IDENTIFIER_LENGTH
 
 class PosmultenUtilContextInitiatorTest extends Specification {
 

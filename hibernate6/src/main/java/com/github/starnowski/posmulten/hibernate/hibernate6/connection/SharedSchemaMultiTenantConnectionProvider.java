@@ -1,11 +1,15 @@
 package com.github.starnowski.posmulten.hibernate.hibernate6.connection;
 
+import com.github.starnowski.posmulten.hibernate.common.context.HibernateContext;
+import com.github.starnowski.posmulten.hibernate.hibernate6.context.Hibernate6ContextSupplier;
 import com.github.starnowski.posmulten.hibernate.hibernate6.context.SharedSchemaContextProvider;
 import com.github.starnowski.posmulten.postgresql.core.context.ISharedSchemaContext;
 import com.github.starnowski.posmulten.postgresql.core.rls.function.ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.service.Service;
+import org.hibernate.service.UnknownServiceException;
 import org.hibernate.service.spi.ServiceRegistryAwareService;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 
@@ -16,8 +20,13 @@ import java.sql.SQLException;
 public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider implements ServiceRegistryAwareService {
 
     private ConnectionProvider connectionProvider;
-
     private ISharedSchemaContext context;
+    private String defaultTenantId;
+
+    void setDefaultTenantId(String defaultTenantId) {
+        this.defaultTenantId = defaultTenantId;
+    }
+
     @Override
     protected ConnectionProvider getAnyConnectionProvider() {
         return connectionProvider;
@@ -29,11 +38,26 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
     }
 
     public Connection getAnyConnection() throws SQLException {
-        return connectionProvider.getConnection();
+        Connection connection = connectionProvider.getConnection();
+        if (defaultTenantId != null) {
+            ISetCurrentTenantIdFunctionPreparedStatementInvocationFactory factory = context.getISetCurrentTenantIdFunctionPreparedStatementInvocationFactory();
+            try {
+                PreparedStatement statement = connection.prepareStatement(factory.returnPreparedStatementThatSetCurrentTenant());
+                statement.setString(1, defaultTenantId);
+                statement.execute();
+            } catch (SQLException e) {
+                //TODO sanitize message with tenant id
+                throw new HibernateException(
+                        "Could not alter JDBC connection to specified (default) tenant",
+                        e
+                );
+            }
+        }
+        return connection;
     }
 
     public void releaseAnyConnection(Connection connection) throws SQLException {
-        connection.close();
+        connectionProvider.closeConnection(connection);
     }
 
     public Connection getConnection(String tenant) throws SQLException {
@@ -58,7 +82,7 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
     }
 
     public void releaseConnection(String tenant, Connection connection) throws SQLException {
-        connection.close();
+        connectionProvider.closeConnection(connection);
     }
 
     public boolean supportsAggressiveRelease() {
@@ -80,13 +104,34 @@ public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTena
         }
         SharedSchemaContextProvider sharedSchemaContextProvider = serviceRegistry.getService(SharedSchemaContextProvider.class);
         this.context = sharedSchemaContextProvider.getSharedSchemaContext();
+        Hibernate6ContextSupplier hibernate5ContextSupplier = getServiceOrNullIfNotExists(serviceRegistry, Hibernate6ContextSupplier.class);
+        if (hibernate5ContextSupplier != null) {
+            HibernateContext hibernateContext = hibernate5ContextSupplier.get();
+            defaultTenantId = hibernateContext.getDefaultTenantId();
+        }
     }
 
     ConnectionProvider getConnectionProvider() {
         return connectionProvider;
     }
 
+    void setConnectionProvider(ConnectionProvider connectionProvider) {
+        this.connectionProvider = connectionProvider;
+    }
+
     ISharedSchemaContext getContext() {
         return context;
+    }
+
+    void setContext(ISharedSchemaContext context) {
+        this.context = context;
+    }
+
+    private <R extends Service> R getServiceOrNullIfNotExists(ServiceRegistryImplementor serviceRegistry, Class<R> serviceClass) {
+        try {
+            return serviceRegistry.getService(serviceClass);
+        } catch (UnknownServiceException unknownServiceException) {
+            return null;
+        }
     }
 }
