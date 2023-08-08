@@ -27,7 +27,10 @@ https://www.markdownguide.org/basic-syntax/
 - Setting default tenant in method com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider#getAnyConnection() [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
 - Added com.github.starnowski.posmulten.hibernate.hibernate5.context.Hibernate5ContextSupplier type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
 - Added com.github.starnowski.posmulten.hibernate.hibernate5.context.Hibernate5ContextSupplierInitiator type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
-- 
+- Setting default tenant in method com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider#getAnyConnection() [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.hibernate6.context.Hibernate6ContextSupplier type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.hibernate6.context.Hibernate6ContextSupplierInitiator type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+
 ### Changed
 
 - Moved com.github.starnowski.posmulten.hibernate.hibernate5.Properties type to com.github.starnowski.posmulten.hibernate.common package [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
