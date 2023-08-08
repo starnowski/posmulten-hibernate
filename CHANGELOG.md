@@ -16,6 +16,15 @@ https://www.markdownguide.org/basic-syntax/
 
 ## [Unreleased]
 
+## [0.2.2] - 2023-08-08
+
+### Fixed
+
+- Closing connection by ConnectionProvider object in method com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider#releaseAnyConnection(java.sql.Connection) [37](https://github.com/starnowski/posmulten-hibernate/issues/37)
+- Closing connection by ConnectionProvider object in method com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider#releaseConnection(java.lang.String, java.sql.Connection) [37](https://github.com/starnowski/posmulten-hibernate/issues/37)
+- Closing connection by ConnectionProvider object in method com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider#releaseAnyConnection(java.sql.Connection) [37](https://github.com/starnowski/posmulten-hibernate/issues/37)
+- Closing connection by ConnectionProvider object in method com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider#releaseConnection(java.lang.String, java.sql.Connection) [37](https://github.com/starnowski/posmulten-hibernate/issues/37)
+
 ## [0.2.1] - 2023-07-26
 
 ### Changed
