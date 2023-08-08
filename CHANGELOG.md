@@ -18,6 +18,20 @@ https://www.markdownguide.org/basic-syntax/
 
 ## [0.2.2] - 2023-08-08
 
+### Added
+
+- Added DEFAULT_TENANT_ID constant in com.github.starnowski.posmulten.hibernate.common.Properties type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.common.context.HibernateContext type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.common.context.HibernateContextSupplier type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.common.context.PropertiesHibernateContextFactory type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Setting default tenant in method com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider#getAnyConnection() [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.hibernate5.context.Hibernate5ContextSupplier type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- Added com.github.starnowski.posmulten.hibernate.hibernate5.context.Hibernate5ContextSupplierInitiator type [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+- 
+### Changed
+
+- Moved com.github.starnowski.posmulten.hibernate.hibernate5.Properties type to com.github.starnowski.posmulten.hibernate.common package [39](https://github.com/starnowski/posmulten-hibernate/issues/39)
+
 ### Fixed
 
 - Closing connection by ConnectionProvider object in method com.github.starnowski.posmulten.hibernate.hibernate5.connections.SharedSchemaMultiTenantConnectionProvider#releaseAnyConnection(java.sql.Connection) [37](https://github.com/starnowski/posmulten-hibernate/issues/37)
