@@ -17,7 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider implements ServiceRegistryAwareService {
+public class SharedSchemaMultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider<String> implements ServiceRegistryAwareService {
 
     private ConnectionProvider connectionProvider;
     private ISharedSchemaContext context;
