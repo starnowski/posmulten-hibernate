@@ -47,6 +47,12 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker-qual</artifactId>
+            <version>3.42.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
