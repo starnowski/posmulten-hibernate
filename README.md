@@ -1,5 +1,5 @@
 [![Run tests for posmulten hibernate](https://github.com/starnowski/posmulten-hibernate/actions/workflows/posmulten-hibernate.yml/badge.svg)](https://github.com/starnowski/posmulten-hibernate/actions/workflows/posmulten-hibernate.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.starnowski.posmulten.hibernate/core.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.starnowski.posmulten.hibernate%22%20AND%20a:%22common%22)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.starnowski.posmulten.hibernate/parent.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.starnowski.posmulten.hibernate%22%20AND%20a:%22common%22)
 
 # posmulten-hibernate
 
