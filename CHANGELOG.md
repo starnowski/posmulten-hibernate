@@ -9,6 +9,7 @@ https://keepachangelog.com/en/1.0.0/
 https://www.markdownguide.org/basic-syntax/
 
 * [Unreleased](#unreleased)
+* [0.3.0](#030---2024-01-04)
 * [0.2.2](#022---2023-08-08)
 * [0.2.1](#021---2023-07-26)
 * [0.2.0](#020---2023-07-23)
@@ -16,6 +17,14 @@ https://www.markdownguide.org/basic-syntax/
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
+
+## [0.3.0] - 2024-01-04
+
+### Changed
+
+- Upgraded Hibernate version to 6.4 for hibernate6 module [43](https://github.com/starnowski/posmulten-hibernate/issues/43)
+  - Type com.github.starnowski.posmulten.hibernate.hibernate6.CurrentTenantIdentifierResolverImpl implements org.hibernate.context.spi.CurrentTenantIdentifierResolver<java.lang.String> interface [43](https://github.com/starnowski/posmulten-hibernate/issues/43)
+  - Type com.github.starnowski.posmulten.hibernate.hibernate6.connection.SharedSchemaMultiTenantConnectionProvider implements org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider<java.lang.String> interface [43](https://github.com/starnowski/posmulten-hibernate/issues/43)
 
 ## [0.2.2] - 2023-08-08
 
