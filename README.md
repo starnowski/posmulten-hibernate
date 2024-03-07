@@ -241,7 +241,7 @@ Besides that you need to add maven dependency as below:
         <dependency>
             <groupId>com.github.starnowski.posmulten.configuration</groupId>
             <artifactId>configuration-yaml-interpreter</artifactId>
-            <version>0.8.1</version>
+            <version>0.7.2</version>
             <scope>test</scope>
         </dependency>
 ```

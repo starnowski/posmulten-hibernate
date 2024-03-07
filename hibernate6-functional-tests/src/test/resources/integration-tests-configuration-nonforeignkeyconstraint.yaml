@@ -9,7 +9,6 @@ force_row_level_security_for_table_owner: false
 default_tenant_id_column: "tenant_id"
 grantee: "{{template_user_grantee}}"
 set_current_tenant_identifier_as_default_value_for_tenant_column_in_all_tables: true
-create_foreignkey_constraint_with_tenant_column: true
 valid_tenant_value_constraint:
   is_tenant_valid_function_name:  is_t_valid
   is_tenant_valid_constraint_name:  "is_tenant_valid_constraint_sdfa"
@@ -26,6 +25,7 @@ tables:
         name_for_function_that_checks_if_record_exists_in_table: "is_user_exists"
         pk_columns_name_to_type:
           user_id: uuid
+          tenant: "VARCHAR(255)"
   - name: user_role_nonforeignkeyconstraint
     rls_policy:
       name: "user_role_table_rls_policy"
@@ -35,6 +35,7 @@ tables:
         name_for_function_that_checks_if_record_exists_in_table: "is_user_role_exists"
         pk_columns_name_to_type:
           id: bigint
+          tenant: "VARCHAR(255)"
   - name: posts_nonforeignkeyconstraint
     rls_policy:
       name: "posts_table_rls_policy"
@@ -43,12 +44,8 @@ tables:
       primary_key_definition:
         name_for_function_that_checks_if_record_exists_in_table: "is_posts_exists"
         pk_columns_name_to_type:
-          key: bigint
-    foreign_keys:
-      - constraint_name:  "user_info_tenant_constraint"
-        table_name: user_info_nonforeignkeyconstraint
-        foreign_key_primary_key_columns_mappings:
-          user_id:  user_id
+          id: bigint
+          tenant_id: "VARCHAR(255)"
   - name: comments_nonforeignkeyconstraint
     rls_policy:
       name: "comments_table_rls_policy"
@@ -58,15 +55,7 @@ tables:
         name_for_function_that_checks_if_record_exists_in_table: "is_comments_exists"
         pk_columns_name_to_type:
           id: bigint
-    foreign_keys:
-      - constraint_name:  "user_info_tenant_constraint"
-        table_name: user_info_nonforeignkeyconstraint
-        foreign_key_primary_key_columns_mappings:
-          user_id:  user_id
-      - constraint_name:  "posts_tenant_constraint"
-        table_name: posts_nonforeignkeyconstraint
-        foreign_key_primary_key_columns_mappings:
-          post_id:  key
+          comment_tenant_id: "VARCHAR(255)"
   - name: categories_nonforeignkeyconstraint
     rls_policy:
       name: "categories_table_rls_policy"
@@ -75,37 +64,19 @@ tables:
         name_for_function_that_checks_if_record_exists_in_table: "is_categories_exists"
         pk_columns_name_to_type:
           id: bigint
+          categorytenantid: "VARCHAR(255)"
   - name: posts_categories_nonforeignkeyconstraint
     rls_policy:
       name: "posts_categories_table_rls_policy"
       create_tenant_column_for_table: true
-    foreign_keys:
-      - constraint_name:  "posts_tenant_constraint"
-        table_name: "posts_nonforeignkeyconstraint"
-        foreign_key_primary_key_columns_mappings:
-          posts_key:  key
-      - constraint_name:  "categories_tenant_constraint"
-        table_name: "categories_nonforeignkeyconstraint"
-        foreign_key_primary_key_columns_mappings:
-          categories_id:  id
   - name: categories_category_types
     rls_policy:
       name: "categories_category_types_table_rls_policy"
       create_tenant_column_for_table: true
-    foreign_keys:
-      - constraint_name:  "categories_tenant_constraint"
-        table_name: "categories_nonforeignkeyconstraint"
-        foreign_key_primary_key_columns_mappings:
-          Category_id:  id
   - name: posts_category_types
     rls_policy:
       name: "posts_category_types_table_rls_policy"
       create_tenant_column_for_table: true
-    foreign_keys:
-      - constraint_name:  "posts_tenant_constraint"
-        table_name: "posts_nonforeignkeyconstraint"
-        foreign_key_primary_key_columns_mappings:
-          post_id:  key
 sql_definitions_validation:
   identifier_max_length:  30
   identifier_min_length:  5
