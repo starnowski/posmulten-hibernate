@@ -9,6 +9,7 @@ https://keepachangelog.com/en/1.0.0/
 https://www.markdownguide.org/basic-syntax/
 
 * [Unreleased](#unreleased)
+* [0.4.0](#040---2024-08-24)
 * [0.3.1](#031---2024-03-07)
 * [0.3.0](#030---2024-01-04)
 * [0.2.2](#022---2023-08-08)
@@ -18,6 +19,12 @@ https://www.markdownguide.org/basic-syntax/
 * [0.1.0](#010---2022-05-15)
 
 ## [Unreleased]
+
+## [0.4.0] - 2024-08-24
+
+### Changed
+
+- Update the posmulten library to 0.9.0 version [50](https://github.com/starnowski/posmulten-hibernate/issues/50)
 
 ## [0.3.1] - 2024-03-07
 
